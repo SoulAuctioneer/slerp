@@ -2,8 +2,20 @@ from pygame_functions import *
 
 class SlerpSprite:
     def __init__(self):
-        self.animTalking = [0, 1, 0, 1, 0, 1, 0, 1, 2]
-        self.animSleeping = [2,3]
+
+        self.animTalking = { 
+            'frames': [1, 2, 1, 2, 1, 2, 1, 2, 3],
+            'delay': 300
+        }
+        self.animSleeping = {
+            'frames': [3, 4],
+            'delay': 1500
+        }
+        self.animResting = {
+            'frames': [1, 0],
+            'delay': 3000
+        }
+
         self.xPos, self.yPos = 580, 50
         self.activeFrameIndex = 0 # Use to iterate over the sprite list
         self.numLoops = 1 # Number of times to loop the animation. Zero loops forever
@@ -15,17 +27,18 @@ class SlerpSprite:
         self.isAnimating = False # Whether we're currently playing an animation
 
     def init(self):
-        self.slerp = makeSprite("assets/sprites/1.png")
+        self.slerp = makeSprite("assets/sprites/0.png")
+        addSpriteImage(self.slerp, "assets/sprites/1.png")
         addSpriteImage(self.slerp, "assets/sprites/2.png")
         addSpriteImage(self.slerp, "assets/sprites/3.png")
         addSpriteImage(self.slerp, "assets/sprites/4.png")
 
-    def startAnim(self, frames=[0], loops=0, delay=300):
+    def startAnim(self, anim, loops=0):
         self.numLoops = loops
         self.numLoopsRemaining = loops
-        self.updateInterval = delay
-        self.activeFrameIndex = frames[0]
-        self.frameList = frames
+        self.updateInterval = anim['delay']
+        self.frameList = anim['frames']
+        self.activeFrameIndex = self.frameList[0]
         changeSpriteImage(self.slerp, self.activeFrameIndex)
         moveSprite(self.slerp, self.xPos, self.yPos)
         showSprite(self.slerp)

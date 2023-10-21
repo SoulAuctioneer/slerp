@@ -39,7 +39,7 @@ def pageStart():
             "arduino_cmd": b'CMD_DRINK1'
         }
     ]
-    slerpSprite.startAnim(slerpSprite.animSleeping, 0, 1500)
+    slerpSprite.startAnim(slerpSprite.animSleeping, 0)
     pygame_functions.makeMusic('assets/audio/music.mp3')
     pygame_functions.playMusic()
 
@@ -51,7 +51,7 @@ def pageHello():
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
     Timer(20.5, pageDrinks1).start()
-    Timer(22.5, slerpSprite.stopAnim).start()
+    Timer(22.5, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start()
 
 # Define narrative functions
 def pagePourDrinkJealousyJuice():
@@ -59,7 +59,7 @@ def pagePourDrinkJealousyJuice():
     speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
-    Timer(18, slerpSprite.stopAnim).start()
+    Timer(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start()
 
 def pageDrinks1():
     global buttons
