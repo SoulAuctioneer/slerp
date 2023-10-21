@@ -9,7 +9,6 @@ import COMPorts
 import button
 import pygame_functions
 from slerpSprite import SlerpSprite
-from threading import Timer
 
 # TODO: Check if this can change across OS
 SERIAL_PORT_DESC = 'IOUSBHostDevice'
@@ -28,6 +27,9 @@ screen = None
 
 # Buttons currently onscreen
 buttons = []
+
+# Tracking scheduled one-off events
+scheduledEvents = []
 
 slerpSprite = None
 
@@ -52,8 +54,8 @@ def pageHello():
     speech = pygame_functions.makeSound('assets/audio/speechHello.mp3')
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
-    Timer(20.5, pageDrinks1).start() # Show drink buttons
-    Timer(21.7, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start() # Done talking, switch to resting animation
+    scheduleEvent(20.5, pageDrinks1) # Show drink buttons
+    scheduleEvent(21.7, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)) # Done talking, switch to resting animation
 
 # Define narrative functions
 def pagePourDrinkJealousyJuice():
@@ -61,8 +63,8 @@ def pagePourDrinkJealousyJuice():
     speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
-    Timer(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start()
-    Timer(23, pageStart).start()
+    scheduleEvent(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0))
+    scheduleEvent(23, pageStart)
 
 def pageDrinks1():
     global buttons
@@ -106,6 +108,17 @@ def pageDrinks1():
         },
     ]
 
+def scheduleEvent(delay, function):
+    triggerTime = pygame_functions.clock() + (delay * 1000)
+    scheduledEvents.append({'function': function, 'triggerTime': triggerTime})
+
+def executeScheduledEvents():
+    global scheduledEvents
+    currentTime = pygame_functions.clock()
+    for event in scheduledEvents:
+        if currentTime >= event['triggerTime']:
+            event['function']()
+            scheduledEvents.remove(event)
 
 def resetButtons():
     global buttons
@@ -140,6 +153,7 @@ def main():
     # Fire up the first page of the narrative
     pageStart()
 
+    # Secret hidden quit button. TODO: Send user to a menu instead, with quit, resume and reset
     quitButtonRect = pygame.Rect(1260, 700, 20, 20)
 
     # Event handling loop
@@ -170,6 +184,9 @@ def main():
                                     print(f"{buttonDef['string']} was pressed!")
                                     buttonDef['func']()
 
+        # Execute any one-time scheduled events
+        executeScheduledEvents()
+
         # Update any running animation
         slerpSprite.updateAnim()
 
@@ -180,8 +197,8 @@ def main():
         # Update the display
         pygame_functions.updateDisplay()
 
-        # Run at 60fps (trying 120 -- touchscreen's not very responsive at 60)
-        pygame_functions.tick(60)
+        # Run at 24fps
+        pygame_functions.tick(24)
 
     # Shut down
     print('Shutting down')
