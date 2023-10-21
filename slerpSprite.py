@@ -16,7 +16,7 @@ class SlerpSprite:
             'delay': 3000
         }
 
-        self.xPos, self.yPos = 580, 50
+        self.xPos, self.yPos = 700, 30
         self.activeFrameIndex = 0 # Use to iterate over the sprite list
         self.numLoops = 1 # Number of times to loop the animation. Zero loops forever
         self.numLoopsRemaining = 1 # Number of remaining loops

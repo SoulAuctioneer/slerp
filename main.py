@@ -45,8 +45,6 @@ def pageStart():
     slerpSprite.startAnim(slerpSprite.animSleeping, 0)
     pygame_functions.makeMusic('assets/audio/music.mp3')
     pygame_functions.playMusic()
-    Timer(2.5, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start()
-
 
 def pageHello():
     resetButtons()
