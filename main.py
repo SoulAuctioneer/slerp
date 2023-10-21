@@ -37,7 +37,7 @@ def pageStart():
         {
             "string": "WAKE UP!",
             "background": (255, 0, 255),
-            "rect": pygame.Rect(100, 200, 520, 270),
+            "rect": pygame.Rect(100, 225, 520, 270),
             "func": pageHello,
             "arduino_cmd": b'CMD_DRINK1'
         }
@@ -49,13 +49,11 @@ def pageStart():
 def pageHello():
     resetButtons()
     pygame_functions.stopMusic()
-    # Intro sounds
     speech = pygame_functions.makeSound('assets/audio/speechHello.mp3')
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
-    Timer(2.5, pageDrinks1).start()
-    #Timer(20.5, pageDrinks1).start()
-    Timer(22.5, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start()
+    Timer(20.5, pageDrinks1).start() # Show drink buttons
+    Timer(21.5, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start() # Done talking, switch to resting animation
 
 # Define narrative functions
 def pagePourDrinkJealousyJuice():
@@ -64,6 +62,7 @@ def pagePourDrinkJealousyJuice():
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
     Timer(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start()
+    Timer(22, pageStart).start()
 
 def pageDrinks1():
     global buttons
@@ -126,8 +125,8 @@ def init():
     # Initialize Pygame
     pygame_functions.screenSize(SCREEN_WIDTH, SCREEN_HEIGHT, None, None, IS_FULLSCREEN)
     pygame_functions.setBackgroundImage(BG_IMAGE)  # A background image always sits behind the sprites
+    pygame_functions.setAutoUpdate(False)
     screen = pygame_functions.screen
-    # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     pygame.display.set_caption('Slerp the Slushmaster')
 
     # Initialize Slerp animation
@@ -177,12 +176,12 @@ def main():
         # Draw any buttons
         for buttonDef in buttons:
             button.draw_button(screen, buttonDef['rect'], buttonDef['string'], buttonDef['background'])
-        # pygame.display.flip()
+
+        # Update the display
         pygame_functions.updateDisplay()
 
         # Run at 60fps (trying 120 -- touchscreen's not very responsive at 60)
         pygame_functions.tick(30)
-
 
     # Shut down
     print('Shutting down')

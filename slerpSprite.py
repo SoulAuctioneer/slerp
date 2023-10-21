@@ -4,7 +4,7 @@ class SlerpSprite:
     def __init__(self):
 
         self.animTalking = { 
-            'frames': [1, 2, 1, 2, 1, 2, 1, 2, 3],
+            'frames': [2, 1, 2, 1, 2, 1, 2, 1, 3, 1],
             'delay': 300
         }
         self.animSleeping = {
