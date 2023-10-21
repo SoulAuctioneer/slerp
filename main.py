@@ -2,25 +2,17 @@ import sys
 import time
 
 import pygame
-import serial
 from pygame.locals import *
-import cv2
-import COMPorts
 import button
+import dispenser
 import pygame_functions
 from slerpSprite import SlerpSprite
-
-# TODO: Check if this can change across OS
-SERIAL_PORT_DESC = 'IOUSBHostDevice'
 
 # Screen dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT, IS_FULLSCREEN = 1280, 720, True
 
 # Background image
 BG_IMAGE = "assets/background-logo-1280x720.png"
-
-# The Arduino port
-arduino = None
 
 # The pygame screen surface
 screen = None
@@ -40,8 +32,7 @@ def pageStart():
             "string": "WAKE UP!",
             "background": (255, 0, 255),
             "rect": pygame.Rect(100, 225, 520, 270),
-            "func": pageHello,
-            "arduino_cmd": b'CMD_DRINK1'
+            "func": pageHello
         }
     ]
     slerpSprite.startAnim(slerpSprite.animSleeping, 0)
@@ -63,12 +54,13 @@ def pagePourDrinkJealousyJuice():
     speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
+    scheduleEvent(5, lambda: dispenser.dispense('drink1'))
     scheduleEvent(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0))
     scheduleEvent(23, pageStart)
 
 def pageDrinks1():
     global buttons
-    # Define the button positions, sizes, labels, actions, animations, and Arduino commands
+    # Define the button positions, sizes, labels, actions, animations
     buttons = [
         {
             "string": "INSECURITY ICICLE",
@@ -126,14 +118,11 @@ def resetButtons():
     pygame_functions.setBackgroundImage(BG_IMAGE)  # A background image always sits behind the sprites
 
 def init():
-    global arduino, screen, slerpSprite
+    global screen, slerpSprite
 
-    # Initialize Arduino communication
-    print('Initializing Arduino communication')
-    port_name = COMPorts.get_device_by_description(SERIAL_PORT_DESC)
-    print(port_name)
-    arduino = serial.Serial(port=port_name, baudrate=9600, timeout=5)
-    time.sleep(1)  # Seems like it needs a moment before you can start sending commands
+    # Initialize drink dispenser
+    dispenser.init()
+    dispenser.dispense('drink1')
 
     # Initialize Pygame
     pygame_functions.screenSize(SCREEN_WIDTH, SCREEN_HEIGHT, None, None, IS_FULLSCREEN)
@@ -181,7 +170,7 @@ def main():
                         else:
                             for buttonDef in buttons:
                                 if buttonDef['rect'].collidepoint(event.pos):
-                                    print(f"{buttonDef['string']} was pressed!")
+                                    print(f"{buttonDef['string']} was pressed")
                                     buttonDef['func']()
 
         # Execute any one-time scheduled events
@@ -202,7 +191,7 @@ def main():
 
     # Shut down
     print('Shutting down')
-    arduino.close()
+    dispenser.shutDown()
     pygame.quit()
     sys.exit()
 

@@ -35,6 +35,6 @@ def draw_button(screen, button_rect, button_string='NOTHING HERE', background=(2
     button_text = button_font.render(button_string, True, WHITE)
     text_rect = button_text.get_rect(center=button_rect.center)
     text_rect.centery = text_rect.centery+3
-    text_shadow = button_font.render(button_string, True, DARK_BLUE)
+    text_shadow = button_font.render(button_string, True, DARK_GREY)
     screen.blit(text_shadow, (text_rect.x+3, text_rect.y+3))  # Shadow
     screen.blit(button_text, text_rect)  # Text
