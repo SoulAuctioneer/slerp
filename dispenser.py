@@ -21,7 +21,7 @@ for port in ports:
 USE_ARDUINO = True
 
 # TODO: Check if this can change across OS
-SERIAL_PORT_DESC = 'IOUSBHostDevice'
+SERIAL_PORT_DESC = 'ttyACM0'
 
 # The Arduino port
 arduino = None
