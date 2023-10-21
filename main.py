@@ -53,7 +53,7 @@ def pageHello():
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
     Timer(20.5, pageDrinks1).start() # Show drink buttons
-    Timer(21.5, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start() # Done talking, switch to resting animation
+    Timer(21.7, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start() # Done talking, switch to resting animation
 
 # Define narrative functions
 def pagePourDrinkJealousyJuice():

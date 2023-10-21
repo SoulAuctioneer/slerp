@@ -21,12 +21,12 @@ def draw_button(screen, button_rect, button_string='NOTHING HERE', background=(2
     button_surface.fill(background)  # Magenta color
 
     # Create a 3D bevel effect
-    offset = 3
-    width = 3
-    pygame.draw.line(button_surface, WHITE, (offset, 1), (button_rect.width-offset-1, 1), width)  # Top edge
-    pygame.draw.line(button_surface, WHITE, (1, offset), (1, button_rect.height-offset-1), width)  # Left edge
-    pygame.draw.line(button_surface, DARK_GREY, (offset, button_rect.height-offset+1), (button_rect.width-offset, button_rect.height-offset+1), width)  # Bottom edge
-    pygame.draw.line(button_surface, DARK_GREY, (button_rect.width-offset+1, offset), (button_rect.width-offset+1, button_rect.height-offset-1), width)  # Right edge
+    width = 7
+    offset = (width-1)/2
+    pygame.draw.line(button_surface, WHITE, (width, offset), (button_rect.width-width, offset), width)  # Top edge
+    pygame.draw.line(button_surface, WHITE, (offset, width), (offset, button_rect.height-width), width)  # Left edge
+    pygame.draw.line(button_surface, DARK_GREY, (width, button_rect.height-offset), (button_rect.width-width, button_rect.height-offset), width)  # Bottom edge
+    pygame.draw.line(button_surface, DARK_GREY, (button_rect.width-offset, width), (button_rect.width-offset, button_rect.height-width), width)  # Right edge
 
     # Draw the button surface on the screen
     screen.blit(button_surface, (button_rect.left, button_rect.top))
