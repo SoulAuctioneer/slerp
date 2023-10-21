@@ -25,6 +25,10 @@ scheduledEvents = []
 
 slerpSprite = None
 
+# Secret hidden quit button. TODO: Send user to a menu instead, with quit, resume and reset
+quitButtonRect = pygame.Rect(1260, 700, 20, 20)
+
+# Initial page, sleeping and start button
 def pageStart():
     global buttons
     buttons = [
@@ -39,6 +43,7 @@ def pageStart():
     pygame_functions.makeMusic('assets/audio/music.mp3')
     pygame_functions.playMusic()
 
+# Slerp introduces himself
 def pageHello():
     resetButtons()
     pygame_functions.stopMusic()
@@ -48,7 +53,7 @@ def pageHello():
     scheduleEvent(20.5, pageDrinks1) # Show drink buttons
     scheduleEvent(21.7, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)) # Done talking, switch to resting animation
 
-# Define narrative functions
+# Slerp pours a jealousy juice
 def pagePourDrinkJealousyJuice():
     resetButtons()
     speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
@@ -58,6 +63,7 @@ def pagePourDrinkJealousyJuice():
     scheduleEvent(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0))
     scheduleEvent(24, pageStart)
 
+# Show drink selection buttons
 def pageDrinks1():
     global buttons
     # Define the button positions, sizes, labels, actions, animations
@@ -100,10 +106,12 @@ def pageDrinks1():
         },
     ]
 
+# schedule a function to run once after the given delay 
 def scheduleEvent(delay, function):
     triggerTime = pygame_functions.clock() + (delay * 1000)
     scheduledEvents.append({'function': function, 'triggerTime': triggerTime})
 
+# Execute any events whose scheduled time has passed
 def executeScheduledEvents():
     global scheduledEvents
     currentTime = pygame_functions.clock()
@@ -112,11 +120,31 @@ def executeScheduledEvents():
             event['function']()
             scheduledEvents.remove(event)
 
+# Handle pygame events
+def handleEvents():
+    global isLoopRunning
+    for event in pygame.event.get():
+
+        # Exit on CTRL-Q or CMD-Q
+        if event.type == QUIT:
+            isLoopRunning = False
+
+        # Handle clicks or taps
+        if event.type == MOUSEBUTTONDOWN:
+            # Check if the touch event occurred within a button's area
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if quitButtonRect.collidepoint(event.pos):
+                    isLoopRunning = False
+                for buttonDef in buttons:
+                    if buttonDef['rect'].collidepoint(event.pos):
+                        buttonDef['func']()
+
 def resetButtons():
     global buttons
     buttons = []
     pygame_functions.setBackgroundImage(BG_IMAGE)  # A background image always sits behind the sprites
 
+# Initialize all the good stuff
 def init():
     global screen, slerpSprite
 
@@ -134,42 +162,21 @@ def init():
     slerpSprite = SlerpSprite()
     slerpSprite.init()
 
+# Gracefully shut everything down and exit
+def shutDown():
+    print('Shutting down')
+    dispenser.shutDown()
+    pygame.quit()
+    sys.exit()
+
+# Main loop
 def main():
+    global isLoopRunning
+    isLoopRunning = True
+    while isLoopRunning:
 
-    init()
-
-    # Fire up the first page of the narrative
-    pageStart()
-
-    # Secret hidden quit button. TODO: Send user to a menu instead, with quit, resume and reset
-    quitButtonRect = pygame.Rect(1260, 700, 20, 20)
-
-    # Event handling loop
-    running = True
-    while running:
-
-        # Handle events
-        for event in pygame.event.get():
-
-            # Exit on CTRL-Q or CMD-Q
-            if event.type == QUIT:
-                running = False
-
-            # Handle clicks or taps
-            if event.type == MOUSEBUTTONDOWN:
-                if event.button == 1:  # Left mouse button (touchscreen)
-                    touch_pos = pygame.mouse.get_pos()  # Get touchscreen position
-                    x, y = touch_pos
-
-                    # Check if the touch event occurred within a button's area
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        if quitButtonRect.collidepoint(event.pos):
-                            running = False
-                        else:
-                            for buttonDef in buttons:
-                                if buttonDef['rect'].collidepoint(event.pos):
-                                    print(f"{buttonDef['string']} was pressed")
-                                    buttonDef['func']()
+        # Handle any touch/click and quit events
+        handleEvents()
 
         # Execute any one-time scheduled events
         executeScheduledEvents()
@@ -188,10 +195,12 @@ def main():
         pygame_functions.tick(24)
 
     # Shut down
-    print('Shutting down')
-    dispenser.shutDown()
-    pygame.quit()
-    sys.exit()
+    shutDown()
 
 if __name__ == "__main__":
+    # Initialize all the good stuff
+    init()
+    # Fire up the first page of the narrative
+    pageStart()
+    # Start the main loop
     main()

@@ -55,7 +55,10 @@ def dispense(drink):
     print('Dispensing drink')
     if (USE_ARDUINO):
         if drink == 'drink1':
-            arduino.write(b'CMD_DRINK1')
+            try:
+                arduino.write(b'CMD_DRINK1')
+            except:
+                print('Failed to write to the arduino -- is it connected?')
     else:
         # Turn on the motor
         GPIO.output(motorPin, GPIO.HIGH)
