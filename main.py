@@ -17,6 +17,9 @@ SERIAL_PORT_DESC = 'IOUSBHostDevice'
 # Screen dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT, IS_FULLSCREEN = 1280, 720, True
 
+# Background image
+BG_IMAGE = "assets/background-logo-1280x720.png"
+
 # The Arduino port
 arduino = None
 
@@ -107,7 +110,7 @@ def pageDrinks1():
 def resetButtons():
     global buttons
     buttons = []
-    pygame_functions.setBackgroundImage("assets/background-logo.png")  # A background image always sits behind the sprites
+    pygame_functions.setBackgroundImage(BG_IMAGE)  # A background image always sits behind the sprites
 
 def init():
     global arduino, screen, slerpSprite
@@ -121,7 +124,7 @@ def init():
 
     # Initialize Pygame
     pygame_functions.screenSize(SCREEN_WIDTH, SCREEN_HEIGHT, None, None, IS_FULLSCREEN)
-    pygame_functions.setBackgroundImage("assets/background-logo-1280x720.png")  # A background image always sits behind the sprites
+    pygame_functions.setBackgroundImage(BG_IMAGE)  # A background image always sits behind the sprites
     screen = pygame_functions.screen
     # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     pygame.display.set_caption('Slerp the Slushmaster')
@@ -137,7 +140,7 @@ def main():
     # Fire up the first page of the narrative
     pageStart()
 
-    quitButtonRect = pygame.Rect(1000, 576, 24, 24)
+    quitButtonRect = pygame.Rect(1260, 700, 20, 20)
 
     # Event handling loop
     playing_video = None
