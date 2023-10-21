@@ -159,7 +159,7 @@ def main():
 
                     # Check if the touch event occurred within a button's area
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        if quitButtonRect.colliepoint(event.pos):
+                        if quitButtonRect.collidepoint(event.pos):
                             running = False
                         else:
                             for buttonDef in buttons:
