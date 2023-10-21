@@ -15,7 +15,7 @@ from threading import Timer
 SERIAL_PORT_DESC = 'IOUSBHostDevice'
 
 # Screen dimensions
-SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 600  # Adjust as needed
+SCREEN_WIDTH, SCREEN_HEIGHT, IS_FULLSCREEN = 1024, 600, True
 
 # The Arduino port
 arduino = None
@@ -120,7 +120,7 @@ def init():
     time.sleep(1)  # Seems like it needs a moment before you can start sending commands
 
     # Initialize Pygame
-    pygame_functions.screenSize(SCREEN_WIDTH, SCREEN_HEIGHT)
+    pygame_functions.screenSize(SCREEN_WIDTH, SCREEN_HEIGHT, None, None, IS_FULLSCREEN)
     pygame_functions.setBackgroundImage("assets/background-logo.png")  # A background image always sits behind the sprites
     screen = pygame_functions.screen
     # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
