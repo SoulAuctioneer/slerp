@@ -37,7 +37,7 @@ def pageStart():
         {
             "string": "WAKE UP!",
             "background": (255, 0, 255),
-            "rect": pygame.Rect(100, 200, 400, 200),
+            "rect": pygame.Rect(100, 200, 520, 250),
             "func": pageHello,
             "arduino_cmd": b'CMD_DRINK1'
         }
@@ -102,7 +102,7 @@ def pageDrinks1():
         {
             "string": "MELANCHOLY MASH",
             "background": (64, 64, 255),
-            "rect": pygame.Rect(50, 600, 570, 50),
+            "rect": pygame.Rect(50, 580, 570, 80),
             "func": pagePourDrinkJealousyJuice,
         },
     ]
