@@ -20,6 +20,13 @@ def get_device_by_description(description: str):
         if port.description == description:
             return port.device
 
+def print_ports():
+    ports = get_com_ports()
+    for port in ports:
+        print(port.device)
+        print(port.description)
+
+
 class Port:
     def __init__(self, data: dict):
         self.data = data

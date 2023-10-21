@@ -11,17 +11,15 @@ except ImportError:
 
 import time
 
-
-ports = COMPorts.get_com_ports()
-for port in ports:
-    print(port.device)
-    print(port.description)
+COMPorts.print_ports()
 
 # If False, uses RPi
 USE_ARDUINO = True
 
 # TODO: Check if this can change across OS
-SERIAL_PORT_DESC = 'ttyACM0'
+SERIAL_PORT_DESC = 'ttyACM0' # RPi?
+# SERIAL_PORT_DESC = 'IOUSBHostDevice' # MacOS
+
 
 # The Arduino port
 arduino = None
@@ -38,6 +36,7 @@ def init():
 
 
 def initRPi():
+    print('Initializing RPi GPIO communication')
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(motorPin, GPIO.OUT)
 
