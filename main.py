@@ -137,6 +137,8 @@ def main():
     # Fire up the first page of the narrative
     pageStart()
 
+    quitButtonRect = pygame.Rect(1000, 576, 24, 24)
+
     # Event handling loop
     playing_video = None
     running = True
@@ -157,16 +159,13 @@ def main():
 
                     # Check if the touch event occurred within a button's area
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        for buttonDef in buttons:
-                            if buttonDef['rect'].collidepoint(event.pos):
-                                print(f"{buttonDef['string']} was pressed!")
-                                buttonDef['func']()
-
-                            # Play the corresponding video
-                            if playing_video:
-                                playing_video.release()
-                                playing_video = None
-                            # playing_video = cv2.VideoCapture(buttonDef['video_filename'])
+                        if quitButtonRect.colliepoint(event.pos):
+                            running = False
+                        else:
+                            for buttonDef in buttons:
+                                if buttonDef['rect'].collidepoint(event.pos):
+                                    print(f"{buttonDef['string']} was pressed!")
+                                    buttonDef['func']()
 
         # Update any running animation
         slerpSprite.updateAnim()
@@ -177,22 +176,8 @@ def main():
         # pygame.display.flip()
         pygame_functions.updateDisplay()
 
-        # Display the video
-        if playing_video:
-            ret, frame = playing_video.read()
-            if ret:
-                # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                rotated_frame = cv2.rotate(frame, cv2.ROTATE_90_COUNTERCLOCKWISE)
-                frame_surface = pygame.surfarray.make_surface(rotated_frame)
-                screen.blit(frame_surface, (0, 0))
-                cv2.waitKey(41)
-            else:
-                playing_video.release()
-                playing_video = None
-            pygame.display.flip()
-
         # Run at 60fps
-        pygame_functions.tick(60)
+        # pygame_functions.tick(60)
 
 
     # Shut down
@@ -200,7 +185,6 @@ def main():
     arduino.close()
     pygame.quit()
     sys.exit()
-
 
 if __name__ == "__main__":
     main()
