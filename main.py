@@ -177,7 +177,7 @@ def main():
         pygame_functions.updateDisplay()
 
         # Run at 60fps (trying 120 -- touchscreen's not very responsive at 60)
-        pygame_functions.tick(120)
+        pygame_functions.tick(30)
 
 
     # Shut down
