@@ -56,7 +56,7 @@ def pagePourDrinkJealousyJuice():
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
     scheduleEvent(4.7, lambda: dispenser.dispense('drink1'))
     scheduleEvent(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0))
-    scheduleEvent(23, pageStart)
+    scheduleEvent(24, pageStart)
 
 def pageDrinks1():
     global buttons
