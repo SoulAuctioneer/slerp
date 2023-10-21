@@ -121,7 +121,7 @@ def init():
 
     # Initialize Pygame
     pygame_functions.screenSize(SCREEN_WIDTH, SCREEN_HEIGHT, None, None, IS_FULLSCREEN)
-    pygame_functions.setBackgroundImage("assets/background-logo.png")  # A background image always sits behind the sprites
+    pygame_functions.setBackgroundImage("assets/background-logo.png-1280x720")  # A background image always sits behind the sprites
     screen = pygame_functions.screen
     # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     pygame.display.set_caption('Slerp the Slushmaster')
