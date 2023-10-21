@@ -11,8 +11,6 @@ except ImportError:
 
 import time
 
-COMPorts.print_ports()
-
 # If False, uses RPi
 USE_ARDUINO = True
 
@@ -54,7 +52,7 @@ def initArduino():
 
 
 def dispense(drink):
-    print('Dispensing {drink}')
+    print('Dispensing drink')
     if (USE_ARDUINO):
         if drink == 'drink1':
             arduino.write(b'CMD_DRINK1')
