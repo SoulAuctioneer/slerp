@@ -14,8 +14,8 @@ import time
 
 ports = COMPorts.get_com_ports()
 for port in ports:
-    print(port['device'])
-    print(port['description'])
+    print(port.device)
+    print(port.description)
 
 # If False, uses RPi
 USE_ARDUINO = True
