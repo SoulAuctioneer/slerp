@@ -37,7 +37,7 @@ def pageStart():
         {
             "string": "WAKE UP!",
             "background": (255, 0, 255),
-            "rect": pygame.Rect(100, 200, 520, 250),
+            "rect": pygame.Rect(100, 200, 520, 270),
             "func": pageHello,
             "arduino_cmd": b'CMD_DRINK1'
         }
@@ -78,31 +78,31 @@ def pageDrinks1():
         {
             "string": "JEALOUSY JUICE",
             "background": (255, 0, 255),
-            "rect": pygame.Rect(50, 140, 570, 80),
+            "rect": pygame.Rect(50, 160, 570, 80),
             "func": pagePourDrinkJealousyJuice,
         },
         {
             "string": "WRATHFUL WATER",
             "background": (255, 64, 64),
-            "rect": pygame.Rect(50, 230, 570, 80),
+            "rect": pygame.Rect(50, 270, 570, 80),
             "func": pagePourDrinkJealousyJuice,
         },
         {
             "string": "JUDGMENTAL JOLT",
             "background": (255, 200, 0),
-            "rect": pygame.Rect(50, 320, 570, 80),
+            "rect": pygame.Rect(50, 380, 570, 80),
             "func": pagePourDrinkJealousyJuice,
         },
         {
             "string": "GREEDY GULP",
             "background": (0, 255, 64),
-            "rect": pygame.Rect(50, 410, 570, 80),
+            "rect": pygame.Rect(50, 490, 570, 80),
             "func": pagePourDrinkJealousyJuice,
         },
         {
             "string": "MELANCHOLY MASH",
             "background": (64, 64, 255),
-            "rect": pygame.Rect(50, 580, 570, 80),
+            "rect": pygame.Rect(50, 600, 570, 80),
             "func": pagePourDrinkJealousyJuice,
         },
     ]
