@@ -56,12 +56,13 @@ def dispense(drink):
     if (USE_ARDUINO):
         if drink == 'drink1':
             arduino.write(b'CMD_DRINK1')
-    # Turn on the motor
-    GPIO.output(motorPin, GPIO.HIGH)
-    time.sleep(5)  # Let the motor run for 1 second
+    else:
+        # Turn on the motor
+        GPIO.output(motorPin, GPIO.HIGH)
+        time.sleep(5)  # Let the motor run for 1 second
 
-    # Turn off the motor
-    GPIO.output(motorPin, GPIO.LOW)
+        # Turn off the motor
+        GPIO.output(motorPin, GPIO.LOW)
 
 
 def shutDown():
