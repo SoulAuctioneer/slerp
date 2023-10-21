@@ -72,37 +72,37 @@ def pageDrinks1():
         {
             "string": "INSECURITY ICICLE",
             "background": (128, 0, 255),
-            "rect": pygame.Rect(50, 50, 560, 70),
+            "rect": pygame.Rect(50, 50, 570, 80),
             "func": pagePourDrinkJealousyJuice,
         },
         {
             "string": "JEALOUSY JUICE",
             "background": (255, 0, 255),
-            "rect": pygame.Rect(50, 140, 450, 50),
+            "rect": pygame.Rect(50, 140, 570, 80),
             "func": pagePourDrinkJealousyJuice,
         },
         {
             "string": "WRATHFUL WATER",
             "background": (255, 64, 64),
-            "rect": pygame.Rect(50, 230, 450, 50),
+            "rect": pygame.Rect(50, 230, 570, 80),
             "func": pagePourDrinkJealousyJuice,
         },
         {
             "string": "JUDGMENTAL JOLT",
             "background": (255, 200, 0),
-            "rect": pygame.Rect(50, 320, 450, 50),
+            "rect": pygame.Rect(50, 320, 570, 80),
             "func": pagePourDrinkJealousyJuice,
         },
         {
             "string": "GREEDY GULP",
             "background": (0, 255, 64),
-            "rect": pygame.Rect(50, 410, 450, 50),
+            "rect": pygame.Rect(50, 410, 570, 80),
             "func": pagePourDrinkJealousyJuice,
         },
         {
             "string": "MELANCHOLY MASH",
             "background": (64, 64, 255),
-            "rect": pygame.Rect(50, 500, 450, 50),
+            "rect": pygame.Rect(50, 600, 570, 50),
             "func": pagePourDrinkJealousyJuice,
         },
     ]
