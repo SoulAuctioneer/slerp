@@ -62,7 +62,7 @@ def pagePourDrinkJealousyJuice():
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
     Timer(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start()
-    Timer(22, pageStart).start()
+    Timer(23, pageStart).start()
 
 def pageDrinks1():
     global buttons
