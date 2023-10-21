@@ -53,7 +53,8 @@ def pageHello():
     speech = pygame_functions.makeSound('assets/audio/speechHello.mp3')
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
-    Timer(20.5, pageDrinks1).start()
+    Timer(2.5, pageDrinks1).start()
+    #Timer(20.5, pageDrinks1).start()
     Timer(22.5, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)).start()
 
 # Define narrative functions
@@ -71,7 +72,7 @@ def pageDrinks1():
         {
             "string": "INSECURITY ICICLE",
             "background": (128, 0, 255),
-            "rect": pygame.Rect(50, 50, 450, 50),
+            "rect": pygame.Rect(50, 50, 560, 70),
             "func": pagePourDrinkJealousyJuice,
         },
         {

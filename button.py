@@ -11,7 +11,7 @@ DARK_BLUE = (25, 25, 128)
 DARK_GREY = (32, 32, 32)
 
 # Font properties
-button_font_size = 32
+button_font_size = 48
 button_font = pygame.font.Font('assets/PeaberryMono.ttf', button_font_size)
 
 def draw_button(screen, button_rect, button_string='NOTHING HERE', background=(255, 0, 255)):
