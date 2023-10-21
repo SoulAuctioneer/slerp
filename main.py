@@ -15,7 +15,7 @@ from threading import Timer
 SERIAL_PORT_DESC = 'IOUSBHostDevice'
 
 # Screen dimensions
-SCREEN_WIDTH, SCREEN_HEIGHT, IS_FULLSCREEN = 1024, 600, True
+SCREEN_WIDTH, SCREEN_HEIGHT, IS_FULLSCREEN = 1280, 720, True
 
 # The Arduino port
 arduino = None
