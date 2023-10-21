@@ -146,7 +146,6 @@ def main():
     quitButtonRect = pygame.Rect(1260, 700, 20, 20)
 
     # Event handling loop
-    playing_video = None
     running = True
     while running:
 

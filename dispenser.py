@@ -17,8 +17,8 @@ COMPorts.print_ports()
 USE_ARDUINO = True
 
 # TODO: Check if this can change across OS
-SERIAL_PORT_DESC = 'ttyACM0' # RPi?
-# SERIAL_PORT_DESC = 'IOUSBHostDevice' # MacOS
+SERIAL_PORT_DESC_PI = 'ttyACM0' # RPi?
+SERIAL_PORT_DESC_MAC = 'IOUSBHostDevice' # MacOS
 
 
 # The Arduino port
@@ -45,13 +45,16 @@ def initArduino():
     global arduino
     # Initialize Arduino communication
     print('Initializing Arduino communication')
-    port_name = COMPorts.get_device_by_description(SERIAL_PORT_DESC)
+    port_name = COMPorts.get_device_by_description(SERIAL_PORT_DESC_MAC)
+    if (port_name is None):
+        port_name = COMPorts.get_device_by_description(SERIAL_PORT_DESC_PI)
     print(port_name)
     arduino = serial.Serial(port=port_name, baudrate=9600, timeout=5)
     time.sleep(1)  # Seems like it needs a moment before you can start sending commands
 
 
 def dispense(drink):
+    print('Dispensing {drink}')
     if (USE_ARDUINO):
         if drink == 'drink1':
             arduino.write(b'CMD_DRINK1')
