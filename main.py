@@ -54,7 +54,7 @@ def pagePourDrinkJealousyJuice():
     speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
-    scheduleEvent(5, lambda: dispenser.dispense('drink1'))
+    scheduleEvent(4.7, lambda: dispenser.dispense('drink1'))
     scheduleEvent(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0))
     scheduleEvent(23, pageStart)
 
@@ -122,7 +122,6 @@ def init():
 
     # Initialize drink dispenser
     dispenser.init()
-    dispenser.dispense('drink1')
 
     # Initialize Pygame
     pygame_functions.screenSize(SCREEN_WIDTH, SCREEN_HEIGHT, None, None, IS_FULLSCREEN)
