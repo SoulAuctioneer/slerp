@@ -93,5 +93,5 @@ def dispense(drink):
 def shutDown():
     if (USE_ARDUINO):
         arduino.close()
-    else:
+    # else:
         # GPIO.cleanup()
