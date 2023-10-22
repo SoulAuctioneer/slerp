@@ -20,6 +20,7 @@ SERIAL_PORT_DESC_PI = 'ttyACM0' # RPi?
 SERIAL_PORT_DESC_MAC = 'IOUSBHostDevice' # MacOS
 
 pumpCyan = None
+pumpMagenta = None
 
 # The Arduino port
 arduino = None
@@ -36,9 +37,10 @@ def init():
 
 
 def initRPi():
-    global pumpCyan
+    global pumpCyan, pumpMagenta
     print('Initializing RPi GPIO communication')
     pumpCyan = Motor(23, 24)
+    pumpMagenta = Motor(27, 22)
 
 
 def initArduino():
@@ -63,11 +65,14 @@ def dispense(drink):
                 print('Failed to write to the arduino -- is it connected?')
     else:
         pumpCyan.forward()
+        pumpMagenta.forward()
         time.sleep(5)
         while True:
             pumpCyan.forward()
-            time.sleep(0.1)
+            pumpMagenta.stop()
+            time.sleep(0.2)
             pumpCyan.stop()
+            pumpMagenta.forward()
             time.sleep(0.2)
 
         pumpCyan.stop()
