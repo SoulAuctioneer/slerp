@@ -70,10 +70,10 @@ def dispense(drink):
         while True:
             pumpCyan.forward()
             pumpMagenta.stop()
-            time.sleep(0.2)
+            time.sleep(0.33)
             pumpCyan.stop()
             pumpMagenta.forward()
-            time.sleep(0.2)
+            time.sleep(0.33)
 
         pumpCyan.stop()
 
