@@ -65,10 +65,33 @@ def dispense(drink):
         pumpCyan.forward()
         time.sleep(5)
         pumpCyan.stop()
+        time.sleep(0.1)
+        pumpCyan.forward()
+        time.sleep(0.1)
+        pumpCyan.stop()
+        time.sleep(0.1)
+        pumpCyan.forward()
+        time.sleep(0.1)
+        pumpCyan.stop()
+        time.sleep(0.1)
+        pumpCyan.forward()
+        time.sleep(0.1)
+        pumpCyan.stop()
+        time.sleep(0.1)
+        pumpCyan.forward()
+        time.sleep(0.1)
+        pumpCyan.stop()
+        time.sleep(0.1)
+        pumpCyan.forward()
+        time.sleep(0.1)
+        pumpCyan.stop()
+        time.sleep(0.1)
+
+        pumpCyan.stop()
 
 
 def shutDown():
     if (USE_ARDUINO):
         arduino.close()
     else:
-        GPIO.cleanup()
+        # GPIO.cleanup()
