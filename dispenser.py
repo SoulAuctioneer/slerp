@@ -1,4 +1,5 @@
 import importlib.util
+import time
 import serial
 import COMPorts
 from gpiozero import Motor
