@@ -30,8 +30,6 @@ quitButtonRect = pygame.Rect(1260, 700, 20, 20)
 # PAGE: Initial page, sleeping and start button
 def pageStart():
 
-    dispenser.dispense('drink1')
-
     global buttons
     buttons = [
         {
