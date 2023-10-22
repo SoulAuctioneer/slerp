@@ -1,4 +1,4 @@
 pygame
 pyserial
 opencv-python
-RPi.GPIO
+gpiozero

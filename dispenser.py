@@ -4,13 +4,13 @@ import COMPorts
 from gpiozero import Motor
 
 # RPi doesn't work on Mac, so use a mock
-try:
-    importlib.util.find_spec('RPi.GPIO')
-    import RPi.GPIO as GPIO
-except ImportError:
-    import FakeRPi.GPIO as GPIO
+# try:
+#     importlib.util.find_spec('RPi.GPIO')
+#     import RPi.GPIO as GPIO
+# except ImportError:
+#     import FakeRPi.GPIO as GPIO
 
-import time
+# import time
 
 # If False, uses RPi
 USE_ARDUINO = False
