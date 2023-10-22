@@ -39,8 +39,8 @@ def init():
 def initRPi():
     global pumpCyan, pumpMagenta
     print('Initializing RPi GPIO communication')
-    pumpCyan = Motor(23, 24)
-    pumpMagenta = Motor(27, 22)
+    pumpCyan = Motor(24, 23)
+    pumpMagenta = Motor(22, 27)
 
 
 def initArduino():
@@ -67,7 +67,7 @@ def dispense(drink):
         pumpCyan.forward()
         pumpMagenta.forward()
         time.sleep(5)
-        while True:
+        for _ in range(10):
             pumpCyan.forward()
             pumpMagenta.stop()
             time.sleep(0.33)
@@ -75,7 +75,14 @@ def dispense(drink):
             pumpMagenta.forward()
             time.sleep(0.33)
 
+        time.sleep(3)
+
+        pumpCyan.backward()
+        pumpMagenta.backward()
+        time.sleep(5)
+
         pumpCyan.stop()
+        pumpMagenta.stop()
 
 
 def shutDown():
