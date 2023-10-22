@@ -1,6 +1,4 @@
 import sys
-import time
-
 import pygame
 from pygame.locals import *
 import button
@@ -23,13 +21,17 @@ buttons = []
 # Tracking scheduled one-off events
 scheduledEvents = []
 
+# Slerp animations
 slerpSprite = None
 
-# Secret hidden quit button. TODO: Send user to a menu instead, with quit, resume and reset
+# Hidden quit button. TODO: Send user to a menu instead, with quit, resume and reset
 quitButtonRect = pygame.Rect(1260, 700, 20, 20)
 
-# Initial page, sleeping and start button
+# PAGE: Initial page, sleeping and start button
 def pageStart():
+
+    dispenser.dispense('drink1')
+
     global buttons
     buttons = [
         {
@@ -43,7 +45,7 @@ def pageStart():
     pygame_functions.makeMusic('assets/audio/music.mp3')
     pygame_functions.playMusic()
 
-# Slerp introduces himself
+# PAGE: Slerp introduces himself
 def pageHello():
     resetButtons()
     pygame_functions.stopMusic()
@@ -53,7 +55,7 @@ def pageHello():
     scheduleEvent(20.5, pageDrinks1) # Show drink buttons
     scheduleEvent(21.7, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)) # Done talking, switch to resting animation
 
-# Slerp pours a jealousy juice
+# PAGE: Slerp pours a jealousy juice
 def pagePourDrinkJealousyJuice():
     resetButtons()
     speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
@@ -63,7 +65,7 @@ def pagePourDrinkJealousyJuice():
     scheduleEvent(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0))
     scheduleEvent(24, pageStart)
 
-# Show drink selection buttons
+# PAGE: Show drink selection buttons # TODO better to be a const set within pageHello()
 def pageDrinks1():
     global buttons
     # Define the button positions, sizes, labels, actions, animations

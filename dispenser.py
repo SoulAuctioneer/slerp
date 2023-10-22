@@ -1,6 +1,7 @@
 import importlib.util
 import serial
 import COMPorts
+from gpiozero import Motor
 
 # RPi doesn't work on Mac, so use a mock
 try:
@@ -12,12 +13,12 @@ except ImportError:
 import time
 
 # If False, uses RPi
-USE_ARDUINO = True
+USE_ARDUINO = False
 
-# TODO: Check if this can change across OS
 SERIAL_PORT_DESC_PI = 'ttyACM0' # RPi?
 SERIAL_PORT_DESC_MAC = 'IOUSBHostDevice' # MacOS
 
+pumpCyan = None
 
 # The Arduino port
 arduino = None
@@ -34,9 +35,9 @@ def init():
 
 
 def initRPi():
+    global pumpCyan
     print('Initializing RPi GPIO communication')
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(motorPin, GPIO.OUT)
+    pumpCyan = Motor(23, 24)
 
 
 def initArduino():
@@ -60,12 +61,9 @@ def dispense(drink):
             except:
                 print('Failed to write to the arduino -- is it connected?')
     else:
-        # Turn on the motor
-        GPIO.output(motorPin, GPIO.HIGH)
-        time.sleep(5)  # Let the motor run for 1 second
-
-        # Turn off the motor
-        GPIO.output(motorPin, GPIO.LOW)
+        pumpCyan.forward()
+        time.sleep(5)
+        pumpCyan.stop()
 
 
 def shutDown():
