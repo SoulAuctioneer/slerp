@@ -66,7 +66,7 @@ def dispense(drink):
     else:
         pumpCyan.forward()
         pumpMagenta.forward()
-        time.sleep(5)
+        time.sleep(4)
         for _ in range(10):
             pumpCyan.forward()
             time.sleep(0.33)
