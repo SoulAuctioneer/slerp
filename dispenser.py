@@ -5,7 +5,9 @@ import platform
 class Dispenser:
     def __init__(self):
         # Only enable on raspberry pi
-        self.enabled = platform.system() == 'Linux' and platform.machine() == 'armv7l'
+        print(platform.system())
+        print(platform.machine())
+        self.enabled = True # platform.system() == 'Linux' and platform.machine() == 'armv7l'
         self.pump_cyan = None
         self.pump_magenta = None
         self.arduino = None
