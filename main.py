@@ -4,6 +4,7 @@ from pygame.locals import *
 import button
 import dispenser
 import pygame_functions
+import EventScheduler
 from slerpSprite import SlerpSprite
 
 # Screen dimensions
@@ -18,14 +19,13 @@ screen = None
 # Buttons currently onscreen
 buttons = []
 
-# Tracking scheduled one-off events
-scheduledEvents = []
-
 # Slerp animations
 slerpSprite = None
 
 # Hidden quit button. TODO: Send user to a menu instead, with quit, resume and reset
 quitButtonRect = pygame.Rect(1260, 700, 20, 20)
+
+eventScheduler = EventScheduler.EventScheduler()
 
 # PAGE: Initial page, sleeping and start button
 def pageStart():
@@ -50,8 +50,8 @@ def pageHello():
     speech = pygame_functions.makeSound('assets/audio/speechHello.mp3')
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
-    scheduleEvent(20.5, pageDrinks1) # Show drink buttons
-    scheduleEvent(21.7, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)) # Done talking, switch to resting animation
+    eventScheduler.schedule(20.5, pageDrinks1) # Show drink buttons
+    eventScheduler.schedule(21.7, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0)) # Done talking, switch to resting animation
 
 # PAGE: Slerp pours a jealousy juice
 def pagePourDrinkJealousyJuice():
@@ -59,9 +59,9 @@ def pagePourDrinkJealousyJuice():
     speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
     pygame_functions.playSound(speech)
     slerpSprite.startAnim(slerpSprite.animTalking, 0)
-    scheduleEvent(5, lambda: dispenser.dispense('drink1'))
-    scheduleEvent(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0))
-    scheduleEvent(24, pageStart)
+    eventScheduler.schedule(5, lambda: dispenser.dispense('drink1'))
+    eventScheduler.schedule(18, lambda: slerpSprite.startAnim(slerpSprite.animResting, 0))
+    eventScheduler.schedule(24, pageStart)
 
 # PAGE: Show drink selection buttons # TODO better to be a const set within pageHello()
 def pageDrinks1():
@@ -106,22 +106,8 @@ def pageDrinks1():
         },
     ]
 
-# schedule a function to run once after the given delay 
-def scheduleEvent(delay, function):
-    triggerTime = pygame_functions.clock() + (delay * 1000)
-    scheduledEvents.append({'function': function, 'triggerTime': triggerTime})
-
-# Execute any events whose scheduled time has passed
-def executeScheduledEvents():
-    global scheduledEvents
-    currentTime = pygame_functions.clock()
-    for event in scheduledEvents:
-        if currentTime >= event['triggerTime']:
-            event['function']()
-            scheduledEvents.remove(event)
-
 # Handle pygame events
-def handleEvents():
+def handlePyEvents():
     global isLoopRunning
     for event in pygame.event.get():
 
@@ -176,10 +162,10 @@ def main():
     while isLoopRunning:
 
         # Handle any touch/click and quit events
-        handleEvents()
+        handlePyEvents()
 
-        # Execute any one-time scheduled events
-        executeScheduledEvents()
+        # Execute any one-time scheduled events that have come due
+        eventScheduler.executeDue()
 
         # Update any running animation
         slerpSprite.updateAnim()

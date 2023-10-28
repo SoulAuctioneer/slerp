@@ -2,15 +2,16 @@ import importlib.util
 import time
 import serial
 import COMPorts
-from gpiozero import Motor
+from EventScheduler import EventScheduler
 
 # RPi doesn't work on Mac, so use a mock
-# try:
+try:
 #     importlib.util.find_spec('RPi.GPIO')
 #     import RPi.GPIO as GPIO
-# except ImportError:
+    from gpiozero import Motor
+except ImportError:
+    pass
 #     import FakeRPi.GPIO as GPIO
-
 # import time
 
 # If False, uses RPi
@@ -42,49 +43,22 @@ def initRPi():
     pumpCyan = Motor(24, 23)
     pumpMagenta = Motor(22, 27)
 
-
-def initArduino():
-    global arduino
-    # Initialize Arduino communication
-    print('Initializing Arduino communication')
-    port_name = COMPorts.get_device_by_description(SERIAL_PORT_DESC_MAC)
-    if (port_name is None):
-        port_name = COMPorts.get_device_by_description(SERIAL_PORT_DESC_PI)
-    print(port_name)
-    arduino = serial.Serial(port=port_name, baudrate=9600, timeout=5)
-    time.sleep(1)  # Seems like it needs a moment before you can start sending commands
-
-
 def dispense(drink):
     print('Dispensing drink')
-    if (USE_ARDUINO):
-        if drink == 'drink1':
-            try:
-                arduino.write(b'CMD_DRINK1')
-            except:
-                print('Failed to write to the arduino -- is it connected?')
-    else:
-        pumpCyan.forward()
-        pumpMagenta.forward()
-        time.sleep(4)
-        for _ in range(10):
-            pumpCyan.forward()
-            time.sleep(0.33)
-            pumpCyan.stop()
-            time.sleep(0.05)
-            pumpMagenta.forward()
-            time.sleep(0.33)
-            pumpMagenta.stop()
-            time.sleep(0.05)
-
-        time.sleep(3)
-
-        pumpCyan.backward()
-        pumpMagenta.backward()
-        time.sleep(5)
-
-        pumpCyan.stop()
-        pumpMagenta.stop()
+    eventScheduler = EventScheduler()
+    eventScheduler.schedule(0, pumpCyan.forward)
+    eventScheduler.schedule(0, pumpMagenta.forward)
+    eventScheduler.schedule(4, pumpCyan.stop)
+    eventScheduler.schedule(4, pumpMagenta.stop)
+    for i in range(10):
+        eventScheduler.schedule(4 + i * 0.38, pumpCyan.forward)
+        eventScheduler.schedule(4 + i * 0.38 + 0.33, pumpCyan.stop)
+        eventScheduler.schedule(4 + i * 0.38 + 0.38, pumpMagenta.forward)
+        eventScheduler.schedule(4 + i * 0.38 + 0.38 + 0.33, pumpMagenta.stop)
+    eventScheduler.schedule(15, pumpCyan.backward)
+    eventScheduler.schedule(15, pumpMagenta.backward)
+    eventScheduler.schedule(20, pumpCyan.stop)
+    eventScheduler.schedule(20, pumpMagenta.stop)
 
 
 def shutDown():
