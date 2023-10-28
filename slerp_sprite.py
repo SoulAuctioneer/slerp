@@ -1,4 +1,4 @@
-from pygame_functions import *
+import pygame_functions as pgf
 
 class SlerpSprite:
     def __init__(self):
@@ -26,37 +26,37 @@ class SlerpSprite:
         self.frameList = [] # List of frames to play in one loop
         self.isAnimating = False # Whether we're currently playing an animation
 
-        self.slerp = makeSprite("assets/sprites/0.png")
-        addSpriteImage(self.slerp, "assets/sprites/1.png")
-        addSpriteImage(self.slerp, "assets/sprites/2.png")
-        addSpriteImage(self.slerp, "assets/sprites/3.png")
-        addSpriteImage(self.slerp, "assets/sprites/4.png")
+        self.slerp = pgf.makeSprite("assets/sprites/0.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/1.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/2.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/3.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/4.png")
 
-    def startAnim(self, anim, loops=0):
+    def start_anim(self, anim, loops=0):
         self.numLoops = loops
         self.numLoopsRemaining = loops
         self.updateInterval = anim['delay']
         self.frameList = anim['frames']
         self.activeFrameIndex = self.frameList[0]
-        changeSpriteImage(self.slerp, self.activeFrameIndex)
-        moveSprite(self.slerp, self.xPos, self.yPos)
-        showSprite(self.slerp)
-        self.nextFrameTimer = clock()
+        pgf.changeSpriteImage(self.slerp, self.activeFrameIndex)
+        pgf.moveSprite(self.slerp, self.xPos, self.yPos)
+        pgf.showSprite(self.slerp)
+        self.nextFrameTimer = pgf.clock()
         self.isAnimating = True
     
-    def stopAnim(self):
+    def stop_anim(self):
         print("Stopping animation")
         self.isAnimating = False
 
-    def updateAnim(self):
-        if clock() > self.nextFrameTimer and self.isAnimating:
+    def update(self):
+        if pgf.clock() > self.nextFrameTimer and self.isAnimating:
             if (self.activeFrameIndex + 1 < len(self.frameList)):
                 self.activeFrameIndex += 1
-                changeSpriteImage(self.slerp, self.frameList[self.activeFrameIndex])
+                pgf.changeSpriteImage(self.slerp, self.frameList[self.activeFrameIndex])
             else:
                 if self.numLoopsRemaining > 0 or self.numLoops == 0:
                     self.activeFrameIndex = 0
-                    changeSpriteImage(self.slerp, self.frameList[self.activeFrameIndex])
+                    pgf.changeSpriteImage(self.slerp, self.frameList[self.activeFrameIndex])
                 if self.numLoops > 0:
                     self.numLoopsRemaining -= 1
-            self.nextFrameTimer = clock() + self.updateInterval
+            self.nextFrameTimer = pgf.clock() + self.updateInterval
