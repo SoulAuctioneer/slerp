@@ -1,43 +1,47 @@
 import pygame
+from settings import *
+
+FONT = None
 
 class Button:
-    # Colors
-    WHITE = (255, 255, 255)
-    NEON_BLUE = (50, 50, 255)
-    DARK_BLUE = (25, 25, 128)
-    DARK_GREY = (32, 32, 32)
 
-    # Font properties
-    button_font_size = 48
+    def __init__(self, screen, rect, label, background, on_click):
 
-    def __init__(self, screen, button_rect, button_string='NOTHING HERE', background=(255, 0, 255)):
         self.screen = screen
-        self.button_rect = button_rect
-        self.button_string = button_string
+        self.rect = rect
+        self.label = label
         self.background = background
-        self.button_font = pygame.font.Font('assets/PeaberryMono.ttf', self.button_font_size)
+        self.on_click = on_click
 
-    def draw(self):
+        global FONT
+        if not FONT:
+            FONT = pygame.font.Font(BUTTON_FONT_FACE, BUTTON_FONT_SIZE)
+
         # Create a surface for the button and fill it with background color
-        button_surface = pygame.Surface((self.button_rect.width, self.button_rect.height))
-        button_surface.fill(self.background)
+        self.button_surface = pygame.Surface((self.rect.width, self.rect.height))
+        self.button_surface.fill(self.background)
 
         # Create a 3D bevel effect
         width = 7
         offset = (width-1)/2
-        pygame.draw.line(button_surface, self.WHITE, (width, offset), (self.button_rect.width-width, offset), width)  # Top edge
-        pygame.draw.line(button_surface, self.WHITE, (offset, width), (offset, self.button_rect.height-width), width)  # Left edge
-        pygame.draw.line(button_surface, self.DARK_GREY, (width, self.button_rect.height-offset), (self.button_rect.width-width, self.button_rect.height-offset), width)  # Bottom edge
-        pygame.draw.line(button_surface, self.DARK_GREY, (self.button_rect.width-offset, width), (self.button_rect.width-offset, self.button_rect.height-width), width)  # Right edge
+        pygame.draw.line(self.button_surface, WHITE, (width, offset), (self.rect.width-width, offset), width)  # Top edge
+        pygame.draw.line(self.button_surface, WHITE, (offset, width), (offset, self.rect.height-width), width)  # Left edge
+        pygame.draw.line(self.button_surface, DARK_GREY, (width, self.rect.height-offset), (self.rect.width-width, self.rect.height-offset), width)  # Bottom edge
+        pygame.draw.line(self.button_surface, DARK_GREY, (self.rect.width-offset, width), (self.rect.width-offset, self.rect.height-width), width)  # Right edge
+
+        # Create the text with a drop shadow
+        self.button_text = FONT.render(self.label, True, WHITE)
+        self.text_rect = self.button_text.get_rect(center=self.rect.center)
+        self.text_rect.centery = self.text_rect.centery+3
+        self.text_shadow = FONT.render(self.label, True, DARK_GREY)
+
+
+    def draw(self):
 
         # Draw the button surface on the screen
-        self.screen.blit(button_surface, (self.button_rect.left, self.button_rect.top))
+        self.screen.blit(self.button_surface, (self.rect.left, self.rect.top))
 
         # Draw the text with a drop shadow
-        button_text = self.button_font.render(self.button_string, True, self.WHITE)
-        text_rect = button_text.get_rect(center=self.button_rect.center)
-        text_rect.centery = text_rect.centery+3
-        text_shadow = self.button_font.render(self.button_string, True, self.DARK_GREY)
-        self.screen.blit(text_shadow, (text_rect.x+3, text_rect.y+3))  # Shadow
-        self.screen.blit(button_text, text_rect)  # Text
+        self.screen.blit(self.text_shadow, (self.text_rect.x+3, self.text_rect.y+3))  # Shadow
+        self.screen.blit(self.button_text, self.text_rect)  # Text
 

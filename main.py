@@ -1,7 +1,7 @@
 import sys
 import pygame
 from pygame.locals import *
-import button
+from button import Button
 from dispenser import Dispenser
 import pygame_functions
 from event_scheduler import EventScheduler
@@ -36,12 +36,7 @@ class MainLoop:
     # PAGE: Initial page, sleeping and start button
     def pageStart(self):
         self.buttons = [
-            {
-                "string": "WAKE UP!",
-                "background": (255, 0, 255),
-                "rect": pygame.Rect(100, 225, 520, 270),
-                "func": self.pageHello
-            }
+            Button(self.screen, pygame.Rect(100, 225, 520, 270), "WAKE UP!", (255, 0, 255), self.pageHello)
         ]
         self.slerpSprite.startAnim(self.slerpSprite.animSleeping, 0)
         pygame_functions.makeMusic('assets/audio/music.mp3')
@@ -61,42 +56,12 @@ class MainLoop:
     def pageDrinks1(self):
         # Define the button positions, sizes, labels, actions, animations
         self.buttons = [
-            {
-                "string": "INSECURITY ICICLE",
-                "background": (128, 0, 255),
-                "rect": pygame.Rect(50, 50, 570, 80),
-                "func": self.pagePourDrinkJealousyJuice,
-            },
-            {
-                "string": "JEALOUSY JUICE",
-                "background": (255, 0, 255),
-                "rect": pygame.Rect(50, 160, 570, 80),
-                "func": self.pagePourDrinkJealousyJuice,
-            },
-            {
-                "string": "WRATHFUL WATER",
-                "background": (255, 64, 64),
-                "rect": pygame.Rect(50, 270, 570, 80),
-                "func": self.pagePourDrinkJealousyJuice,
-            },
-            {
-                "string": "JUDGMENTAL JOLT",
-                "background": (255, 200, 0),
-                "rect": pygame.Rect(50, 380, 570, 80),
-                "func": self.pagePourDrinkJealousyJuice,
-            },
-            {
-                "string": "GREEDY GULP",
-                "background": (0, 255, 64),
-                "rect": pygame.Rect(50, 490, 570, 80),
-                "func": self.pagePourDrinkJealousyJuice,
-            },
-            {
-                "string": "MELANCHOLY MASH",
-                "background": (64, 64, 255),
-                "rect": pygame.Rect(50, 600, 570, 80),
-                "func": self.pagePourDrinkJealousyJuice,
-            },
+            Button(self.screen, pygame.Rect(50, 50, 570, 80), "INSECURITY ICICLE", (128, 0, 255), self.pagePourDrinkJealousyJuice),
+            Button(self.screen, pygame.Rect(50, 160, 570, 80), "JEALOUSY JUICE", (255, 0, 255), self.pagePourDrinkJealousyJuice),
+            Button(self.screen, pygame.Rect(50, 270, 570, 80), "WRATHFUL WATER", (255, 64, 64), self.pagePourDrinkJealousyJuice),
+            Button(self.screen, pygame.Rect(50, 380, 570, 80), "JUDGMENTAL JOLT", (255, 200, 0), self.pagePourDrinkJealousyJuice),
+            Button(self.screen, pygame.Rect(50, 490, 570, 80), "GREEDY GULP", (0, 255, 64), self.pagePourDrinkJealousyJuice),
+            Button(self.screen, pygame.Rect(50, 600, 570, 80), "MELANCHOLY MASH", (64, 64, 255), self.pagePourDrinkJealousyJuice),
         ]
 
     # PAGE: Slerp pours a jealousy juice
@@ -123,9 +88,9 @@ class MainLoop:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.quitButtonRect.collidepoint(event.pos):
                         self.isLoopRunning = False
-                    for buttonDef in self.buttons:
-                        if buttonDef['rect'].collidepoint(event.pos):
-                            buttonDef['func']()
+                    for button in self.buttons:
+                        if button.rect.collidepoint(event.pos):
+                            button.on_click()
 
     def resetButtons(self):
         self.buttons = []
@@ -149,9 +114,8 @@ class MainLoop:
             self.slerpSprite.updateAnim()
 
             # Draw any buttons
-            for buttonDef in self.buttons:
-                buttonObj = button.Button(self.screen, buttonDef['rect'], buttonDef['string'], buttonDef['background'])
-                buttonObj.draw()
+            for button in self.buttons:
+                button.draw()
 
             # Update the display
             pygame_functions.updateDisplay()
