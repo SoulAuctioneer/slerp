@@ -1,68 +1,42 @@
-import importlib.util
-import time
-import serial
-import COMPorts
-from EventScheduler import EventScheduler
+from gpiozero import Motor
+import event_scheduler
+import platform
 
-# RPi doesn't work on Mac, so use a mock
-try:
-#     importlib.util.find_spec('RPi.GPIO')
-#     import RPi.GPIO as GPIO
-    from gpiozero import Motor
-except ImportError:
-    pass
-#     import FakeRPi.GPIO as GPIO
-# import time
+class Dispenser:
+    def __init__(self):
+        # Only enable on raspberry pi
+        self.enabled = platform.system() == 'Linux' and platform.machine() == 'armv7l'
+        self.pump_cyan = None
+        self.pump_magenta = None
+        self.arduino = None
+        self.motor_pin = 18
+        self.event_scheduler = event_scheduler.EventScheduler()
 
-# If False, uses RPi
-USE_ARDUINO = False
+        if self.enabled:
+            print('Initializing GPIO communication')
+            self.pump_cyan = Motor(24, 23)
+            self.pump_magenta = Motor(22, 27)
+        else:
+            print('gpiozero is disabled')
 
-SERIAL_PORT_DESC_PI = 'ttyACM0' # RPi?
-SERIAL_PORT_DESC_MAC = 'IOUSBHostDevice' # MacOS
+    def update(self):
+        self.event_scheduler.execute_due()
 
-pumpCyan = None
-pumpMagenta = None
+    def dispense(self, drink):
+        print('Dispensing drink')
+        if not self.enabled:
+            return
+        self.event_scheduler.schedule(0, self.pump_cyan.forward)
+        self.event_scheduler.schedule(0, self.pump_magenta.forward)
+        self.event_scheduler.schedule(4, self.pump_cyan.stop)
+        self.event_scheduler.schedule(4, self.pump_magenta.stop)
+        for i in range(10):
+            self.event_scheduler.schedule(4 + i * 0.38, self.pump_cyan.forward)
+            self.event_scheduler.schedule(4 + i * 0.38 + 0.33, self.pump_cyan.stop)
+            self.event_scheduler.schedule(4 + i * 0.38 + 0.38, self.pump_magenta.forward)
+            self.event_scheduler.schedule(4 + i * 0.38 + 0.38 + 0.33, self.pump_magenta.stop)
+        self.event_scheduler.schedule(12, self.pump_cyan.backward)
+        self.event_scheduler.schedule(12, self.pump_magenta.backward)
+        self.event_scheduler.schedule(17, self.pump_cyan.stop)
+        self.event_scheduler.schedule(17, self.pump_magenta.stop)
 
-# The Arduino port
-arduino = None
-
-# Define pins
-motorPin = 18
-
-
-def init():
-    if (USE_ARDUINO):
-        initArduino()
-    else:
-        initRPi()
-
-
-def initRPi():
-    global pumpCyan, pumpMagenta
-    print('Initializing RPi GPIO communication')
-    pumpCyan = Motor(24, 23)
-    pumpMagenta = Motor(22, 27)
-
-def dispense(drink):
-    print('Dispensing drink')
-    eventScheduler = EventScheduler()
-    eventScheduler.schedule(0, pumpCyan.forward)
-    eventScheduler.schedule(0, pumpMagenta.forward)
-    eventScheduler.schedule(4, pumpCyan.stop)
-    eventScheduler.schedule(4, pumpMagenta.stop)
-    for i in range(10):
-        eventScheduler.schedule(4 + i * 0.38, pumpCyan.forward)
-        eventScheduler.schedule(4 + i * 0.38 + 0.33, pumpCyan.stop)
-        eventScheduler.schedule(4 + i * 0.38 + 0.38, pumpMagenta.forward)
-        eventScheduler.schedule(4 + i * 0.38 + 0.38 + 0.33, pumpMagenta.stop)
-    eventScheduler.schedule(15, pumpCyan.backward)
-    eventScheduler.schedule(15, pumpMagenta.backward)
-    eventScheduler.schedule(20, pumpCyan.stop)
-    eventScheduler.schedule(20, pumpMagenta.stop)
-
-
-def shutDown():
-    if (USE_ARDUINO):
-        arduino.close()
-    # else:
-        # GPIO.cleanup()

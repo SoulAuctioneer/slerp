@@ -26,7 +26,6 @@ class SlerpSprite:
         self.frameList = [] # List of frames to play in one loop
         self.isAnimating = False # Whether we're currently playing an animation
 
-    def init(self):
         self.slerp = makeSprite("assets/sprites/0.png")
         addSpriteImage(self.slerp, "assets/sprites/1.png")
         addSpriteImage(self.slerp, "assets/sprites/2.png")
