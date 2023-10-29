@@ -8,7 +8,7 @@ IS_FULLSCREEN = False
 BG_IMAGE = "assets/background-logo-1280x720.png"
 
 # Music tracks
-MUSIC = ["assets/audio/music1.mp3", "assets/audio/music2.mp3", "assets/audio/music3.mp3", "assets/audio/music3.mp4"]
+MUSIC = ["assets/audio/music1.mp3", "assets/audio/music2.mp3", "assets/audio/music3.mp3", "assets/audio/music3.mp3"]
 
 # Caption if windowed
 WINDOW_CAPTION = 'Slerp the Slushmaster'

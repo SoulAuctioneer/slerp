@@ -41,7 +41,7 @@ class MainLoop:
             Drink("JEALOUSY JUICE", (255, 0, 255), (0, 10, 0, 0), self.pagePourDrink2), # magenta
             Drink("JUDGMENTAL JOLT", (255, 200, 0), (0, 0, 10, 0), self.pagePourDrink3), # yellow
             Drink("WRATHFUL WATER", (255, 64, 64), (0, 10, 10, 0), self.pagePourDrink4), # red
-            Drink("GREEDY GULP", (0, 255, 64), (10, 0, 10, 0), self.pagePourDrink5), # green
+            Drink("GREEDY GULP", (0, 255, 64), (8, 0, 10, 0), self.pagePourDrink5), # green
             Drink("MELANCHOLY MASH", (64, 64, 255), (10, 10, 0, 0), self.pagePourDrink6) # blue
         ]
         
