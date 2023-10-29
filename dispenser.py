@@ -22,13 +22,13 @@ class Dispenser:
             'cyan': {'motor': Motor(PUMP_CYAN_OUT, PUMP_CYAN_IN), 'prime_duration': PUMP_CYAN_PRIME_DURATION},
             'magenta': {'motor': Motor(PUMP_MAGENTA_OUT, PUMP_MAGENTA_IN), 'prime_duration': PUMP_MAGENTA_PRIME_DURATION},
             'yellow': {'motor': Motor(PUMP_YELLOW_OUT, PUMP_YELLOW_IN), 'prime_duration': PUMP_YELLOW_PRIME_DURATION},
-            'extra': {'motor': Motor(PUMP_EXTRA_OUT, PUMP_EXTRA_IN), 'prime_duration': PUMP_EXTRA_PRIME_DURATION}
+            'transparent': {'motor': Motor(PUMP_TRANSPARENT_OUT, PUMP_TRANSPARENT_IN), 'prime_duration': PUMP_TRANSPARENT_PRIME_DURATION}
         }
 
-    # Dispense a drink with the given amounts of Cyan / Magenta / Yellow / Extra, from 0 to max
+    # Dispense a drink with the given amounts of Cyan / Magenta / Yellow / Transparent, from 0 to max
     # TODO: Create a drink class with the squirt amounts, name, and button color
     # TODO: Add a callback when done dispensing, or simply a return value that's the number of seconds it'll take to pour
-    def dispense(self, cyan=0, magenta=0, yellow=0, extra=0):
+    def dispense(self, drink):
 
         print('Dispensing drink')
 
@@ -39,11 +39,11 @@ class Dispenser:
         for color, pump in self.pumps.items():
             pump['motor'].forward()
             self.event_scheduler.schedule(pump['prime_duration'], pump['motor'].stop)
-        timer += max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_EXTRA_PRIME_DURATION)
+        timer += max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_TRANSPARENT_PRIME_DURATION)
 
         # Iterate up to max times, scheduling liquid to pump if more of its color is still needed
         for i in range(DISPENSER_MAX_SQUIRTS):
-            for color, amount in {'cyan': cyan, 'magenta': magenta, 'yellow': yellow, 'extra': extra}.items():
+            for color, amount in {'cyan': drink.cmyt[0], 'magenta': drink.cmyt[1], 'yellow': drink.cmyt[2], 'transparent': drink.cmyt[3]}.items():
                 if amount > i:
                     self.event_scheduler.schedule(timer, self.pumps[color]['motor'].forward)
                     timer += DISPENSER_SQUIRT_DURATION
