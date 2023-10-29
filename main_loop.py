@@ -1,5 +1,6 @@
 import pygame
 import pygame_functions
+import random
 from pygame.locals import *
 from button import Button
 from dispenser import Dispenser
@@ -38,7 +39,7 @@ class MainLoop:
             Button(self.screen, pygame.Rect(100, 225, 520, 270), "WAKE UP!", (255, 0, 255), self.pageHello)
         ]
         self.slerpSprite.start_anim(self.slerpSprite.animSleeping, 0)
-        pygame_functions.makeMusic('assets/audio/music.mp3')
+        pygame_functions.makeMusic(random.choice(MUSIC))
         pygame_functions.playMusic()
 
     # PAGE: Slerp introduces himself

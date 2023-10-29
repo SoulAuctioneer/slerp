@@ -7,6 +7,9 @@ IS_FULLSCREEN = True
 # Background image
 BG_IMAGE = "assets/background-logo-1280x720.png"
 
+# Music tracks
+MUSIC = ["assets/audio/music1.mp3", "assets/audio/music2.mp3", "assets/audio/music3.mp3"]
+
 # Caption if windowed
 WINDOW_CAPTION = 'Slerp the Slushmaster'
 
@@ -32,8 +35,8 @@ PUMP_EXTRA_IN = 7
 
 # Time to prime liquids from reservoir to top of collector. Will be different if there's a variance in tube length
 PUMP_CYAN_PRIME_DURATION = 5
-PUMP_YELLOW_PRIME_DURATION = 5
-PUMP_MAGENTA_PRIME_DURATION = 5
+PUMP_YELLOW_PRIME_DURATION = 7
+PUMP_MAGENTA_PRIME_DURATION = 6
 PUMP_EXTRA_PRIME_DURATION = 5
 
 # Max number of squirts of liquid that can be produced from each pump per drink
