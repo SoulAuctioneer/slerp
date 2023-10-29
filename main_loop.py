@@ -119,7 +119,7 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerpSprite.start_anim(self.slerpSprite.animTalking, 0)
-        self.eventScheduler.schedule(5, lambda: self.dispenser.dispense(3, 3, 10))
+        self.eventScheduler.schedule(5, lambda: self.dispenser.dispense(3, 3, 10, 0))
         self.eventScheduler.schedule(18, lambda: self.slerpSprite.start_anim(self.slerpSprite.animResting, 0))
         self.eventScheduler.schedule(24, self.pageStart)
 

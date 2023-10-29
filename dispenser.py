@@ -28,7 +28,7 @@ class Dispenser:
     # Dispense a drink with the given amounts of Cyan / Magenta / Yellow / Extra, from 0 to max
     # TODO: Create a drink class with the squirt amounts, name, and button color
     # TODO: Add a callback when done dispensing, or simply a return value that's the number of seconds it'll take to pour
-    def dispense(self, cyan, magenta, yellow, extra):
+    def dispense(self, cyan=0, magenta=0, yellow=0, extra=0):
 
         print('Dispensing drink')
 
