@@ -41,6 +41,9 @@ class Dispenser:
             self.event_scheduler.schedule(pump['prime_duration'], pump['motor'].stop)
         timer += max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_TRANSPARENT_PRIME_DURATION)
 
+        # Pause for a second
+        timer += 1
+
         # Iterate up to max times, scheduling liquid to pump if more of its color is still needed
         for i in range(DISPENSER_MAX_SQUIRTS):
             for color, amount in {'cyan': drink.cmyt[0], 'magenta': drink.cmyt[1], 'yellow': drink.cmyt[2], 'transparent': drink.cmyt[3]}.items():
