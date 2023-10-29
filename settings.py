@@ -26,9 +26,9 @@ PUMP_CYAN_IN = 23
 PUMP_MAGENTA_OUT = 22
 PUMP_MAGENTA_IN = 27
 PUMP_YELLOW_OUT = 8
-PUMP_YELLOW_IN = 0
-PUMP_EXTRA_OUT = 0
-PUMP_EXTRA_IN = 0
+PUMP_YELLOW_IN = 25
+PUMP_EXTRA_OUT = 1
+PUMP_EXTRA_IN = 7
 
 # Max number of squirts of liquid that can be produced from each pump per drink
 DISPENSER_MAX_SQUIRTS = 10

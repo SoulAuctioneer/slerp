@@ -55,21 +55,71 @@ class MainLoop:
     def pageDrinks1(self):
         # Define the button positions, sizes, labels, actions, animations
         self.buttons = [
-            Button(self.screen, pygame.Rect(50, 50, 570, 80), "INSECURITY ICICLE", (128, 0, 255), self.pagePourDrinkJealousyJuice),
-            Button(self.screen, pygame.Rect(50, 160, 570, 80), "JEALOUSY JUICE", (255, 0, 255), self.pagePourDrinkJealousyJuice),
-            Button(self.screen, pygame.Rect(50, 270, 570, 80), "WRATHFUL WATER", (255, 64, 64), self.pagePourDrinkJealousyJuice),
-            Button(self.screen, pygame.Rect(50, 380, 570, 80), "JUDGMENTAL JOLT", (255, 200, 0), self.pagePourDrinkJealousyJuice),
-            Button(self.screen, pygame.Rect(50, 490, 570, 80), "GREEDY GULP", (0, 255, 64), self.pagePourDrinkJealousyJuice),
-            Button(self.screen, pygame.Rect(50, 600, 570, 80), "MELANCHOLY MASH", (64, 64, 255), self.pagePourDrinkJealousyJuice),
+            Button(self.screen, pygame.Rect(50, 50, 570, 80), "INSECURITY ICICLE", (128, 0, 255), self.pagePourDrink1),
+            Button(self.screen, pygame.Rect(50, 160, 570, 80), "JEALOUSY JUICE", (255, 0, 255), self.pagePourDrink2),
+            Button(self.screen, pygame.Rect(50, 270, 570, 80), "WRATHFUL WATER", (255, 64, 64), self.pagePourDrink3),
+            Button(self.screen, pygame.Rect(50, 380, 570, 80), "JUDGMENTAL JOLT", (255, 200, 0), self.pagePourDrink4),
+            Button(self.screen, pygame.Rect(50, 490, 570, 80), "GREEDY GULP", (0, 255, 64), self.pagePourDrink5),
+            Button(self.screen, pygame.Rect(50, 600, 570, 80), "MELANCHOLY MASH", (64, 64, 255), self.pagePourDrink6),
         ]
 
     # PAGE: Slerp pours a jealousy juice
-    def pagePourDrinkJealousyJuice(self):
+    def pagePourDrink1(self):
         self.resetButtons()
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerpSprite.start_anim(self.slerpSprite.animTalking, 0)
-        self.eventScheduler.schedule(5, lambda: self.dispenser.dispense('drink1'))
+        self.eventScheduler.schedule(5, lambda: self.dispenser.dispense(5, 0, 10, 0))
+        self.eventScheduler.schedule(18, lambda: self.slerpSprite.start_anim(self.slerpSprite.animResting, 0))
+        self.eventScheduler.schedule(24, self.pageStart)
+
+    # PAGE: Slerp pours a jealousy juice
+    def pagePourDrink2(self):
+        self.resetButtons()
+        speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
+        pygame_functions.playSound(speech)
+        self.slerpSprite.start_anim(self.slerpSprite.animTalking, 0)
+        self.eventScheduler.schedule(5, lambda: self.dispenser.dispense(10, 0, 10, 0))
+        self.eventScheduler.schedule(18, lambda: self.slerpSprite.start_anim(self.slerpSprite.animResting, 0))
+        self.eventScheduler.schedule(24, self.pageStart)
+
+    # PAGE: Slerp pours a jealousy juice
+    def pagePourDrink3(self):
+        self.resetButtons()
+        speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
+        pygame_functions.playSound(speech)
+        self.slerpSprite.start_anim(self.slerpSprite.animTalking, 0)
+        self.eventScheduler.schedule(5, lambda: self.dispenser.dispense(10, 3, 3, 0))
+        self.eventScheduler.schedule(18, lambda: self.slerpSprite.start_anim(self.slerpSprite.animResting, 0))
+        self.eventScheduler.schedule(24, self.pageStart)
+
+    # PAGE: Slerp pours a jealousy juice
+    def pagePourDrink4(self):
+        self.resetButtons()
+        speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
+        pygame_functions.playSound(speech)
+        self.slerpSprite.start_anim(self.slerpSprite.animTalking, 0)
+        self.eventScheduler.schedule(5, lambda: self.dispenser.dispense(10, 8, 0, 0))
+        self.eventScheduler.schedule(18, lambda: self.slerpSprite.start_anim(self.slerpSprite.animResting, 0))
+        self.eventScheduler.schedule(24, self.pageStart)
+
+    # PAGE: Slerp pours a jealousy juice
+    def pagePourDrink5(self):
+        self.resetButtons()
+        speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
+        pygame_functions.playSound(speech)
+        self.slerpSprite.start_anim(self.slerpSprite.animTalking, 0)
+        self.eventScheduler.schedule(5, lambda: self.dispenser.dispense(0, 10, 3, 0))
+        self.eventScheduler.schedule(18, lambda: self.slerpSprite.start_anim(self.slerpSprite.animResting, 0))
+        self.eventScheduler.schedule(24, self.pageStart)
+
+    # PAGE: Slerp pours a jealousy juice
+    def pagePourDrink6(self):
+        self.resetButtons()
+        speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
+        pygame_functions.playSound(speech)
+        self.slerpSprite.start_anim(self.slerpSprite.animTalking, 0)
+        self.eventScheduler.schedule(5, lambda: self.dispenser.dispense(3, 3, 10))
         self.eventScheduler.schedule(18, lambda: self.slerpSprite.start_anim(self.slerpSprite.animResting, 0))
         self.eventScheduler.schedule(24, self.pageStart)
 
