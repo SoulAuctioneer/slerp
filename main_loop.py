@@ -1,4 +1,5 @@
 import pygame
+from drink import Drink
 import pygame_functions
 import random
 from pygame.locals import *
@@ -33,6 +34,16 @@ class MainLoop:
         # Initialize Slerp animation
         self.slerpSprite = SlerpSprite()
 
+        # Initialize drinkies TODO: Can I get these into settings?
+        self.drinks = [
+            Drink("INSECURITY ICICLE", (0, 200, 255), (10, 0, 0, 0), self.pagePourDrink1), # cyan
+            Drink("JEALOUSY JUICE", (255, 0, 255), (0, 10, 0, 0), self.pagePourDrink2), # magenta
+            Drink("JUDGMENTAL JOLT", (255, 200, 0), (0, 0, 10, 0), self.pagePourDrink4), # yellow
+            Drink("WRATHFUL WATER", (255, 64, 64), (0, 10, 10, 0), self.pagePourDrink3), # red
+            Drink("GREEDY GULP", (0, 255, 64), (10, 0, 10, 0), self.pagePourDrink5), # green
+            Drink("MELANCHOLY MASH", (64, 64, 255), (10, 10, 0, 0), self.pagePourDrink6) # blue
+        ]
+        
     # PAGE: Initial page, sleeping and start button
     def pageStart(self):
         self.buttons = [
@@ -55,14 +66,9 @@ class MainLoop:
     # PAGE: Show drink selection buttons # TODO better to be a const set within pageHello()
     def pageDrinks1(self):
         # Define the button positions, sizes, labels, actions, animations
-        self.buttons = [
-            Button(self.screen, pygame.Rect(50, 50, 570, 80), "INSECURITY ICICLE", (128, 0, 255), self.pagePourDrink1),
-            Button(self.screen, pygame.Rect(50, 160, 570, 80), "JEALOUSY JUICE", (255, 0, 255), self.pagePourDrink2),
-            Button(self.screen, pygame.Rect(50, 270, 570, 80), "WRATHFUL WATER", (255, 64, 64), self.pagePourDrink3),
-            Button(self.screen, pygame.Rect(50, 380, 570, 80), "JUDGMENTAL JOLT", (255, 200, 0), self.pagePourDrink4),
-            Button(self.screen, pygame.Rect(50, 490, 570, 80), "GREEDY GULP", (0, 255, 64), self.pagePourDrink5),
-            Button(self.screen, pygame.Rect(50, 600, 570, 80), "MELANCHOLY MASH", (64, 64, 255), self.pagePourDrink6),
-        ]
+        self.buttons = []
+        for i, drink in enumerate(self.drinks):
+            self.buttons.append(Button(self.screen, pygame.Rect(50, 50 + i*110, 570, 80), drink.name, drink.rgb, drink.page_function))
 
     # PAGE: Slerp pours a jealousy juice
     def pagePourDrink1(self):
