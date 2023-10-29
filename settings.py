@@ -30,10 +30,14 @@ PUMP_YELLOW_IN = 23
 PUMP_EXTRA_OUT = 1
 PUMP_EXTRA_IN = 7
 
+# Time to prime liquids from reservoir to top of collector. Will be different if there's a variance in tube length
+PUMP_CYAN_PRIME_DURATION = 5
+PUMP_YELLOW_PRIME_DURATION = 5
+PUMP_MAGENTA_PRIME_DURATION = 5
+PUMP_EXTRA_PRIME_DURATION = 5
+
 # Max number of squirts of liquid that can be produced from each pump per drink
 DISPENSER_MAX_SQUIRTS = 10
-# Time to prime liquids from reservoir to top of collector
-DISPENSER_PRIME_DURATION = 5
 # Time to pump for a single squirt
 DISPENSER_SQUIRT_DURATION = 0.38
 # Time to rest between squirts
