@@ -10,6 +10,7 @@ from slerp_sprite import SlerpSprite
 from settings import *
 
 class MainLoop:
+
     def __init__(self):
 
         # Buttons currently onscreen
@@ -176,7 +177,7 @@ class MainLoop:
             # Update the display
             pygame_functions.updateDisplay()
 
-            # Run at 24fps
+            # Run at 24 fps
             pygame_functions.tick(24)
 
     # Gracefully shut everything down
