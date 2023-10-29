@@ -45,7 +45,7 @@ class Dispenser:
         for i in range(DISPENSER_MAX_SQUIRTS):
             for color, amount in {'cyan': cyan, 'magenta': magenta, 'yellow': yellow, 'extra': extra}.items():
                 if amount > i:
-                    self.pumps[color].forward()
+                    self.event_scheduler.schedule(timer, self.pumps[color].forward)
                     timer += DISPENSER_SQUIRT_DURATION
                     self.event_scheduler.schedule(timer, self.pumps[color].stop)
                     timer += DISPENSER_SQUIRT_REST_DURATION
