@@ -24,6 +24,8 @@ class Dispenser:
             'yellow': {'motor': Motor(PUMP_YELLOW_OUT, PUMP_YELLOW_IN), 'prime_duration': PUMP_YELLOW_PRIME_DURATION, 'speed': PWMOutputDevice(PUMP_YELLOW_SPEED)},
             'transparent': {'motor': Motor(PUMP_TRANSPARENT_OUT, PUMP_TRANSPARENT_IN), 'prime_duration': PUMP_TRANSPARENT_PRIME_DURATION, 'speed': PWMOutputDevice(PUMP_TRANSPARENT_SPEED)}
         }
+        for pump_name, pump in self.pumps.items():
+            self.set_speed(pump_name, 1.0)
 
     # Dispense a drink with the given amounts of Cyan / Magenta / Yellow / Transparent, from 0 to max
     # TODO: Create a drink class with the squirt amounts, name, and button color
