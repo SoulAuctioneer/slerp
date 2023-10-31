@@ -44,7 +44,7 @@ DISPENSER_MAX_SQUIRTS = 10
 # Time to pump for a single squirt
 DISPENSER_SQUIRT_DURATION = 0.38
 # Time to rest between squirts
-DISPENSER_SQUIRT_REST_DURATION = 0.33
+DISPENSER_SQUIRT_REST_DURATION = 0.2
 # Time to wait after all squirts are done before sucking back
 DISPENSER_SUCK_WAIT_DURATION = 3
 # Time to suck back into reservoir
