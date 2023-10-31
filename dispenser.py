@@ -40,7 +40,7 @@ class Dispenser:
         # Prime all liquids to the top of the collector
         for pump_name, pump in self.pumps.items():
             self.forward(pump_name)
-            self.event_scheduler.schedule(pump['prime_duration'], lambda: self.stop(pump_name))
+            self.event_scheduler.schedule(timer + pump['prime_duration'], lambda: self.stop(pump_name))
         timer += max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_TRANSPARENT_PRIME_DURATION)
 
         # Pause for a second
@@ -55,15 +55,18 @@ class Dispenser:
                     self.event_scheduler.schedule(timer, lambda: self.stop(pump_name))
                     timer += DISPENSER_SQUIRT_REST_DURATION
 
-        # Suck all the liquids back into the reservoir
+        # Wait for a bit after drink is dispensed, just for chill vibes
         timer += DISPENSER_SUCK_WAIT_DURATION
+
+        # Suck all the liquids back into the reservoir
         for pump_name in self.pumps.keys():
             self.event_scheduler.schedule(timer, lambda: self.backward(pump_name))
 
         # Stop sucking
-        timer += DISPENSER_SUCK_DURATION
-        for pump_name in self.pumps.keys():
-            self.event_scheduler.schedule(timer, lambda: self.stop(pump_name))
+        timer += 1 # Just to be sure we get everything
+        for pump_name, pump in self.pumps.items():
+            self.event_scheduler.schedule(timer + pump['prime_duration'], lambda: self.stop(pump_name))
+        timer += max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_TRANSPARENT_PRIME_DURATION)
 
         return timer
 

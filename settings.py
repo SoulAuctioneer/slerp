@@ -38,10 +38,10 @@ PUMP_TRANSPARENT_IN = 22
 PUMP_TRANSPARENT_SPEED = 19
 
 # Time to prime liquids from reservoir to top of collector. Will be different if there's a variance in tube length
-PUMP_CYAN_PRIME_DURATION = 4.5
-PUMP_YELLOW_PRIME_DURATION = 5.5
-PUMP_MAGENTA_PRIME_DURATION = 6
-PUMP_TRANSPARENT_PRIME_DURATION = 5
+PUMP_CYAN_PRIME_DURATION = 5
+PUMP_MAGENTA_PRIME_DURATION = 7
+PUMP_YELLOW_PRIME_DURATION = 8
+PUMP_TRANSPARENT_PRIME_DURATION = 8
 
 # Max number of squirts of liquid that can be produced from each pump per drink
 DISPENSER_MAX_SQUIRTS = 10
@@ -51,5 +51,3 @@ DISPENSER_SQUIRT_DURATION = 0.38
 DISPENSER_SQUIRT_REST_DURATION = 0.2
 # Time to wait after all squirts are done before sucking back
 DISPENSER_SUCK_WAIT_DURATION = 3
-# Time to suck back into reservoir
-DISPENSER_SUCK_DURATION = 5
