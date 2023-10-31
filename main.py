@@ -6,7 +6,7 @@ if __name__ == "__main__":
     main_loop = MainLoop()
 
     # Fire up the first page of the narrative
-    main_loop.pageStart()
+    main_loop.pag_start()
 
     # Start the main loop running
     main_loop.run()
