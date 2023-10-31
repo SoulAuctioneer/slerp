@@ -38,16 +38,13 @@ class Dispenser:
         timer = 0
 
         # Prime all liquids to the top of the collector
-        for pump_name, pump in self.pumps.items():
-            self.forward(pump_name)
-            self.event_scheduler.schedule(timer + pump['prime_duration'], lambda: self.stop(pump_name))
-        timer += max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_TRANSPARENT_PRIME_DURATION)
+        timer += self.prime('forward', timer)
 
-        # Pause for a second
-        timer += 1
-
+        # Wait for a second, for vibes
+        timer += 10
+# TODO
         # Iterate up to max times, scheduling liquid to pump if more of its color is still needed
-        for i in range(DISPENSER_MAX_SQUIRTS):
+        for i in max(drink.cmyt):
             for pump_name, amount in {'cyan': drink.cmyt[0], 'magenta': drink.cmyt[1], 'yellow': drink.cmyt[2], 'transparent': drink.cmyt[3]}.items():
                 if amount > i:
                     self.event_scheduler.schedule(timer, lambda: self.forward(pump_name))
@@ -59,16 +56,33 @@ class Dispenser:
         timer += DISPENSER_SUCK_WAIT_DURATION
 
         # Suck all the liquids back into the reservoir
-        for pump_name in self.pumps.keys():
-            self.event_scheduler.schedule(timer, lambda: self.backward(pump_name))
-
-        # Stop sucking
-        timer += 1 # Just to be sure we get everything
-        for pump_name, pump in self.pumps.items():
-            self.event_scheduler.schedule(timer + pump['prime_duration'], lambda: self.stop(pump_name))
-        timer += max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_TRANSPARENT_PRIME_DURATION)
+        timer += self.prime('backward', timer)
 
         return timer
+
+    # Prime all liquids either to the top of the collector or back from the collector into the reservoirs
+    def prime(self, direction, start_timer=0):
+
+        for pump_name, pump in self.pumps.items():
+            if direction == 'forward':
+                self.event_scheduler.schedule(start_timer, lambda: self.forward(pump_name))
+            else:
+                self.backward(pump_name)
+            self.event_scheduler.schedule(start_timer + pump['prime_duration'], lambda: self.stop(pump_name))
+
+        return max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_TRANSPARENT_PRIME_DURATION)
+
+    def forward(self, pump_name):
+         self.pumps[pump_name]['motor'].forward()
+    
+    def backward(self, pump_name):
+        self.pumps[pump_name]['motor'].backward()
+
+    def stop(self, pump_name):
+        self.pumps[pump_name]['motor'].stop()
+
+    def set_speed(self, pump_name, speed):
+        self.pumps[pump_name]['speed'].value = speed
 
     # Run the pump in reverse for the given duration to bubble the reservoir
     def bubble(self, pump_name, duration):
@@ -84,17 +98,10 @@ class Dispenser:
         self.event_scheduler.schedule(3, lambda: self.backward(pump_name))
         self.event_scheduler.schedule(6, lambda: self.stop(pump_name))
 
-    def forward(self, pump_name):
-         self.pumps[pump_name]['motor'].forward()
-    
-    def backward(self, pump_name):
-        self.pumps[pump_name]['motor'].backward()
-
-    def stop(self, pump_name):
-        self.pumps[pump_name]['motor'].stop()
-
-    def set_speed(self, pump_name, speed):
-        self.pumps[pump_name]['speed'].value = speed
+    # Prime, wait 2 seconds, then unprime
+    def test_prime(self):
+        timer = self.prime('forward')
+        self.event_scheduler.schedule(timer + 2, lambda: self.prime('backward'))
 
     # Execute any events due
     def update(self):
