@@ -79,7 +79,7 @@ class Dispenser:
         self.set_speed(pump_name, 1.0)
         self.forward(pump_name)
         self.event_scheduler.schedule(3, lambda: self.backward(pump_name))
-        self.event_scheduler.schedule(3, lambda: self.stop(pump_name))
+        self.event_scheduler.schedule(6, lambda: self.stop(pump_name))
 
     def forward(self, pump_name):
          self.pumps[pump_name]['motor'].forward()
