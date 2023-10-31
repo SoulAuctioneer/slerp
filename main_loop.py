@@ -63,6 +63,10 @@ class MainLoop:
         self.slerpSprite.start_anim(self.slerpSprite.animTalking, 0)
         self.eventScheduler.schedule(20.5, self.pageDrinks1) # Show drink buttons
         self.eventScheduler.schedule(21.7, lambda: self.slerpSprite.start_anim(self.slerpSprite.animResting, 0)) # Done talking, switch to resting animation
+        self.dispenser.bubble('cyan', 21.7)
+        self.dispenser.bubble('magenta', 21.7)
+        self.dispenser.bubble('yellow', 21.7)
+        self.dispenser.bubble('transparent', 21.7)
 
     # PAGE: Show drink selection buttons # TODO better to be a const set within pageHello()
     def pageDrinks1(self):

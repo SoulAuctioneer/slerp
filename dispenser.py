@@ -66,6 +66,12 @@ class Dispenser:
         print(timer)
         return timer
 
+    # Run the pump in reverse for the given duration to bubble the reservoir
+    def bubble(self, pump_name, duration):
+        pump = self.pumps[pump_name]
+        pump['motor'].backward()
+        self.event_scheduler.schedule(duration, pump['motor'].stop)
+
     # Execute any events due
     def update(self):
         self.event_scheduler.execute_due()
