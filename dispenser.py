@@ -24,7 +24,7 @@ class Dispenser:
             'yellow': {'motor': Motor(PUMP_YELLOW_OUT, PUMP_YELLOW_IN), 'prime_duration': PUMP_YELLOW_PRIME_DURATION, 'speed': PWMOutputDevice(PUMP_YELLOW_SPEED)},
             'transparent': {'motor': Motor(PUMP_TRANSPARENT_OUT, PUMP_TRANSPARENT_IN), 'prime_duration': PUMP_TRANSPARENT_PRIME_DURATION, 'speed': PWMOutputDevice(PUMP_TRANSPARENT_SPEED)}
         }
-        for pump_name, pump in self.pumps.items():
+        for pump_name in self.pumps.keys():
             self.set_speed(pump_name, 1.0)
 
     # Dispense a drink with the given amounts of Cyan / Magenta / Yellow / Transparent, from 0 to max
@@ -57,12 +57,12 @@ class Dispenser:
 
         # Suck all the liquids back into the reservoir
         timer += DISPENSER_SUCK_WAIT_DURATION
-        for pump_name, pump in self.pumps.items():
+        for pump_name in self.pumps.keys():
             self.event_scheduler.schedule(timer, lambda: self.backward(pump_name))
 
         # Stop sucking
         timer += DISPENSER_SUCK_DURATION
-        for pump_name, pump in self.pumps.items():
+        for pump_name in self.pumps.keys():
             self.event_scheduler.schedule(timer, lambda: self.stop(pump_name))
 
         return timer
