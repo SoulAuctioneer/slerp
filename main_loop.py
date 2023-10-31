@@ -133,6 +133,7 @@ class MainLoop:
         self.event_scheduler.schedule(24, self.page_start)
 
     def page_admin(self):
+        pygame_functions.stopMusic()
         self.set_buttons([
             Button(self.screen, pygame.Rect(50, 25, 570, 70), 'RESTART', (50, 255, 50), self.page_start),
             Button(self.screen, pygame.Rect(50, 110, 570, 70), 'DRINKS SCREEN', (50, 50, 255), self.show_drink_buttons),
