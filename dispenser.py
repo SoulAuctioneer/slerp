@@ -1,4 +1,4 @@
-from gpiozero import Motor, Device
+from gpiozero import Motor, Device, PWMOutputDevice
 from gpiozero.pins.mock import MockFactory, MockPWMPin
 import event_scheduler
 import platform
@@ -20,7 +20,7 @@ class Dispenser:
         # Initialize the pump pins
         self.pumps = {
             'cyan': {'motor': Motor(PUMP_CYAN_OUT, PUMP_CYAN_IN), 'prime_duration': PUMP_CYAN_PRIME_DURATION},
-            'magenta': {'motor': Motor(PUMP_MAGENTA_OUT, PUMP_MAGENTA_IN), 'prime_duration': PUMP_MAGENTA_PRIME_DURATION},
+            'magenta': {'motor': Motor(PUMP_MAGENTA_OUT, PUMP_MAGENTA_IN), 'prime_duration': PUMP_MAGENTA_PRIME_DURATION, 'speed': PWMOutputDevice(PUMP_MAGENTA_SPEED)},
             'yellow': {'motor': Motor(PUMP_YELLOW_OUT, PUMP_YELLOW_IN), 'prime_duration': PUMP_YELLOW_PRIME_DURATION},
             'transparent': {'motor': Motor(PUMP_TRANSPARENT_OUT, PUMP_TRANSPARENT_IN), 'prime_duration': PUMP_TRANSPARENT_PRIME_DURATION}
         }
@@ -36,9 +36,9 @@ class Dispenser:
         timer = 0
 
         # Prime all liquids to the top of the collector
-        for color, pump in self.pumps.items():
-            pump['motor'].forward()
-            self.event_scheduler.schedule(pump['prime_duration'], pump['motor'].stop)
+        for pump_name, pump in self.pumps.items():
+            self.forward(pump_name)
+            self.event_scheduler.schedule(pump['prime_duration'], lambda: self.stop(pump_name))
         timer += max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_TRANSPARENT_PRIME_DURATION)
 
         # Pause for a second
@@ -46,38 +46,48 @@ class Dispenser:
 
         # Iterate up to max times, scheduling liquid to pump if more of its color is still needed
         for i in range(DISPENSER_MAX_SQUIRTS):
-            for color, amount in {'cyan': drink.cmyt[0], 'magenta': drink.cmyt[1], 'yellow': drink.cmyt[2], 'transparent': drink.cmyt[3]}.items():
+            for pump_name, amount in {'cyan': drink.cmyt[0], 'magenta': drink.cmyt[1], 'yellow': drink.cmyt[2], 'transparent': drink.cmyt[3]}.items():
                 if amount > i:
-                    self.event_scheduler.schedule(timer, self.pumps[color]['motor'].forward)
+                    self.event_scheduler.schedule(timer, lambda: self.forward(pump_name))
                     timer += DISPENSER_SQUIRT_DURATION
-                    self.event_scheduler.schedule(timer, self.pumps[color]['motor'].stop)
+                    self.event_scheduler.schedule(timer, lambda: self.stop(pump_name))
                     timer += DISPENSER_SQUIRT_REST_DURATION
 
         # Suck all the liquids back into the reservoir
         timer += DISPENSER_SUCK_WAIT_DURATION
-        for color, pump in self.pumps.items():
-            self.event_scheduler.schedule(timer, pump['motor'].backward)
+        for pump_name, pump in self.pumps.items():
+            self.event_scheduler.schedule(timer, lambda: self.backward(pump_name))
 
         # Stop sucking
         timer += DISPENSER_SUCK_DURATION
-        for color, pump in self.pumps.items():
-            self.event_scheduler.schedule(timer, pump['motor'].stop)
+        for pump_name, pump in self.pumps.items():
+            self.event_scheduler.schedule(timer, lambda: self.stop(pump_name))
 
-        print(timer)
         return timer
 
     # Run the pump in reverse for the given duration to bubble the reservoir
     def bubble(self, pump_name, duration):
-        pump = self.pumps[pump_name]
-        pump['motor'].backward()
-        self.event_scheduler.schedule(duration, pump['motor'].stop)
+        self.backward(pump_name)
+        self.event_scheduler.schedule(duration, lambda: self.stop(pump_name))
 
     # Run the pump forward for 3 seconds then backwards
     def test(self, pump_name):
-        pump = self.pumps[pump_name]
-        pump['motor'].forward()
-        self.event_scheduler.schedule(3, pump['motor'].backward)
-        self.event_scheduler.schedule(6, pump['motor'].stop)
+        self.forward(pump_name)
+        self.event_scheduler.schedule(2, lambda: self.set_speed(pump_name, 0.3))
+        self.event_scheduler.schedule(3, lambda: self.backward(pump_name))
+        self.event_scheduler.schedule(6, lambda: self.stop(pump_name))
+
+    def forward(self, pump_name):
+         self.pumps[pump_name]['motor'].forward()
+    
+    def backward(self, pump_name):
+        self.pumps[pump_name]['motor'].backward()
+
+    def stop(self, pump_name):
+        self.pumps[pump_name]['motor'].stop()
+
+    def set_speed(self, pump_name, speed):
+        self.pumps[pump_name]['speed'].value = speed
 
     # Execute any events due
     def update(self):
