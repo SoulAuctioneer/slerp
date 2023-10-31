@@ -76,9 +76,6 @@ class Dispenser:
         self.event_scheduler.schedule(7.4, lambda: self.backward(pump_name))
         self.event_scheduler.schedule(13, lambda: self.stop(pump_name))
 
-        self.event_scheduler.schedule(0.5, lambda: self.set_speed(pump_name, 0.1))
-        self.event_scheduler.schedule(1, lambda: self.set_speed(pump_name, 0.2))
-        self.event_scheduler.schedule(1.5, lambda: self.set_speed(pump_name, 0.3))
         self.event_scheduler.schedule(2, lambda: self.set_speed(pump_name, 0.4))
         self.event_scheduler.schedule(2.5, lambda: self.set_speed(pump_name, 0.5))
         self.event_scheduler.schedule(3, lambda: self.set_speed(pump_name, 0.6))
@@ -87,9 +84,6 @@ class Dispenser:
         self.event_scheduler.schedule(4.5, lambda: self.set_speed(pump_name, 0.9))
         self.event_scheduler.schedule(5, lambda: self.set_speed(pump_name, 1))
 
-        self.event_scheduler.schedule(7.5, lambda: self.set_speed(pump_name, 0.1))
-        self.event_scheduler.schedule(8, lambda: self.set_speed(pump_name, 0.2))
-        self.event_scheduler.schedule(8.5, lambda: self.set_speed(pump_name, 0.3))
         self.event_scheduler.schedule(9, lambda: self.set_speed(pump_name, 0.4))
         self.event_scheduler.schedule(9.5, lambda: self.set_speed(pump_name, 0.5))
         self.event_scheduler.schedule(10, lambda: self.set_speed(pump_name, 0.6))
