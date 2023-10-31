@@ -34,14 +34,8 @@ class Dispenser:
 
         print('Dispensing drink')
 
-         # Tracks timing of all events in seconds
-        timer = 0
-
-        # Prime all liquids to the top of the collector
-        timer += self.prime('forward', timer)
-
-        # Wait for a second, for vibes
-        timer += 1
+        # Prime all liquids to the top of the collector then wait for a second, for vibes
+        timer += self.prime('forward', timer) + 1
 
         # Iterate up to max times, scheduling liquid to pump if more of its color is still needed
         for i in range(max(drink.cmyt)):
@@ -52,10 +46,8 @@ class Dispenser:
                     self.event_scheduler.schedule(timer, lambda: self.stop(pump_name))
                     timer += DISPENSER_SQUIRT_REST_DURATION
 
-        # Wait for a bit after drink is dispensed, just for chill vibes
+        # Suck all the liquids back into the reservoir after a pause for chill vibes
         timer += DISPENSER_SUCK_WAIT_DURATION
-
-        # Suck all the liquids back into the reservoir
         timer += self.prime('backward', timer)
 
         return timer
@@ -100,8 +92,8 @@ class Dispenser:
 
     # Prime, wait 2 seconds, then unprime
     def test_prime(self):
-        timer = self.prime('forward')
-        self.event_scheduler.schedule(timer + 2, lambda: self.prime('backward'))
+        done_time = self.prime('forward')
+        self.prime('backward', done_time + 2)
 
     # Execute any events due
     def update(self):
