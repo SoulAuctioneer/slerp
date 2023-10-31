@@ -26,13 +26,16 @@ BUTTON_FONT_FACE = 'assets/PeaberryMono.ttf'
 # Pump GPIO pins
 PUMP_CYAN_OUT = 7
 PUMP_CYAN_IN = 1
+PUMP_CYAN_SPEED = 13
 PUMP_MAGENTA_OUT = 11
 PUMP_MAGENTA_IN = 10
 PUMP_MAGENTA_SPEED = 12
 PUMP_YELLOW_OUT = 23
 PUMP_YELLOW_IN = 24
+PUMP_YELLOW_SPEED = 18
 PUMP_TRANSPARENT_OUT = 27
 PUMP_TRANSPARENT_IN = 22
+PUMP_TRANSPARENT_SPEED = 19
 
 # Time to prime liquids from reservoir to top of collector. Will be different if there's a variance in tube length
 PUMP_CYAN_PRIME_DURATION = 4.5
