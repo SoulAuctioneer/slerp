@@ -57,10 +57,17 @@ class Dispenser:
 
         for pump_name, pump in self.pumps.items():
             if direction == 'forward':
+                print(pump_name)
+                print(direction)
+                print(start_timer)
                 self.event_scheduler.schedule(start_timer, lambda: self.forward(pump_name))
             else:
                 self.event_scheduler.schedule(start_timer, lambda: self.backward(pump_name))
+                print(pump_name)
+                print(direction)
+                print(start_timer)
             self.event_scheduler.schedule(start_timer + pump['prime_duration'], lambda: self.stop(pump_name))
+            print(start_timer + pump['prime_duration'])
 
         return max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_TRANSPARENT_PRIME_DURATION)
 
