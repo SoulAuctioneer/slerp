@@ -33,7 +33,7 @@ class Dispenser:
     def dispense(self, drink):
 
         # Prime all liquids to the top of the collector then wait for a second, for vibes
-        timer = self.prime('forward', timer) + 1
+        timer = self.prime('forward') + 1
 
         # Iterate up to max times, scheduling liquid to pump if more of its color is still needed
         for i in range(max(drink.cmyt)):

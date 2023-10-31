@@ -164,7 +164,8 @@ class MainLoop:
         self.buttons.append(admin_button)
 
     def reset_buttons(self):
-        self.buttons = []
+        admin_button = Button(self.screen, pygame.Rect(1260, 700, 20, 20), None, None, self.page_admin)
+        self.buttons = [admin_button]
         pygame_functions.setBackgroundImage(BG_IMAGE)  # A background image always sits behind the sprites
 
     def stop_loop(self):
