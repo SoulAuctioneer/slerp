@@ -135,12 +135,12 @@ class MainLoop:
     def page_admin(self):
         self.set_buttons([
             Button(self.screen, pygame.Rect(50, 20, 570, 80), 'RESTART', (50, 255, 50), self.page_start),
-            Button(self.screen, pygame.Rect(50, 220, 570, 80), 'DRINKS SCREEN', (50, 50, 255), self.show_drink_buttons),
-            Button(self.screen, pygame.Rect(50, 320, 570, 80), 'TEST CYAN', (0, 255, 255), lambda: self.dispenser.test('cyan')),
-            Button(self.screen, pygame.Rect(50, 420, 570, 80), 'TEST MAGENTA', (255, 0, 255), lambda: self.dispenser.test('magenta')),
-            Button(self.screen, pygame.Rect(50, 520, 570, 80), 'TEST YELLOW', (255, 255, 0), lambda: self.dispenser.test('yellow')),
-            Button(self.screen, pygame.Rect(50, 620, 570, 80), 'TEST TRANSPARENT', (128, 128, 128), lambda: self.dispenser.test('transparent')),
-            Button(self.screen, pygame.Rect(50, 120, 570, 80), 'EXIT', (255, 50, 50), self.stop_loop)
+            Button(self.screen, pygame.Rect(50, 120, 570, 80), 'DRINKS SCREEN', (50, 50, 255), self.show_drink_buttons),
+            Button(self.screen, pygame.Rect(50, 220, 570, 80), 'TEST CYAN', (0, 255, 255), lambda: self.dispenser.test('cyan')),
+            Button(self.screen, pygame.Rect(50, 320, 570, 80), 'TEST MAGENTA', (255, 0, 255), lambda: self.dispenser.test('magenta')),
+            Button(self.screen, pygame.Rect(50, 420, 570, 80), 'TEST YELLOW', (255, 255, 0), lambda: self.dispenser.test('yellow')),
+            Button(self.screen, pygame.Rect(50, 520, 570, 80), 'TEST TRANSPARENT', (128, 128, 128), lambda: self.dispenser.test('transparent')),
+            Button(self.screen, pygame.Rect(50, 620, 570, 80), 'EXIT', (255, 50, 50), self.stop_loop)
         ])
 
     # Handle pygame events
