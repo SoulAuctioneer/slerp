@@ -71,7 +71,7 @@ class MainLoop:
     # PAGE: Show drink selection buttons # TODO better to be a const set within pageHello()
     def pageDrinks1(self):
         # Define the button positions, sizes, labels, actions, animations
-        self.buttons = []
+        self.resetButtons()
         for i, drink in enumerate(self.drinks):
             self.buttons.append(Button(self.screen, pygame.Rect(50, 50 + i*110, 570, 80), drink.name, drink.rgb, drink.page_function))
 
@@ -135,6 +135,24 @@ class MainLoop:
         self.eventScheduler.schedule(18, lambda: self.slerpSprite.start_anim(self.slerpSprite.animResting, 0))
         self.eventScheduler.schedule(24, self.pageStart)
 
+    def page_admin(self):
+        self.buttons = [
+            Button(self.screen, pygame.Rect(50, 20, 570, 80), 'Restart', (50, 255, 50), self.pageStart),
+            Button(self.screen, pygame.Rect(50, 120, 570, 80), 'Exit', (255, 50, 50), self.stop_loop),
+            Button(self.screen, pygame.Rect(50, 220, 570, 80), 'Drinks Screen', (50, 50, 255), self.pageDrinks1),
+            Button(self.screen, pygame.Rect(50, 320, 570, 80), 'Test Cyan', (0, 255, 255), lambda: self.dispenser.test('cyan')),
+            Button(self.screen, pygame.Rect(50, 420, 570, 80), 'Test Magenta', (255, 0, 255), lambda: self.dispenser.test('magenta')),
+            Button(self.screen, pygame.Rect(50, 520, 570, 80), 'Test Yellow', (255, 255, 0), lambda: self.dispenser.test('yellow')),
+            Button(self.screen, pygame.Rect(50, 620, 570, 80), 'Test Transparent', (128, 128, 128), lambda: self.dispenser.test('transparent')),
+        ]
+
+        self.isLoopRunning = False
+        self.dispenser.bubble('cyan', 21.7)
+        self.dispenser.bubble('magenta', 21.7)
+        self.dispenser.bubble('yellow', 21.7)
+        self.dispenser.bubble('transparent', 21.7)
+
+
     # Handle pygame events
     def handle_pygame_events(self):
         for event in pygame.event.get():
@@ -147,8 +165,8 @@ class MainLoop:
             if event.type == MOUSEBUTTONDOWN:
                 # Check if the touch event occurred within a button's area
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.quitButtonRect.collidepoint(event.pos):
-                        self.isLoopRunning = False
+                    if self.adminButtonRect.collidepoint(event.pos):
+                        self.page_admin()
                     for button in self.buttons:
                         if button.rect.collidepoint(event.pos):
                             button.on_click()
@@ -157,6 +175,9 @@ class MainLoop:
         self.buttons = []
         pygame_functions.setBackgroundImage(BG_IMAGE)  # A background image always sits behind the sprites
 
+    def stop_loop(self):
+            self.isLoopRunning = False
+            
     # Main loop
     def run(self):
         self.isLoopRunning = True
