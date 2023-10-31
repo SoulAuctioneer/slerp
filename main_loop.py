@@ -140,7 +140,7 @@ class MainLoop:
             Button(self.screen, pygame.Rect(50, 290, 570, 70), 'TEST MAGENTA', (255, 0, 255), lambda: self.dispenser.test('magenta')),
             Button(self.screen, pygame.Rect(50, 380, 570, 70), 'TEST YELLOW', (255, 255, 0), lambda: self.dispenser.test('yellow')),
             Button(self.screen, pygame.Rect(50, 470, 570, 70), 'TEST TRANSPARENT', (150, 150, 165), lambda: self.dispenser.test('transparent')),
-            Button(self.screen, pygame.Rect(50, 560, 570, 70), 'TEST PRIMING', (180, 128, 128), self.dispenser.test_prime)
+            Button(self.screen, pygame.Rect(50, 560, 570, 70), 'TEST PRIMING', (180, 128, 128), self.dispenser.test_prime),
             Button(self.screen, pygame.Rect(50, 560, 570, 70), 'EXIT', (255, 50, 50), self.stop_loop)
         ])
 
