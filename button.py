@@ -13,6 +13,11 @@ class Button:
         self.background = background
         self.on_click = on_click
 
+        # Buttons without label and background color are invisible
+        self.is_invisible = not self.label and not self.background
+        if self.is_invisible:
+            return
+
         global FONT
         if not FONT:
             FONT = pygame.font.Font(BUTTON_FONT_FACE, BUTTON_FONT_SIZE)
@@ -38,8 +43,7 @@ class Button:
 
     def draw(self):
 
-        # Don't draw buttons without label and background color
-        if not self.label and not self.background:
+        if self.is_invisible:
             return
 
         # Draw the button surface on the screen
