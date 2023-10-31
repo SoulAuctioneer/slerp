@@ -16,9 +16,6 @@ class MainLoop:
         # Buttons currently onscreen
         self.buttons = []
 
-        # Hidden quit button. TODO: Send user to a menu instead, with quit, resume and reset
-        self.admin_button_rect = pygame.Rect(1260, 700, 20, 20)
-
         # Used to run one-off events in the future
         self.event_scheduler = EventScheduler()
 
@@ -47,9 +44,9 @@ class MainLoop:
         
     # PAGE: Initial page, sleeping and start button
     def page_start(self):
-        self.buttons = [
+        self.set_buttons([
             Button(self.screen, pygame.Rect(100, 225, 520, 270), "WAKE UP!", (255, 0, 255), self.page_hello)
-        ]
+        ])
         self.slerp_sprite.start_anim(self.slerp_sprite.animSleeping, 0)
         pygame_functions.makeMusic(random.choice(MUSIC))
         pygame_functions.playMusic()
@@ -68,12 +65,12 @@ class MainLoop:
         self.dispenser.bubble('yellow', 21.7)
         self.dispenser.bubble('transparent', 21.7)
 
-    # PAGE: Show drink selection buttons # TODO better to be a const set within pageHello()
-    def page_drinks1(self):
-        # Define the button positions, sizes, labels, actions, animations
-        self.reset_buttons()
+    # PAGE: Show drink selection buttons 
+    def show_drink_buttons(self):
+        buttons = []
         for i, drink in enumerate(self.drinks):
-            self.buttons.append(Button(self.screen, pygame.Rect(50, 50 + i*110, 570, 80), drink.name, drink.rgb, drink.page_function))
+            buttons.append(Button(self.screen, pygame.Rect(50, 50 + i*110, 570, 80), drink.name, drink.rgb, drink.page_function))
+        self.set_buttons(buttons)
 
     # PAGE: Slerp pours a jealousy juice
     def page_pour_drink1(self):
@@ -136,40 +133,15 @@ class MainLoop:
         self.event_scheduler.schedule(24, self.page_start)
 
     def page_admin(self):
-        self.buttons = [
+        self.set_buttons([
             Button(self.screen, pygame.Rect(50, 20, 570, 80), 'Restart', (50, 255, 50), self.page_start),
             Button(self.screen, pygame.Rect(50, 120, 570, 80), 'Exit', (255, 50, 50), self.stop_loop),
-            Button(self.screen, pygame.Rect(50, 220, 570, 80), 'Drinks Screen', (50, 50, 255), self.page_drinks1),
+            Button(self.screen, pygame.Rect(50, 220, 570, 80), 'Drinks Screen', (50, 50, 255), self.show_drink_buttons),
             Button(self.screen, pygame.Rect(50, 320, 570, 80), 'Test Cyan', (0, 255, 255), lambda: self.dispenser.test('cyan')),
             Button(self.screen, pygame.Rect(50, 420, 570, 80), 'Test Magenta', (255, 0, 255), lambda: self.dispenser.test('magenta')),
             Button(self.screen, pygame.Rect(50, 520, 570, 80), 'Test Yellow', (255, 255, 0), lambda: self.dispenser.test('yellow')),
             Button(self.screen, pygame.Rect(50, 620, 570, 80), 'Test Transparent', (128, 128, 128), lambda: self.dispenser.test('transparent')),
-        ]
-
-        self.is_loop_running = False
-        self.dispenser.bubble('cyan', 21.7)
-        self.dispenser.bubble('magenta', 21.7)
-        self.dispenser.bubble('yellow', 21.7)
-        self.dispenser.bubble('transparent', 21.7)
-
-
-    def page_admin(self):
-        self.buttons = [
-            Button(self.screen, pygame.Rect(50, 20, 570, 80), 'Restart', (50, 255, 50), self.pageStart),
-            Button(self.screen, pygame.Rect(50, 120, 570, 80), 'Exit', (255, 50, 50), self.stop_loop),
-            Button(self.screen, pygame.Rect(50, 220, 570, 80), 'Drinks Screen', (50, 50, 255), self.pageDrinks1),
-            Button(self.screen, pygame.Rect(50, 320, 570, 80), 'Test Cyan', (0, 255, 255), lambda: self.dispenser.test('cyan')),
-            Button(self.screen, pygame.Rect(50, 420, 570, 80), 'Test Magenta', (255, 0, 255), lambda: self.dispenser.test('magenta')),
-            Button(self.screen, pygame.Rect(50, 520, 570, 80), 'Test Yellow', (255, 255, 0), lambda: self.dispenser.test('yellow')),
-            Button(self.screen, pygame.Rect(50, 620, 570, 80), 'Test Transparent', (128, 128, 128), lambda: self.dispenser.test('transparent')),
-        ]
-
-        self.isLoopRunning = False
-        self.dispenser.bubble('cyan', 21.7)
-        self.dispenser.bubble('magenta', 21.7)
-        self.dispenser.bubble('yellow', 21.7)
-        self.dispenser.bubble('transparent', 21.7)
-
+        ])
 
     # Handle pygame events
     def handle_pygame_events(self):
@@ -182,12 +154,15 @@ class MainLoop:
             # Handle clicks or taps
             if event.type == MOUSEBUTTONDOWN:
                 # Check if the touch event occurred within a button's area
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.admin_button_rect.collidepoint(event.pos):
-                        self.page_admin()
-                    for button in self.buttons:
-                        if button.rect.collidepoint(event.pos):
-                            button.on_click()
+                for button in self.buttons:
+                    if button.rect.collidepoint(event.pos):
+                        button.on_click()
+
+    def set_buttons(self, buttons):
+        self.reset_buttons()
+        self.buttons = buttons
+        admin_button = Button(self.screen, pygame.Rect(1260, 700, 20, 20), None, None, self.page_admin)
+        self.buttons.append(admin_button)
 
     def reset_buttons(self):
         self.buttons = []

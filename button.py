@@ -38,10 +38,13 @@ class Button:
 
     def draw(self):
 
+        # Don't draw buttons without label and background color
+        if not self.label and not self.background:
+            return
+
         # Draw the button surface on the screen
         self.screen.blit(self.button_surface, (self.rect.left, self.rect.top))
 
         # Draw the text with a drop shadow
         self.screen.blit(self.text_shadow, (self.text_rect.x+3, self.text_rect.y+3))  # Shadow
         self.screen.blit(self.button_text, self.text_rect)  # Text
-
