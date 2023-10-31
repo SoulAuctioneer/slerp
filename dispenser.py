@@ -41,8 +41,8 @@ class Dispenser:
         timer += self.prime('forward', timer)
 
         # Wait for a second, for vibes
-        timer += 10
-# TODO
+        timer += 1
+
         # Iterate up to max times, scheduling liquid to pump if more of its color is still needed
         for i in range(max(drink.cmyt)):
             for pump_name, amount in {'cyan': drink.cmyt[0], 'magenta': drink.cmyt[1], 'yellow': drink.cmyt[2], 'transparent': drink.cmyt[3]}.items():
@@ -67,7 +67,7 @@ class Dispenser:
             if direction == 'forward':
                 self.event_scheduler.schedule(start_timer, lambda: self.forward(pump_name))
             else:
-                self.backward(pump_name)
+                self.event_scheduler.schedule(start_timer, lambda: self.backward(pump_name))
             self.event_scheduler.schedule(start_timer + pump['prime_duration'], lambda: self.stop(pump_name))
 
         return max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_TRANSPARENT_PRIME_DURATION)
