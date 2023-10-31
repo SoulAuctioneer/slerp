@@ -38,9 +38,9 @@ PUMP_TRANSPARENT_IN = 22
 PUMP_TRANSPARENT_SPEED = 19
 
 # Time to prime liquids from reservoir to top of collector. Will be different if there's a variance in tube length
-PUMP_CYAN_PRIME_DURATION = 5
-PUMP_MAGENTA_PRIME_DURATION = 6
-PUMP_YELLOW_PRIME_DURATION = 6.5
+PUMP_CYAN_PRIME_DURATION = 4.9
+PUMP_MAGENTA_PRIME_DURATION = 5.75
+PUMP_YELLOW_PRIME_DURATION = 6.3
 PUMP_TRANSPARENT_PRIME_DURATION = 7
 
 # Time to pump for a single squirt
