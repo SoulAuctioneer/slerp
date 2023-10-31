@@ -59,7 +59,7 @@ class MainLoop:
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
         self.event_scheduler.schedule(20.5, self.show_drink_buttons) # Show drink buttons
-        self.event_scheduler.schedule(21.7, lambda: self.slerp_sprite.start_anim(self.slerp_sprite.animResting, 0)) # Done talking, switch to resting animation
+        self.event_scheduler.schedule(21.7, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0) # Done talking, switch to resting animation
         self.dispenser.bubble('cyan', 21.7)
         self.dispenser.bubble('magenta', 21.7)
         self.dispenser.bubble('yellow', 21.7)
@@ -78,8 +78,8 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[0]))
-        self.event_scheduler.schedule(18, lambda: self.slerp_sprite.start_anim(self.slerp_sprite.animResting, 0))
+        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[0])
+        self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
         self.event_scheduler.schedule(24, self.page_start)
 
     # PAGE: Slerp pours a jealousy juice
@@ -88,8 +88,8 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[1]))
-        self.event_scheduler.schedule(18, lambda: self.slerp_sprite.start_anim(self.slerp_sprite.animResting, 0))
+        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[1])
+        self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
         self.event_scheduler.schedule(24, self.page_start)
 
     # PAGE: Slerp pours a jealousy juice
@@ -98,8 +98,8 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[2]))
-        self.event_scheduler.schedule(18, lambda: self.slerp_sprite.start_anim(self.slerp_sprite.animResting, 0))
+        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[2])
+        self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
         self.event_scheduler.schedule(24, self.page_start)
 
     # PAGE: Slerp pours a jealousy juice
@@ -108,8 +108,8 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[3]))
-        self.event_scheduler.schedule(18, lambda: self.slerp_sprite.start_anim(self.slerp_sprite.animResting, 0))
+        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[3])
+        self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
         self.event_scheduler.schedule(24, self.page_start)
 
     # PAGE: Slerp pours a jealousy juice
@@ -118,8 +118,8 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[4]))
-        self.event_scheduler.schedule(18, lambda: self.slerp_sprite.start_anim(self.slerp_sprite.animResting, 0))
+        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[4])
+        self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
         self.event_scheduler.schedule(24, self.page_start)
 
     # PAGE: Slerp pours a jealousy juice
@@ -137,26 +137,13 @@ class MainLoop:
         self.set_buttons([
             Button(self.screen, pygame.Rect(50, 25, 570, 70), 'RESTART', (50, 255, 50), self.page_start),
             Button(self.screen, pygame.Rect(50, 110, 570, 70), 'DRINKS SCREEN', (50, 50, 255), self.show_drink_buttons),
-            Button(self.screen, pygame.Rect(50, 195, 570, 70), 'TEST CYAN', (0, 255, 255), lambda: self.dispenser.test('cyan')),
-            Button(self.screen, pygame.Rect(50, 280, 570, 70), 'TEST MAGENTA', (255, 0, 255), lambda: self.dispenser.test('magenta')),
-            Button(self.screen, pygame.Rect(50, 365, 570, 70), 'TEST YELLOW', (255, 255, 0), lambda: self.dispenser.test('yellow')),
-            Button(self.screen, pygame.Rect(50, 450, 570, 70), 'TEST TRANSPARENT', (150, 150, 165), lambda: self.dispenser.test('transparent')),
+            Button(self.screen, pygame.Rect(50, 195, 570, 70), 'TEST CYAN', (0, 255, 255), self.dispenser.test, 'cyan'),
+            Button(self.screen, pygame.Rect(50, 280, 570, 70), 'TEST MAGENTA', (255, 0, 255), self.dispenser.test, 'magenta'),
+            Button(self.screen, pygame.Rect(50, 365, 570, 70), 'TEST YELLOW', (255, 255, 0), self.dispenser.test, 'yellow'),
+            Button(self.screen, pygame.Rect(50, 450, 570, 70), 'TEST TRANSPARENT', (150, 150, 165), self.dispenser.test, 'transparent'),
             Button(self.screen, pygame.Rect(50, 535, 570, 70), 'TEST PRIMING', (180, 128, 128), self.dispenser.test_prime),
             Button(self.screen, pygame.Rect(50, 620, 570, 70), 'EXIT', (255, 50, 50), self.stop_loop)
         ])
-
-    # Handle pygame events
-    def handle_pygame_events(self):
-        for event in pygame.event.get():
-            # Exit on CTRL-Q or CMD-Q
-            if event.type == QUIT:
-                self.is_loop_running = False
-            # Handle clicks or taps
-            if event.type == MOUSEBUTTONDOWN:
-                # Check if the touch event occurred within a button's area
-                for button in self.buttons:
-                    if button.rect.collidepoint(event.pos):
-                        button.on_click()
 
     def set_buttons(self, buttons):
         self.reset_buttons()
@@ -168,6 +155,18 @@ class MainLoop:
         admin_button = Button(self.screen, pygame.Rect(1260, 700, 20, 20), None, None, self.page_admin)
         self.buttons = [admin_button]
         pygame_functions.setBackgroundImage(BG_IMAGE)  # A background image always sits behind the sprites
+
+    # Handle pygame events
+    def handle_pygame_events(self):
+        for event in pygame.event.get():
+            # Exit on CTRL-Q or CMD-Q
+            if event.type == QUIT:
+                self.is_loop_running = False
+            # Handle clicks or taps
+            if event.type == MOUSEBUTTONDOWN:
+                # Check if the touch event occurred within a button's area
+                for button in self.buttons:
+                    button.trigger_if_clicked(event.pos)
 
     def stop_loop(self):
         self.is_loop_running = False

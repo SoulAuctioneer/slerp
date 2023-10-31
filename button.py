@@ -5,13 +5,14 @@ FONT = None
 
 class Button:
 
-    def __init__(self, screen, rect, label, background, on_click):
+    def __init__(self, screen, rect, label, background, on_click, *args):
 
         self.screen = screen
         self.rect = rect
         self.label = label
         self.background = background
         self.on_click = on_click
+        self.args = args
 
         # Buttons without label and background color are invisible
         self.is_invisible = not self.label and not self.background
@@ -40,6 +41,9 @@ class Button:
         self.text_rect.centery = self.text_rect.centery+3
         self.text_shadow = FONT.render(self.label, True, DARK_GREY)
 
+    def trigger_if_clicked(self, pos):
+        if self.rect.collidepoint(pos):
+            self.on_click(*self.args)
 
     def draw(self):
 
