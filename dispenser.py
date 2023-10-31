@@ -75,8 +75,8 @@ class Dispenser:
     # Run the pump forward for 3 seconds then backwards
     def test(self, pump_name):
         pump = self.pumps[pump_name]
-        pump['motor'].backward()
-        self.event_scheduler.schedule(3, pump['motor'].forward)
+        pump['motor'].forward()
+        self.event_scheduler.schedule(3, pump['motor'].backward)
         self.event_scheduler.schedule(6, pump['motor'].stop)
 
     # Execute any events due
