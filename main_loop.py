@@ -153,6 +153,24 @@ class MainLoop:
         self.dispenser.bubble('transparent', 21.7)
 
 
+    def page_admin(self):
+        self.buttons = [
+            Button(self.screen, pygame.Rect(50, 20, 570, 80), 'Restart', (50, 255, 50), self.pageStart),
+            Button(self.screen, pygame.Rect(50, 120, 570, 80), 'Exit', (255, 50, 50), self.stop_loop),
+            Button(self.screen, pygame.Rect(50, 220, 570, 80), 'Drinks Screen', (50, 50, 255), self.pageDrinks1),
+            Button(self.screen, pygame.Rect(50, 320, 570, 80), 'Test Cyan', (0, 255, 255), lambda: self.dispenser.test('cyan')),
+            Button(self.screen, pygame.Rect(50, 420, 570, 80), 'Test Magenta', (255, 0, 255), lambda: self.dispenser.test('magenta')),
+            Button(self.screen, pygame.Rect(50, 520, 570, 80), 'Test Yellow', (255, 255, 0), lambda: self.dispenser.test('yellow')),
+            Button(self.screen, pygame.Rect(50, 620, 570, 80), 'Test Transparent', (128, 128, 128), lambda: self.dispenser.test('transparent')),
+        ]
+
+        self.isLoopRunning = False
+        self.dispenser.bubble('cyan', 21.7)
+        self.dispenser.bubble('magenta', 21.7)
+        self.dispenser.bubble('yellow', 21.7)
+        self.dispenser.bubble('transparent', 21.7)
+
+
     # Handle pygame events
     def handle_pygame_events(self):
         for event in pygame.event.get():
