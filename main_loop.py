@@ -58,7 +58,7 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechHello.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(20.5, self.page_drinks1) # Show drink buttons
+        self.event_scheduler.schedule(20.5, self.show_drink_buttons) # Show drink buttons
         self.event_scheduler.schedule(21.7, lambda: self.slerp_sprite.start_anim(self.slerp_sprite.animResting, 0)) # Done talking, switch to resting animation
         self.dispenser.bubble('cyan', 21.7)
         self.dispenser.bubble('magenta', 21.7)
