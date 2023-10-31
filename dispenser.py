@@ -32,8 +32,6 @@ class Dispenser:
     # TODO: Add a callback when done dispensing, or simply a return value that's the number of seconds it'll take to pour
     def dispense(self, drink):
 
-        print('Dispensing drink')
-
         # Prime all liquids to the top of the collector then wait for a second, for vibes
         timer += self.prime('forward', timer) + 1
 
@@ -41,9 +39,9 @@ class Dispenser:
         for i in range(max(drink.cmyt)):
             for pump_name, amount in {'cyan': drink.cmyt[0], 'magenta': drink.cmyt[1], 'yellow': drink.cmyt[2], 'transparent': drink.cmyt[3]}.items():
                 if amount > i:
-                    self.event_scheduler.schedule(timer, lambda: self.forward(pump_name))
+                    self.schedule_forward(timer, pump_name)
                     timer += DISPENSER_SQUIRT_DURATION
-                    self.event_scheduler.schedule(timer, lambda: self.stop(pump_name))
+                    self.schedule_stop(timer, pump_name)
                     timer += DISPENSER_SQUIRT_REST_DURATION
 
         # Suck all the liquids back into the reservoir after a pause for chill vibes
@@ -57,45 +55,50 @@ class Dispenser:
 
         for pump_name, pump in self.pumps.items():
             if direction == 'forward':
-                print(pump_name)
-                print(direction)
-                print(start_timer)
-                self.event_scheduler.schedule(start_timer, lambda: self.forward(pump_name))
+                self.schedule_forward(start_timer, pump_name)
             else:
-                self.event_scheduler.schedule(start_timer, lambda: self.backward(pump_name))
-                print(pump_name)
-                print(direction)
-                print(start_timer)
-            self.event_scheduler.schedule(start_timer + pump['prime_duration'], lambda: self.stop(pump_name))
-            print(start_timer + pump['prime_duration'])
+                self.schedule_backward(start_timer, pump_name)
+            self.schedule_stop(start_timer + pump['prime_duration'], pump_name)
 
         return max(PUMP_CYAN_PRIME_DURATION, PUMP_MAGENTA_PRIME_DURATION, PUMP_YELLOW_PRIME_DURATION, PUMP_TRANSPARENT_PRIME_DURATION)
 
     def forward(self, pump_name):
          self.pumps[pump_name]['motor'].forward()
     
+    def schedule_forward(self, start_timer, pump_name):
+        self.event_scheduler.schedule(start_timer, self.forward, pump_name)
+
     def backward(self, pump_name):
         self.pumps[pump_name]['motor'].backward()
+
+    def schedule_backward(self, start_timer, pump_name):
+        self.event_scheduler.schedule(start_timer, self.backward, pump_name)
 
     def stop(self, pump_name):
         self.pumps[pump_name]['motor'].stop()
 
+    def schedule_stop(self, start_timer, pump_name):
+        self.event_scheduler.schedule(start_timer, self.stop, pump_name)
+
     def set_speed(self, pump_name, speed):
         self.pumps[pump_name]['speed'].value = speed
+
+    def schedule_set_speed(self, start_timer, pump_name, speed):
+        self.event_scheduler.schedule(start_timer, self.set_speed, pump_name, speed)
 
     # Run the pump in reverse for the given duration to bubble the reservoir
     def bubble(self, pump_name, duration):
         self.set_speed(pump_name, 0.6)
         self.backward(pump_name)
-        self.event_scheduler.schedule(duration, lambda: self.stop(pump_name))
-        self.event_scheduler.schedule(duration, lambda: self.set_speed(pump_name, 1.0))
+        self.event_scheduler.schedule(duration, self.stop, pump_name)
+        self.event_scheduler.schedule(duration, self.set_speed, pump_name)
 
     # Run the pump forward for 3 seconds then backwards
     def test(self, pump_name):
         self.set_speed(pump_name, 1.0)
         self.forward(pump_name)
-        self.event_scheduler.schedule(3, lambda: self.backward(pump_name))
-        self.event_scheduler.schedule(6, lambda: self.stop(pump_name))
+        self.event_scheduler.schedule(3, self.backward, pump_name)
+        self.event_scheduler.schedule(6, self.stop, pump_name)
 
     # Prime, wait 2 seconds, then unprime
     def test_prime(self):
