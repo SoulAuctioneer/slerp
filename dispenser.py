@@ -44,7 +44,7 @@ class Dispenser:
         timer += 10
 # TODO
         # Iterate up to max times, scheduling liquid to pump if more of its color is still needed
-        for i in max(drink.cmyt):
+        for i in range(max(drink.cmyt)):
             for pump_name, amount in {'cyan': drink.cmyt[0], 'magenta': drink.cmyt[1], 'yellow': drink.cmyt[2], 'transparent': drink.cmyt[3]}.items():
                 if amount > i:
                     self.event_scheduler.schedule(timer, lambda: self.forward(pump_name))
