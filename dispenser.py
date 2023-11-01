@@ -62,7 +62,7 @@ class Dispenser:
                 self.schedule_forward(pump_start_timer, pump_name)
             else:
                 self.schedule_backward(pump_start_timer, pump_name)
-            self.schedule_stop(max_prime_duration, pump_name)
+            self.schedule_stop(start_timer + max_prime_duration, pump_name)
 
         return max_prime_duration
 
