@@ -29,8 +29,7 @@ class Dispenser:
 
     # Dispense a drink with the given amounts of Cyan / Magenta / Yellow / Transparent, from 0 to max
     # TODO: Create a drink class with the squirt amounts, name, and button color
-    # TODO: Add a callback when done dispensing, or simply a return value that's the number of seconds it'll take to pour
-    def dispense(self, drink):
+    def dispense(self, drink, on_complete=None, *args, **kwargs):
 
         # Prime all liquids to the top of the collector then wait for a second, for vibes
         timer = self.prime('forward') + 1
@@ -47,6 +46,9 @@ class Dispenser:
         # Suck all the liquids back into the reservoir after a pause for chill vibes
         timer += DISPENSER_SUCK_WAIT_DURATION
         timer += self.prime('backward', timer)
+
+        if on_complete:
+            self.event_scheduler.schedule(timer, on_complete, *args, **kwargs)
 
         return timer
 

@@ -78,9 +78,8 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[0])
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[0], self.page_start))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
-        self.event_scheduler.schedule(24, self.page_start)
 
     # PAGE: Slerp pours a jealousy juice
     def page_pour_drink2(self):
@@ -88,9 +87,8 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[1])
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[1], self.page_start))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
-        self.event_scheduler.schedule(24, self.page_start)
 
     # PAGE: Slerp pours a jealousy juice
     def page_pour_drink3(self):
@@ -98,9 +96,8 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[2])
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[2], self.page_start))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
-        self.event_scheduler.schedule(24, self.page_start)
 
     # PAGE: Slerp pours a jealousy juice
     def page_pour_drink4(self):
@@ -108,9 +105,8 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[3])
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[3], self.page_start))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
-        self.event_scheduler.schedule(24, self.page_start)
 
     # PAGE: Slerp pours a jealousy juice
     def page_pour_drink5(self):
@@ -118,9 +114,8 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[4])
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[4], self.page_start))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
-        self.event_scheduler.schedule(24, self.page_start)
 
     # PAGE: Slerp pours a jealousy juice
     def page_pour_drink6(self):
@@ -128,9 +123,8 @@ class MainLoop:
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[5])
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[5], self.page_start))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
-        self.event_scheduler.schedule(24, self.page_start)
 
     def page_admin(self):
         pygame_functions.stopMusic()
