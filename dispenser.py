@@ -31,8 +31,8 @@ class Dispenser:
     # TODO: Create a drink class with the squirt amounts, name, and button color
     def dispense(self, drink, on_complete=None, *args, **kwargs):
 
-        # Prime all liquids to the top of the collector then wait for a second, for vibes
-        timer = self.prime('forward') + 1
+        # Prime all liquids to the top of the collector then wait for a moment, for vibes
+        timer = self.prime('forward') + 0.1
 
         # Iterate up to max times, scheduling liquid to pump if more of its color is still needed
         for i in range(max(drink.cmyt)):
