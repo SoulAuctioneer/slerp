@@ -15,5 +15,6 @@ class EventScheduler:
         current_time = time.get_ticks()
         for event in self.scheduled_events[:]:
             if current_time >= event['trigger_time']:
+                print(f"EXECUTING EVENT. Current time: {current_time}, Function: {event['function'].__name__}, Args: {event['args']}, Kwargs: {event['kwargs']}")
                 event['function'](*event['args'], **event['kwargs'])
                 self.scheduled_events.remove(event)

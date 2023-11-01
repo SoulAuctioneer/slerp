@@ -54,6 +54,7 @@ class Dispenser:
     def prime(self, direction, start_timer=0):
 
         for pump_name, pump in self.pumps.items():
+            self.schedule_set_speed(start_timer, pump_name, 1.0)
             if direction == 'forward':
                 self.schedule_forward(start_timer, pump_name)
             else:
