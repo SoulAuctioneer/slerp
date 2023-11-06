@@ -38,8 +38,8 @@ PUMP_CYAN_IN = 27 # Orange BAD
 PUMP_CYAN_SPEED = 13 # Brown ? 
 
 # Bottom Left - Looking from rear
-PUMP_MAGENTA_OUT = 24 # Yellow 
-PUMP_MAGENTA_IN = 25 # Orange
+PUMP_MAGENTA_OUT = 25 # Yellow 
+PUMP_MAGENTA_IN = 24 # Orange
 PUMP_MAGENTA_SPEED = 12 # Brown
 
 # Top Left - Looking from rear
