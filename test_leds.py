@@ -8,7 +8,7 @@ import neopixel
 
 # On CircuitPlayground Express, and boards with built in status NeoPixel -> board.NEOPIXEL
 # Otherwise choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D1
-pixel_pin = board.D18
+pixel_pin = board.D26
 
 # On a Raspberry pi, use this instead, not all pins are supported
 # pixel_pin = board.D18
