@@ -28,7 +28,7 @@ class MainLoop:
 
         # Buttons currently onscreen
         self.buttons = []
-        self.admin_button = Button(self.screen, pygame.Rect(SCREEN_WIDTH - BUTTON_DEBUG_SIZE, SCREEN_HEIGHT - BUTTON_DEBUG_SIZE, BUTTON_DEBUG_SIZE, BUTTON_DEBUG_SIZE), 'DBG', (50, 255, 50), self.page_admin)
+        self.admin_button = Button(self.screen, pygame.Rect(SCREEN_WIDTH - BUTTON_DEBUG_SIZE, SCREEN_HEIGHT - BUTTON_DEBUG_SIZE, BUTTON_DEBUG_SIZE, BUTTON_DEBUG_SIZE), None, None, self.page_admin)
 
         # Initialize Slerp animation
         self.slerp_sprite = SlerpSprite()
