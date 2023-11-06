@@ -105,7 +105,7 @@ class Dispenser:
         self.forward(pump_name)
         prime_duration = self.pumps[pump_name]['prime_duration']
         self.event_scheduler.schedule(prime_duration, self.backward, pump_name)
-        self.event_scheduler.schedule(prime_duration, self.stop, pump_name)
+        self.event_scheduler.schedule(prime_duration * 2, self.stop, pump_name)
 
     # Prime, wait 2 seconds, then unprime
     def test_prime(self):

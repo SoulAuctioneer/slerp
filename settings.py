@@ -48,7 +48,7 @@ PUMP_YELLOW_IN = 11 # Green
 PUMP_YELLOW_SPEED = 19 # Purple
 
 # Time to prime liquids from reservoir to top of collector. Will be different if there's a variance in tube length
-PUMP_CYAN_PRIME_DURATION = 4.7
+PUMP_CYAN_PRIME_DURATION = 4.0
 PUMP_MAGENTA_PRIME_DURATION = 5.2
 PUMP_YELLOW_PRIME_DURATION = 5.9
 PUMP_TRANSPARENT_PRIME_DURATION = 6.2
