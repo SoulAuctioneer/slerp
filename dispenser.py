@@ -53,13 +53,13 @@ class Dispenser:
         return timer
 
     # Prime all liquids either to the top of the collector or back from the collector into the reservoirs
-    def prime(self, direction, start_timer=0):
+    def prime(self, direction, start_timer=0, speed=1.0):
 
         # Start staggered, finish together
         max_prime_duration = max(pump['prime_duration'] for pump in self.pumps.values())
         for pump_name, pump in self.pumps.items():
             pump_start_timer = start_timer + max_prime_duration - pump['prime_duration']
-            self.schedule_set_speed(pump_start_timer, pump_name, 1.0)
+            self.schedule_set_speed(pump_start_timer, pump_name, speed)
             if direction == 'forward':
                 self.schedule_forward(pump_start_timer, pump_name)
             else:
@@ -109,7 +109,9 @@ class Dispenser:
     # Prime, wait 2 seconds, then unprime
     def test_prime(self):
         done_time = self.prime('forward')
-        self.prime('backward', done_time + 2)
+        done_time += self.prime('backward', done_time + 2)
+        done_time = self.prime('forward', done_time + 2, speed=0.4)
+        done_time += self.prime('backward', done_time + 2, speed=0.4)
 
     # Execute any events due
     def update(self):
