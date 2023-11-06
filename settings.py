@@ -28,14 +28,14 @@ BUTTON_FONT_FACE = 'assets/PeaberryMono.ttf'
 
 # Pump GPIO pins
 # Bottom Right - Looking from rear
-PUMP_TRANSPARENT_OUT = 14 # Blue OK
-PUMP_TRANSPARENT_IN = 15 # Green OK
-PUMP_TRANSPARENT_SPEED = 18 # Purple ?
+PUMP_TRANSPARENT_OUT = 14 # Blue
+PUMP_TRANSPARENT_IN = 15 # Green
+PUMP_TRANSPARENT_SPEED = 18 # Purple
 
 # Top Right - Looking from rear
-PUMP_CYAN_OUT = 17 # Yellow OK
-PUMP_CYAN_IN = 27 # Orange BAD
-PUMP_CYAN_SPEED = 13 # Brown ? 
+PUMP_CYAN_OUT = 27 # Yellow
+PUMP_CYAN_IN = 17 # Orange
+PUMP_CYAN_SPEED = 13 # Brown
 
 # Bottom Left - Looking from rear
 PUMP_MAGENTA_OUT = 25 # Yellow 
