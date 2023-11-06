@@ -45,7 +45,7 @@ PUMP_MAGENTA_SPEED = 12 # Brown
 # Top Left - Looking from rear
 PUMP_YELLOW_OUT = 11 # Green
 PUMP_YELLOW_IN = 9 # Blue
-PUMP_YELLOW_SPEED = 19 # Brown
+PUMP_YELLOW_SPEED = 19 # Purple
 
 # Time to prime liquids from reservoir to top of collector. Will be different if there's a variance in tube length
 PUMP_CYAN_PRIME_DURATION = 4.7
