@@ -33,8 +33,8 @@ PUMP_MAGENTA_SPEED = 19
 PUMP_YELLOW_OUT = 23
 PUMP_YELLOW_IN = 24
 PUMP_YELLOW_SPEED = 18
-PUMP_TRANSPARENT_OUT = 27
-PUMP_TRANSPARENT_IN = 22
+PUMP_TRANSPARENT_OUT = 14
+PUMP_TRANSPARENT_IN = 15
 PUMP_TRANSPARENT_SPEED = 13
 
 # Time to prime liquids from reservoir to top of collector. Will be different if there's a variance in tube length
