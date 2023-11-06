@@ -36,8 +36,8 @@ PUMP_CYAN_OUT = 17 # Yellow
 PUMP_CYAN_IN = 27 # Orange
 PUMP_CYAN_SPEED = 13 # Brown
 # Bottom Left - Looking from rear
-PUMP_MAGENTA_OUT = 20 # Blue
-PUMP_MAGENTA_IN = 21 # Green
+PUMP_MAGENTA_OUT = 23 # Blue
+PUMP_MAGENTA_IN = 24 # Green
 PUMP_MAGENTA_SPEED = 12 # Purple
 
 PUMP_YELLOW_OUT = 23
