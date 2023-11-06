@@ -19,6 +19,9 @@ NEON_BLUE = (50, 50, 255)
 DARK_BLUE = (25, 25, 128)
 DARK_GREY = (32, 32, 32)
 
+# Hidden debug button size
+BUTTON_DEBUG_SIZE = 50
+
 # Font properties
 BUTTON_FONT_SIZE = 48
 BUTTON_FONT_FACE = 'assets/PeaberryMono.ttf'
