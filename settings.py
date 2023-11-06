@@ -31,17 +31,20 @@ BUTTON_FONT_FACE = 'assets/PeaberryMono.ttf'
 PUMP_TRANSPARENT_OUT = 14 # Blue OK
 PUMP_TRANSPARENT_IN = 15 # Green OK
 PUMP_TRANSPARENT_SPEED = 18 # Purple ?
+
 # Top Right - Looking from rear
 PUMP_CYAN_OUT = 17 # Yellow OK
 PUMP_CYAN_IN = 27 # Orange BAD
 PUMP_CYAN_SPEED = 13 # Brown ? 
+
 # Bottom Left - Looking from rear
-PUMP_MAGENTA_OUT = 9 # Blue 
-PUMP_MAGENTA_IN = 11 # Green
-PUMP_MAGENTA_SPEED = 12 # Purple
+PUMP_MAGENTA_OUT = 24 # Yellow 
+PUMP_MAGENTA_IN = 25 # Orange
+PUMP_MAGENTA_SPEED = 12 # Brown
+
 # Top Left - Looking from rear
-PUMP_YELLOW_OUT = 24 # Yellow
-PUMP_YELLOW_IN = 25 # Orange
+PUMP_YELLOW_OUT = 11 # Yellow
+PUMP_YELLOW_IN = 9 # Orange
 PUMP_YELLOW_SPEED = 19 # Brown
 
 # Time to prime liquids from reservoir to top of collector. Will be different if there's a variance in tube length
