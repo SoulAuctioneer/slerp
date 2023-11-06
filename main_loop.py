@@ -13,9 +13,6 @@ class MainLoop:
 
     def __init__(self):
 
-        # Buttons currently onscreen
-        self.buttons = []
-
         # Used to run one-off events in the future
         self.event_scheduler = EventScheduler()
 
@@ -28,6 +25,10 @@ class MainLoop:
         pygame_functions.setAutoUpdate(False)
         self.screen = pygame_functions.screen
         pygame.display.set_caption(WINDOW_CAPTION)
+
+        # Buttons currently onscreen
+        self.buttons = []
+        self.admin_button = Button(self.screen, pygame.Rect(1260, 700, 20, 20), None, None, self.page_admin)
 
         # Initialize Slerp animation
         self.slerp_sprite = SlerpSprite()
@@ -142,12 +143,10 @@ class MainLoop:
     def set_buttons(self, buttons):
         self.reset_buttons()
         self.buttons = buttons
-        admin_button = Button(self.screen, pygame.Rect(1260, 700, 20, 20), None, None, self.page_admin)
-        self.buttons.append(admin_button)
+        self.buttons.append(self.admin_button)
 
     def reset_buttons(self):
-        admin_button = Button(self.screen, pygame.Rect(1260, 700, 20, 20), None, None, self.page_admin)
-        self.buttons = [admin_button]
+        self.buttons = [self.admin_button]
         pygame_functions.setBackgroundImage(BG_IMAGE)  # A background image always sits behind the sprites
 
     # Handle pygame events
