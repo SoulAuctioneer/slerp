@@ -50,11 +50,11 @@ class _leds:
             except:
                 pass
             # JUST FILL ALL THE LEDS
-            #self.pixels.fill((r, g, b))
+            self.pixels.fill((r, g, b))
             #PLAY
             #EQUIVALENT
-            for i in range(self.num_pixels):
-                self.pixels[i] = (r,g,b)
+            # for i in range(self.num_pixels):
+            #     self.pixels[i] = (r,g,b)
             #RANDOM
             #We just use the last rgb val
             # if r == 0 and g == 0 and b == 0:
@@ -73,7 +73,7 @@ class _leds:
             #         if (bmin <= b):
             #             bmin = bmin + 1
             self.pixels.show()
-            time.sleep(0.01)
+            time.sleep(0.1)
             
 
             
