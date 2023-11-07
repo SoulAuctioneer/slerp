@@ -1,6 +1,8 @@
 
 import logging
 from main_loop import MainLoop
+from leds import Leds
+import multiprocessing
 
 if __name__ == "__main__":
 
@@ -10,6 +12,13 @@ if __name__ == "__main__":
 
     # Initialize the looper
     main_loop = MainLoop()
+
+    ledz = Leds()
+    p = multiprocessing.Process(target=ledz.run, name="LEDS", args=())
+    p.start()
+    # p.join(3)
+    # ledz.stop()
+    # p.terminate()
 
     # Fire up the first page of the narrative
     main_loop.page_start()

@@ -31,6 +31,7 @@ class Leds:
         print('Initializing LEDs')
 
         self.event_scheduler = event_scheduler.EventScheduler()
+        
 
     def stop(self):
         for j in range(self.num_pixels):
@@ -93,22 +94,22 @@ class Leds:
 
             rainbow_cycle(0.001)  # rainbow cycle with 1ms delay per step
 
-async def test():
-    loop = asyncio.get_running_loop()
-    l = Leds()
-    # Run in a custom process pool:
-    with concurrent.futures.ProcessPoolExecutor() as pool:
-        result = await loop.run_in_executor(
-            pool, l.run)
+# async def test():
+#     loop = asyncio.get_running_loop()
+#     l = Leds()
+#     # Run in a custom process pool:
+#     with concurrent.futures.ProcessPoolExecutor() as pool:
+#         result = await loop.run_in_executor(
+#             pool, l.run)
 
-ledz = Leds()
-def test2():
-    p = multiprocessing.Process(target=ledz.run, name="LEDS", args=())
-    p.start()
-    return p
+# ledz = Leds()
+# def test2():
+#     p = multiprocessing.Process(target=ledz.run, name="LEDS", args=())
+#     p.start()
+#     return p
 
-#asyncio.run(test())
-p = test2()
-p.join(3)
-ledz.stop()
-p.terminate()
+# #asyncio.run(test())
+# p = test2()
+# p.join(3)
+# ledz.stop()
+# p.terminate()
