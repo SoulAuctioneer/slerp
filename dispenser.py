@@ -110,9 +110,8 @@ class Dispenser:
     # Prime, wait 2 seconds, then unprime
     def test_prime(self):
         done_time = self.prime('forward')
-        done_time += self.prime('backward', done_time + 2)
-        done_time += self.prime('forward', done_time + 2, speed=0.4)
-        done_time += self.prime('backward', done_time + 2, speed=0.4)
+        done_time += self.prime('backward', done_time + 1)
+        done_time += self.prime('backward', done_time + 1, speed=0.4)
 
     # Execute any events due
     def update(self):
