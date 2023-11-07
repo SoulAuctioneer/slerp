@@ -43,11 +43,22 @@ class _leds:
                 # JUST FILL ALL THE LEDS
                 # self.pixels.fill((r, g, b))
                 #PLAY WITH COLORS INSTEAD
-                for i in range(self.num_pixels):
-                    pixel_index = (i * 256 // self.num_pixels)
-                    self.pixels[pixel_index] = (r,g,b)
-                self.pixels.show()
-                time.sleep(0.001)
+                rmin = 0
+                gmin = 0
+                bmin = 0
+                while rmin + gmin + bmin < r + g + b:
+                    for i in range(self.num_pixels):
+                        pixel_index = ((i * 256) // self.num_pixels)
+                        self.pixels[pixel_index] = (rmin,gmin,bmin)
+                        self.pixels.show()
+                        time.sleep(0.001)
+                    if (rmin <= r):
+                        rmin = rmin + 1
+                    if (gmin <= g):
+                        gmin = gmin + 1
+                    if (bmin <= b):
+                        bmin = bmin + 1                                                
+                
             except:
                 time.sleep(0.2)
             
