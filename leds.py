@@ -38,13 +38,17 @@ class _leds:
     def run(self):
         global queue
         while True:
-            r, g, b = queue.get(True, None)                        
-            # Comment this line out if you have RGBW/GRBW NeoPixels
-            self.pixels.fill((r, g, b))
-            # Uncomment this line if you have RGBW/GRBW NeoPixels
-            # pixels.fill((255, 0, 0, 0))
-            self.pixels.show()
-            time.sleep(0.1)
+            try:
+                r, g, b = queue.get_nowait()                      
+                # self.pixels.fill((r, g, b))
+                for i in range(self.num_pixels):
+                    pixel_index = (i * 256 // self.num_pixels)
+                    self.pixels[pixel_index] = (r,g,b)
+                self.pixels.show()
+                time.sleep(0.001)
+            except:
+                time.sleep(0.2)
+            
 
             
 
