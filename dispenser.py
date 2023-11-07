@@ -93,11 +93,14 @@ class Dispenser:
         self.event_scheduler.schedule(start_timer, self.set_speed, pump_name, speed)
 
     # Slowly run the pump in reverse for the given duration to bubble the reservoir
-    def bubble(self, pump_name, duration):
-        self.set_speed(pump_name, 0.6)
+    def bubble(self, pump_name, duration=3):
+        self.set_speed(pump_name, 0.4)
         self.backward(pump_name)
         self.event_scheduler.schedule(duration, self.stop, pump_name)
         self.event_scheduler.schedule(duration, self.set_speed, pump_name, 1.0)
+
+    def schedule_bubble(self, start_timer, pump_name, duration):
+        self.event_scheduler.schedule(start_timer, pump_name, duration)
 
     # Run the pump forward for 3 seconds then backwards
     def test(self, pump_name):

@@ -61,10 +61,10 @@ class MainLoop:
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
         self.event_scheduler.schedule(20.5, self.show_drink_buttons) # Show drink buttons
         self.event_scheduler.schedule(21.7, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0) # Done talking, switch to resting animation
-        self.dispenser.bubble('cyan', 21.7)
-        self.dispenser.bubble('magenta', 21.7)
-        self.dispenser.bubble('yellow', 21.7)
-        self.dispenser.bubble('transparent', 21.7)
+        self.dispenser.schedule_bubble(1, 'cyan', 4)
+        self.dispenser.schedule_bubble(5, 'magenta', 5)
+        self.dispenser.schedule_bubble(10, 'yellow', 5)
+        self.dispenser.schedule_bubble(12, 'transparent', 5)
 
     # PAGE: Show drink selection buttons 
     def show_drink_buttons(self):
