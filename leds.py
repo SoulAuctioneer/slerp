@@ -37,32 +37,40 @@ class _leds:
 
     def run(self):
         global queue
+        #r,g,b acts as the last instruction
+        r = 0
+        g = 0
+        b = 0
+        #current values can move around r,g,b
         while True:
             try:
                 r, g, b = queue.get_nowait()                      
-                # JUST FILL ALL THE LEDS
-                self.pixels.fill((r, g, b))
-                self.pixels.show()
-                time.sleep(0.001)
-                #PLAY WITH COLORS INSTEAD
-                # rmin = 0
-                # gmin = 0
-                # bmin = 0
-                # while rmin + gmin + bmin < r + g + b:
-                #     for i in range(self.num_pixels):
-                #         pixel_index = ((i * 256) // self.num_pixels)
-                #         self.pixels[pixel_index] = (rmin,gmin,bmin)
-                #         self.pixels.show()
-                #         time.sleep(0.001)
-                #     if (rmin <= r):
-                #         rmin = rmin + 1
-                #     if (gmin <= g):
-                #         gmin = gmin + 1
-                #     if (bmin <= b):
-                #         bmin = bmin + 1                                                
+                                                                
                 
             except:
-                time.sleep(0.2)
+                pass
+            # JUST FILL ALL THE LEDS
+            #self.pixels.fill((r, g, b))
+
+            #PLAY
+            #We just use the last rgb val
+            if r == 0 and g == 0 and b == 0:
+                self.pixels.fill((0, 0, 0))
+                pass
+            else:
+                while rmin + gmin + bmin < r + g + b:
+                    for i in range(self.num_pixels):
+                        pixel_index = ((i * 256) // self.num_pixels)
+                        self.pixels[pixel_index] = (rmin,gmin,bmin)
+                        self.pixels.show()
+                    if (rmin <= r):
+                        rmin = rmin + 1
+                    if (gmin <= g):
+                        gmin = gmin + 1
+                    if (bmin <= b):
+                        bmin = bmin + 1
+            self.pixels.show()
+            time.sleep(0.001)
             
 
             
