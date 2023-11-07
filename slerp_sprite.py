@@ -16,12 +16,6 @@ class SlerpSprite:
             'delay': 3000
         }
 
-        self.slerp = pgf.makeSprite("assets/sprites/0.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/1.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/2.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/3.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/4.png")
-
         self.xPos, self.yPos = 700, 30
         self.activeFrameIndex = 0 # Use to iterate over the sprite list
         self.numLoops = 1 # Number of times to loop the animation. Zero loops forever
@@ -31,6 +25,12 @@ class SlerpSprite:
         self.slerp = None # The sprite with images
         self.frameList = [] # List of frames to play in one loop
         self.isAnimating = False # Whether we're currently playing an animation
+
+        self.slerp = pgf.makeSprite("assets/sprites/0.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/1.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/2.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/3.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/4.png")
 
     def start_anim(self, anim, loops=0):
         self.numLoops = loops
