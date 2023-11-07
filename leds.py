@@ -40,7 +40,9 @@ class _leds:
         while True:
             try:
                 r, g, b = queue.get_nowait()                      
+                # JUST FILL ALL THE LEDS
                 # self.pixels.fill((r, g, b))
+                #PLAY WITH COLORS INSTEAD
                 for i in range(self.num_pixels):
                     pixel_index = (i * 256 // self.num_pixels)
                     self.pixels[pixel_index] = (r,g,b)
