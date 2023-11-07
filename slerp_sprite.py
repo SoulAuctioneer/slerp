@@ -3,12 +3,6 @@ import pygame_functions as pgf
 class SlerpSprite:
     def __init__(self):
 
-        self.slerp = pgf.makeSprite("assets/sprites/0.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/1.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/2.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/3.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/4.png")
-
         self.animTalking = { 
             'frames': [2, 1, 2, 1, 2, 1, 2, 1, 3, 1],
             'delay': 300
@@ -21,6 +15,12 @@ class SlerpSprite:
             'frames': [1, 0],
             'delay': 3000
         }
+
+        self.slerp = pgf.makeSprite("assets/sprites/0.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/1.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/2.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/3.png")
+        pgf.addSpriteImage(self.slerp, "assets/sprites/4.png")
 
         self.xPos, self.yPos = 700, 30
         self.activeFrameIndex = 0 # Use to iterate over the sprite list
