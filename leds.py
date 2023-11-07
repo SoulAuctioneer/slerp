@@ -12,7 +12,7 @@ class Leds:
 
         # On CircuitPlayground Express, and boards with built in status NeoPixel -> board.NEOPIXEL
         # Otherwise choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D1
-        pixel_pin = board.D21
+        pixel_pin = board.D18
 
         # On a Raspberry pi, use this instead, not all pins are supported
         # pixel_pin = board.D18
