@@ -35,12 +35,12 @@ class MainLoop:
 
         # Initialize drinkies TODO: Can I get these into settings?
         self.drinks = [
-            Drink("INSECURITY ICICLE", (0, 200, 255), (20, 20, 20, 20), self.page_pour_drink1), # cyan
-            Drink("JEALOUSY JUICE", (255, 0, 255), (0, 10, 0, 0), self.page_pour_drink2), # magenta
-            Drink("JUDGMENTAL JOLT", (255, 200, 0), (0, 0, 10, 0), self.page_pour_drink3), # yellow
-            Drink("WRATHFUL WATER", (255, 64, 64), (0, 10, 9, 0), self.page_pour_drink4), # red
-            Drink("GREEDY GULP", (0, 255, 64), (8, 0, 10, 0), self.page_pour_drink5), # green
-            Drink("MELANCHOLY MASH", (64, 64, 255), (10, 10, 0, 0), self.page_pour_drink6) # blue
+            Drink("INVISIBILITY", (0, 200, 255), (10, 10, 10, 10), self.page_pour_drink1), # cyan
+            Drink("TELEPORTATION", (255, 0, 255), (2, 10, 2, 2), self.page_pour_drink2), # magenta
+            Drink("TELEKINESIS", (255, 200, 0), (2, 2, 10, 2), self.page_pour_drink3), # yellow
+            Drink("CLAIRVOYANCE", (255, 64, 64), (2, 10, 9, 2), self.page_pour_drink4), # red
+            Drink("OMNILINGUALISM", (0, 255, 64), (8, 2, 10, 2), self.page_pour_drink5), # green
+            Drink("FLIGHT", (64, 64, 255), (10, 10, 2, 2), self.page_pour_drink6) # blue
         ]
         
     # PAGE: Initial page, sleeping and start button
