@@ -53,9 +53,10 @@ class Leds:
     q : Queue = None
     leds: _leds = None
 
-    def __init__(self, q: Queue):
+    def __init__(self):
+        global queue
         if Leds.q is None:
-            Leds.q = Queue()
+            Leds.q = queue
             Leds.leds = _leds()
             p = multiprocessing.Process(target=Leds.leds.run, name="LEDS", args=())
             p.start()        
