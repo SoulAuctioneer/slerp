@@ -50,27 +50,26 @@ class _leds:
             except:
                 pass
             # JUST FILL ALL THE LEDS
-            #self.pixels.fill((r, g, b))
-
+            self.pixels.fill((r, g, b))
             #PLAY
             #We just use the last rgb val
-            if r == 0 and g == 0 and b == 0:
-                self.pixels.fill((0, 0, 0))
-                pass
-            else:
-                while rmin + gmin + bmin < r + g + b:
-                    for i in range(self.num_pixels):
-                        pixel_index = ((i * 256) // self.num_pixels) + rmin + gmin + bmin
-                        self.pixels[pixel_index] = (rmin,gmin,bmin)
-                        self.pixels.show()
-                    if (rmin <= r):
-                        rmin = rmin + 1
-                    if (gmin <= g):
-                        gmin = gmin + 1
-                    if (bmin <= b):
-                        bmin = bmin + 1
+            # if r == 0 and g == 0 and b == 0:
+            #     self.pixels.fill((0, 0, 0))
+            #     pass
+            # else:
+            #     while rmin + gmin + bmin < r + g + b:
+            #         for i in range(self.num_pixels):
+            #             pixel_index = ((i * 256) // self.num_pixels) + rmin + gmin + bmin
+            #             self.pixels[pixel_index] = (rmin,gmin,bmin)
+            #             self.pixels.show()
+            #         if (rmin <= r):
+            #             rmin = rmin + 1
+            #         if (gmin <= g):
+            #             gmin = gmin + 1
+            #         if (bmin <= b):
+            #             bmin = bmin + 1
             self.pixels.show()
-            time.sleep(0.001)
+            time.sleep(0.01)
             
 
             
