@@ -8,10 +8,12 @@ from dispenser import Dispenser
 from event_scheduler import EventScheduler
 from slerp_sprite import SlerpSprite
 from settings import *
+from leds import Leds
 
 class MainLoop:
 
     def __init__(self):
+        self.leds = Leds()
 
         # Used to run one-off events in the future
         self.event_scheduler = EventScheduler()

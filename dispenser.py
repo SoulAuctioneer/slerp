@@ -3,6 +3,7 @@ from gpiozero.pins.mock import MockFactory, MockPWMPin
 import event_scheduler
 import platform
 from settings import *
+from leds import Leds
 
 class Dispenser:
 
@@ -39,8 +40,10 @@ class Dispenser:
             for pump_name, amount in {'cyan': drink.cmyt[0], 'magenta': drink.cmyt[1], 'yellow': drink.cmyt[2], 'transparent': drink.cmyt[3]}.items():
                 if amount > i:
                     self.schedule_forward(timer, pump_name)
+                    self.event_scheduler.schedule(timer, self.set_led, drink.rgb)
                     timer += DISPENSER_SQUIRT_DURATION
                     self.schedule_stop(timer, pump_name)
+                    self.event_scheduler.schedule(timer, self.reset_led) # default colors/pattern
                     timer += DISPENSER_SQUIRT_REST_DURATION
 
         # Suck all the liquids back into the reservoir after a pause for chill vibes
@@ -67,6 +70,14 @@ class Dispenser:
             self.schedule_stop(start_timer + max_prime_duration, pump_name)
 
         return max_prime_duration
+
+    def set_led(self, rgb):
+        Leds.q.put_nowait(rgb)
+        pass
+
+    def reset_led(self):
+        Leds.q.put_nowait((0,0,0))
+        pass
 
     def forward(self, pump_name):
          self.pumps[pump_name]['motor'].forward()
