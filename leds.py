@@ -60,7 +60,7 @@ class _leds:
             else:
                 while rmin + gmin + bmin < r + g + b:
                     for i in range(self.num_pixels):
-                        pixel_index = ((i * 256) // self.num_pixels)
+                        pixel_index = ((i * 256) // self.num_pixels) + rmin + gmin + bmin
                         self.pixels[pixel_index] = (rmin,gmin,bmin)
                         self.pixels.show()
                     if (rmin <= r):
