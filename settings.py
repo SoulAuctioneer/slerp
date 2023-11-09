@@ -59,3 +59,6 @@ DISPENSER_SQUIRT_DURATION = 0.25
 DISPENSER_SQUIRT_REST_DURATION = 0.05
 # Time to wait after all squirts are done before sucking back
 DISPENSER_SUCK_WAIT_DURATION = 3
+
+# Time to wait for user input before resetting
+IDLE_TIMEOUT = 20

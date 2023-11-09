@@ -40,9 +40,17 @@ class SlerpSprite:
             'frames': self.make_anim(['talking1', 'talking2', 'talking4']),
             'delay': 300
         }
-        self.animResting = {
+        self.animIdling = {
             'frames': self.make_anim(['bored1', 'bored2', 'bored3', 'bored4', 'bored8', 'bored7', 'waking1', 'bored8']),
             'delay': 2500
+        }
+        self.animStraining = {
+            'frames': self.make_anim(['straining1', 'straining2', 'straining3', 'straining1', 'straining2', 'straining4']),
+            'delay': 350,
+        }
+        self.animTired = {
+            'frames': self.make_anim(['straining7', 'bored7']),
+            'delay': 500
         }
 
     def make_anim(self, names=[]):
@@ -62,12 +70,14 @@ class SlerpSprite:
         pgf.showSprite(self.slerp)
         self.nextFrameTimer = pgf.clock()
         self.isAnimating = True
+        total_anim_time = len(self.frameList) * anim['delay'] * (loops if loops > 0 else 1)
+        return total_anim_time
     
     def stop_anim(self):
         print("Stopping animation")
         self.isAnimating = False
 
-    def update(self):
+    def refresh(self):
         if pgf.clock() > self.nextFrameTimer and self.isAnimating:
             if (self.activeFrameIndex + 1 < len(self.frameList)):
                 self.activeFrameIndex += 1

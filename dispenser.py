@@ -3,7 +3,7 @@ from gpiozero.pins.mock import MockFactory, MockPWMPin
 import event_scheduler
 import platform
 from settings import *
-from leds import Leds
+# from leds import Leds
 
 class Dispenser:
 
@@ -72,11 +72,11 @@ class Dispenser:
         return max_prime_duration
 
     def set_led(self, rgb):
-        Leds.q.put_nowait(rgb)
+        #Leds.q.put_nowait(rgb)
         pass
 
     def reset_led(self):
-        Leds.q.put_nowait((0,0,0))
+        #Leds.q.put_nowait((0,0,0))
         pass
 
     def forward(self, pump_name):
@@ -128,5 +128,5 @@ class Dispenser:
         done_time += self.prime('backward', done_time + 1, speed=0.4)
 
     # Execute any events due
-    def update(self):
+    def refresh(self):
         self.event_scheduler.execute_due()
