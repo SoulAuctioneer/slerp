@@ -37,12 +37,12 @@ class MainLoop:
 
         # Initialize drinkies TODO: Can I get these into settings?
         self.drinks = [
-            Drink("INVISIBILITY", (0, 200, 255), (10, 10, 10, 10), self.page_pour_drink1), # cyan
-            Drink("TELEPORTATION", (255, 0, 255), (2, 10, 2, 2), self.page_pour_drink2), # magenta
-            Drink("TELEKINESIS", (255, 200, 0), (2, 2, 10, 2), self.page_pour_drink3), # yellow
-            Drink("CLAIRVOYANCE", (255, 64, 64), (2, 10, 9, 2), self.page_pour_drink4), # red
-            Drink("OMNILINGUALISM", (0, 255, 64), (8, 2, 10, 2), self.page_pour_drink5), # green
-            Drink("FLIGHT", (64, 64, 255), (10, 10, 2, 2), self.page_pour_drink6) # blue
+            Drink("INVISIBILITY", (0, 200, 255), (10, 10, 10, 10), self.scene_ten), # cyan
+            Drink("TELEPORTATION", (255, 0, 255), (2, 10, 2, 2), self.scene_eleven), # magenta
+            Drink("TELEKINESIS", (255, 200, 0), (2, 2, 10, 2), self.scene_twelve), # yellow
+            Drink("CLAIRVOYANCE", (255, 64, 64), (2, 10, 9, 2), self.scene_thirteen), # red
+            Drink("OMNILINGUALISM", (0, 255, 64), (8, 2, 10, 2), self.scene_fourteen), # green
+            Drink("FLIGHT", (64, 64, 255), (10, 10, 2, 2), self.scene_fifteen) # blue
         ]
         
     def scene_one(self):
@@ -59,14 +59,14 @@ class MainLoop:
 
     def scene_two(self):
         '''
-        Slerp: *Suddenly awake* 
+        Slerp: *Suddenly awake* x
         GAH! 
-        How’s a hyperintelligent supercomputer supposed to get any sleep around here?? 
+        How's a hyperintelligent supercomputer supposed to get any sleep around here?? 
         Well well, another unquenchable customer milking my supple buttons hay? 
         <sigh> 
-        Oh well, let’s get this shitshow over with shall we.
+        Oh well, let's get this shitshow over with shall we.
         <clears throat>
-        Slerp (fake cheerful): Hi there, customer! I’m Slerp the SlushMaster, and I am contractually obligated to offer you a slushy. 
+        Slerp (fake cheerful): Hi there, customer! I'm Slerp the SlushMaster, and I am contractually obligated to offer you a slushy. 
         So: Would you like a fucking slushy? Please press “NO” now.
         UI: 2 buttons: 
         YES: > Go to SCENE 3
@@ -79,7 +79,11 @@ class MainLoop:
         self.slerp_sprite.start_anim(self.slerp_sprite.animWaking, 0)
         self.event_scheduler.schedule(1.5, self.slerp_sprite.start_anim, self.slerp_sprite.animAngry, 0) 
         self.event_scheduler.schedule(2.7, self.slerp_sprite.start_anim, self.slerp_sprite.animTalking, 0) 
-        self.event_scheduler.schedule(20.5, self.show_drink_buttons) # Show drink buttons
+        buttons = [
+            Button(self.screen, pygame.Rect(50, 25, 570, 70), 'YES WANT!', (50, 255, 50), self.scene_three),
+            Button(self.screen, pygame.Rect(50, 620, 570, 70), 'NOT WANT!', (255, 50, 50), self.scene_four)
+        ]
+        self.event_scheduler.schedule(20.5, self.set_buttons, buttons)
         self.event_scheduler.schedule(21.7, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0) # Done talking, switch to resting animation
         self.dispenser.schedule_bubble(1, 'cyan', 4)
         self.dispenser.schedule_bubble(5, 'magenta', 5)
@@ -90,7 +94,7 @@ class MainLoop:
         pass
         '''
         SCENE 3
-        Slerp: Fine, fine, brain the size of a planet and they’ve got me excreting frozen goop.
+        Slerp: Fine, fine, brain the size of a planet and they've got me excreting frozen goop.
         > Go to SCENE 5
         '''
 
@@ -105,7 +109,7 @@ class MainLoop:
     def scene_five(self):
         '''
         SCENE 5
-        Slerp: But it’s not just any icy confection. This stuff is special: <whispers sotto voce> I add Ascension Factor X! It’s this incredible alien cumcoction, gifted to us by our alien benefactors, and you definitely want it! <exasperated> Although I am legally required to receive your consent to add the Factor X to your slushie. 
+        Slerp: But it's not just any icy confection. This stuff is special: <whispers sotto voce> I add Ascension Factor X! It's this incredible alien cumcoction, gifted to us by our alien benefactors, and you definitely want it! <exasperated> Although I am legally required to receive your consent to add the Factor X to your slushie. 
         > Go to SCENE 6
         '''
         pass
@@ -152,12 +156,9 @@ class MainLoop:
         Flight > Go to SCENE 15 (red)
         '''
         self.reset_buttons()
-        pygame_functions.stopMusic()
         speech = pygame_functions.makeSound('assets/audio/speechHello.mp3')
         pygame_functions.playSound(speech)
-        self.slerp_sprite.start_anim(self.slerp_sprite.animWaking, 0)
-        self.event_scheduler.schedule(1.5, self.slerp_sprite.start_anim, self.slerp_sprite.animAngry, 0) 
-        self.event_scheduler.schedule(2.7, self.slerp_sprite.start_anim, self.slerp_sprite.animTalking, 0) 
+        self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
         self.event_scheduler.schedule(20.5, self.show_drink_buttons) # Show drink buttons
         self.event_scheduler.schedule(21.7, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0) # Done talking, switch to resting animation
         self.dispenser.schedule_bubble(1, 'cyan', 4)
@@ -185,66 +186,51 @@ class MainLoop:
         <sings:> Ascend Autostop, Where the Only Place To Go Is Up
         Phew. Happy Ascension, cumrad. I’m going back to sleep.
         '''
-        pass
-
-    def show_drink_buttons(self):
-        buttons = []
-        for i, drink in enumerate(self.drinks):
-            buttons.append(Button(self.screen, pygame.Rect(50, 50 + i*110, 570, 80), drink.name, drink.rgb, drink.page_function))
-        self.set_buttons(buttons)
-
-    # PAGE: Slerp pours a jealousy juice
-    def page_pour_drink1(self):
         self.reset_buttons()
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[0], self.page_start))
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[0], self.scene_one))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
 
-    # PAGE: Slerp pours a jealousy juice
-    def page_pour_drink2(self):
+    def scene_eleven(self):
         self.reset_buttons()
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[1], self.page_start))
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[1], self.scene_one))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
 
-    # PAGE: Slerp pours a jealousy juice
-    def page_pour_drink3(self):
+    def scene_twelve(self):
         self.reset_buttons()
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[2], self.page_start))
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[2], self.scene_one))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
 
-    # PAGE: Slerp pours a jealousy juice
-    def page_pour_drink4(self):
+    def scene_thirteen(self):
         self.reset_buttons()
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[3], self.page_start))
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[3], self.scene_one))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
 
-    # PAGE: Slerp pours a jealousy juice
-    def page_pour_drink5(self):
+    def scene_fourteen(self):
         self.reset_buttons()
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[4], self.page_start))
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[4], self.scene_one))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
 
-    # PAGE: Slerp pours a jealousy juice
-    def page_pour_drink6(self):
+    def scene_fifteen(self):
         self.reset_buttons()
         speech = pygame_functions.makeSound('assets/audio/speechJealousyJuice.mp3')
         pygame_functions.playSound(speech)
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[5], self.page_start))
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[5], self.scene_one))
         self.event_scheduler.schedule(18, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0)
 
     def page_admin(self):
@@ -259,6 +245,12 @@ class MainLoop:
             Button(self.screen, pygame.Rect(50, 535, 570, 70), 'TEST PRIMING', (180, 128, 128), self.dispenser.test_prime),
             Button(self.screen, pygame.Rect(50, 620, 570, 70), 'EXIT', (255, 50, 50), self.stop_loop)
         ])
+
+    def show_drink_buttons(self):
+        buttons = []
+        for i, drink in enumerate(self.drinks):
+            buttons.append(Button(self.screen, pygame.Rect(50, 50 + i*110, 570, 80), drink.name, drink.rgb, drink.page_function))
+        self.set_buttons(buttons)
 
     def set_buttons(self, buttons):
         self.reset_buttons()
