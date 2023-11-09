@@ -4,9 +4,12 @@ import event_scheduler
 import time
 import board
 import neopixel
-import multiprocessing 
+import multiprocessing
+from multiprocessing import Queue
 
-class Leds:
+queue = Queue()
+
+class _leds:
 
     def __init__(self):
 
@@ -22,7 +25,7 @@ class Leds:
 
         # The order of the pixel colors - RGB or GRB. Some NeoPixels have red and green reversed!
         # For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
-        self.ORDER = neopixel.GRB
+        self.ORDER = neopixel.RGB
 
         self.pixels = neopixel.NeoPixel(
             pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER
@@ -31,85 +34,60 @@ class Leds:
         print('Initializing LEDs')
 
         self.event_scheduler = event_scheduler.EventScheduler()
-        
-
-    def stop(self):
-        for j in range(self.num_pixels):
-            self.pixels[j] = (0,0,0)
-        self.pixels.show()
 
     def run(self):
-        def wheel(pos):
-            # Input a value 0 to 255 to get a color value.
-            # The colours are a transition r - g - b - back to r.
-            if pos < 0 or pos > 255:
-                r = g = b = 0
-            elif pos < 85:
-                r = int(pos * 3)
-                g = int(255 - pos * 3)
-                b = 0
-            elif pos < 170:
-                pos -= 85
-                r = int(255 - pos * 3)
-                g = 0
-                b = int(pos * 3)
-            else:
-                pos -= 170
-                r = 0
-                g = int(pos * 3)
-                b = int(255 - pos * 3)
-            return (r, g, b) if self.ORDER in (neopixel.RGB, neopixel.GRB) else (r, g, b, 0)
-
-
-        def rainbow_cycle(wait):
-            for j in range(255):
-                for i in range(self.num_pixels):
-                    pixel_index = (i * 256 // self.num_pixels) + j
-                    self.pixels[i] = wheel(pixel_index & 255)
-                self.pixels.show()
-                time.sleep(wait)
-
-
+        global queue
+        #r,g,b acts as the last instruction
+        r = 0
+        g = 0
+        b = 0
+        #current values can move around r,g,b
         while True:
-            # Comment this line out if you have RGBW/GRBW NeoPixels
-            self.pixels.fill((255, 0, 0))
-            # Uncomment this line if you have RGBW/GRBW NeoPixels
-            # pixels.fill((255, 0, 0, 0))
+            try:
+                r, g, b = queue.get_nowait()                      
+                                                                
+                
+            except:
+                pass
+            # JUST FILL ALL THE LEDS
+            self.pixels.fill((r, g, b))
+            #PLAY
+            #EQUIVALENT
+            # for i in range(self.num_pixels):
+            #     self.pixels[i] = (r,g,b)
+            #RANDOM
+            #We just use the last rgb val
+            # if r == 0 and g == 0 and b == 0:
+            #     self.pixels.fill((0, 0, 0))
+            #     pass
+            # else:
+            #     while rmin + gmin + bmin < r + g + b:
+            #         for i in range(self.num_pixels):
+            #             pixel_index = ((i * 256) // self.num_pixels) + rmin + gmin + bmin
+            #             self.pixels[pixel_index] = (rmin,gmin,bmin)
+            #             self.pixels.show()
+            #         if (rmin <= r):
+            #             rmin = rmin + 1
+            #         if (gmin <= g):
+            #             gmin = gmin + 1
+            #         if (bmin <= b):
+            #             bmin = bmin + 1
             self.pixels.show()
-            time.sleep(1)
+            time.sleep(0.1)
+            
 
-            # Comment this line out if you have RGBW/GRBW NeoPixels
-            self.pixels.fill((0, 255, 0))
-            # Uncomment this line if you have RGBW/GRBW NeoPixels
-            # pixels.fill((0, 255, 0, 0))
-            self.pixels.show()
-            time.sleep(1)
+            
 
-            # Comment this line out if you have RGBW/GRBW NeoPixels
-            self.pixels.fill((0, 0, 255))
-            # Uncomment this line if you have RGBW/GRBW NeoPixels
-            # pixels.fill((0, 0, 255, 0))
-            self.pixels.show()
-            time.sleep(1)
 
-            rainbow_cycle(0.001)  # rainbow cycle with 1ms delay per step
+class Leds:
+    q : Queue = None
+    leds: _leds = None
 
-# async def test():
-#     loop = asyncio.get_running_loop()
-#     l = Leds()
-#     # Run in a custom process pool:
-#     with concurrent.futures.ProcessPoolExecutor() as pool:
-#         result = await loop.run_in_executor(
-#             pool, l.run)
+    def __init__(self):
+        global queue
+        if Leds.q is None:
+            Leds.q = queue
+            Leds.leds = _leds()
+            p = multiprocessing.Process(target=Leds.leds.run, name="LEDS", args=())
+            p.start()        
 
-# ledz = Leds()
-# def test2():
-#     p = multiprocessing.Process(target=ledz.run, name="LEDS", args=())
-#     p.start()
-#     return p
-
-# #asyncio.run(test())
-# p = test2()
-# p.join(3)
-# ledz.stop()
-# p.terminate()
