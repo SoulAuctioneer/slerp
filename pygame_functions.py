@@ -287,10 +287,13 @@ class newLabel(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
-def loadImage(fileName, useColorKey=False):
+def loadImage(fileName, scale=1, useColorKey=False):
     if os.path.isfile(fileName):
         image = pygame.image.load(fileName)
         image = image.convert_alpha()
+        size = image.get_size()
+        image = pygame.transform.scale(image, (int(size[0]*scale), int(size[1]*scale)))
+
         # Return the image
         return image
     else:

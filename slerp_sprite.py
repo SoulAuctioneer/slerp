@@ -3,20 +3,7 @@ import pygame_functions as pgf
 class SlerpSprite:
     def __init__(self):
 
-        self.animTalking = { 
-            'frames': [2, 1, 2, 1, 2, 1, 2, 1, 3, 1],
-            'delay': 300
-        }
-        self.animSleeping = {
-            'frames': [3, 4],
-            'delay': 1500
-        }
-        self.animResting = {
-            'frames': [1, 0],
-            'delay': 3000
-        }
-
-        self.xPos, self.yPos = 700, 30
+        self.xPos, self.yPos = 600, 0
         self.activeFrameIndex = 0 # Use to iterate over the sprite list
         self.numLoops = 1 # Number of times to loop the animation. Zero loops forever
         self.numLoopsRemaining = 1 # Number of remaining loops
@@ -26,11 +13,43 @@ class SlerpSprite:
         self.frameList = [] # List of frames to play in one loop
         self.isAnimating = False # Whether we're currently playing an animation
 
-        self.slerp = pgf.makeSprite("assets/sprites/0.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/1.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/2.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/3.png")
-        pgf.addSpriteImage(self.slerp, "assets/sprites/4.png")
+        import os
+        self.spriteDict = {}
+        spriteFiles = [f for f in os.listdir("assets/sprites") if f.endswith('.png')]
+        for i, spriteFile in enumerate(spriteFiles):
+            spriteName = os.path.splitext(spriteFile)[0] # Get the filename without extension
+            if i == 0:
+                self.slerp = pgf.makeSprite(f"assets/sprites/{spriteFile}")
+            else:
+                pgf.addSpriteImage(self.slerp, f"assets/sprites/{spriteFile}")
+            self.spriteDict[spriteName] = i
+
+        self.animSleeping = {
+            'frames': self.make_anim(['sleeping1', 'sleeping2', 'sleeping3']),
+            'delay': 1500
+        }
+        self.animWaking = {
+            'frames': self.make_anim(['waking1', 'waking2', 'waking3']),
+            'delay': 500
+        }
+        self.animAngry = { 
+            'frames': self.make_anim(['talking_angry1', 'talking_angry2', 'talking_angry3', 'talking_angry4']),
+            'delay': 300
+        }
+        self.animTalking = { 
+            'frames': self.make_anim(['talking1', 'talking2', 'talking4']),
+            'delay': 300
+        }
+        self.animResting = {
+            'frames': self.make_anim(['bored1', 'bored2', 'bored3', 'bored4', 'bored8', 'bored7', 'waking1', 'bored8']),
+            'delay': 2500
+        }
+
+    def make_anim(self, names=[]):
+        frames = []
+        for name in names:
+            frames.append(self.spriteDict[name])
+        return frames
 
     def start_anim(self, anim, loops=0):
         self.numLoops = loops

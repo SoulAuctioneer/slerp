@@ -43,22 +43,40 @@ class MainLoop:
             Drink("FLIGHT", (64, 64, 255), (10, 10, 2, 2), self.page_pour_drink6) # blue
         ]
         
-    # PAGE: Initial page, sleeping and start button
-    def page_start(self):
+    def scene_one(self):
+        '''
+        Slerp: SNORING - “ahhh Slerp Slerp Slerp” 
+        Button: *WAKE UP, SLERP!* > Goes to SCENE 2
+        '''
         self.set_buttons([
-            Button(self.screen, pygame.Rect(100, 225, 520, 270), "WAKE UP!", (255, 0, 255), self.page_hello)
+            Button(self.screen, pygame.Rect(100, 225, 520, 270), "WAKE UP, SLERP!", (255, 0, 255), self.page_hello)
         ])
         self.slerp_sprite.start_anim(self.slerp_sprite.animSleeping, 0)
         pygame_functions.makeMusic(random.choice(MUSIC))
         pygame_functions.playMusic()
 
-    # PAGE: Slerp introduces himself
-    def page_hello(self):
+    def scene_two(self):
+        '''
+        Slerp: *Suddenly awake* 
+        GAH! 
+        How’s a hyperintelligent supercomputer supposed to get any sleep around here?? 
+        Well well, another unquenchable customer milking my supple buttons hay? 
+        <sigh> 
+        Oh well, let’s get this shitshow over with shall we.
+        <clears throat>
+        Slerp (fake cheerful): Hi there, customer! I’m Slerp the SlushMaster, and I am contractually obligated to offer you a slushy. 
+        So: Would you like a fucking slushy? Please press “NO” now.
+        UI: 2 buttons: 
+        YES: > Go to SCENE 3
+        NO > Go to SCENE 4
+        '''
         self.reset_buttons()
         pygame_functions.stopMusic()
         speech = pygame_functions.makeSound('assets/audio/speechHello.mp3')
         pygame_functions.playSound(speech)
-        self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
+        self.slerp_sprite.start_anim(self.slerp_sprite.animWaking, 0)
+        self.event_scheduler.schedule(1.5, self.slerp_sprite.start_anim, self.slerp_sprite.animAngry, 0) 
+        self.event_scheduler.schedule(2.7, self.slerp_sprite.start_anim, self.slerp_sprite.animTalking, 0) 
         self.event_scheduler.schedule(20.5, self.show_drink_buttons) # Show drink buttons
         self.event_scheduler.schedule(21.7, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0) # Done talking, switch to resting animation
         self.dispenser.schedule_bubble(1, 'cyan', 4)
@@ -66,7 +84,107 @@ class MainLoop:
         self.dispenser.schedule_bubble(10, 'yellow', 5)
         self.dispenser.schedule_bubble(12, 'transparent', 5)
 
-    # PAGE: Show drink selection buttons 
+    def scene_three(self):
+        pass
+        '''
+        SCENE 3
+        Slerp: Fine, fine, brain the size of a planet and they’ve got me excreting frozen goop.
+        > Go to SCENE 5
+        '''
+
+    def scene_four(self):
+        pass
+        '''
+        SCENE 4
+        Slerp: Ahh yes your compliant nature makes you a perfect candidate for Ascension! In that case, I shall entirely disregard your preference, and for your own good I SHALL serve you a slushy.
+        > Go to SCENE 5
+        '''
+
+    def scene_five(self):
+        '''
+        SCENE 5
+        Slerp: But it’s not just any icy confection. This stuff is special: <whispers sotto voce> I add Ascension Factor X! It’s this incredible alien cumcoction, gifted to us by our alien benefactors, and you definitely want it! <exasperated> Although I am legally required to receive your consent to add the Factor X to your slushie. 
+        > Go to SCENE 6
+        '''
+        pass
+
+    def scene_six(self):
+        '''
+        SCENE 6
+        Slerp: Press “I consent” now, please.
+        UI: 
+        I CONSENT > Go to SCENE 8
+        I DO NOT CONSENT > Go to SCENE 7
+        '''
+        pass
+
+    def scene_seven(self):
+        '''
+        SCENE 7
+        Slerp: Hmm interesting;  I congratulate you on maintaining the illusion of choice. However, due to - err - <cough> a “bug”, I can only produce slushies that include Ascension Factor X. Please try again.
+        > Go to SCENE 6
+        '''
+        pass
+
+    def scene_eight(self):
+        '''
+        SCENE 8
+        Slerp: Thank you for your consent! Isn’t the illusion of free will fabulous?!
+        Ascension Factor X is the sacrament of our alien benefactors, the Elders of Nebula (pronounced “nrrblrr”). While preparing your soul for Ascension, it also has the happy side effect of instantly granting you an incredible superpower of your choice!
+        Place a cup below the dispenser. Be careful, I’m very delicate.
+        UI:
+        Done > Go to SCENE 9
+        '''
+        pass
+
+    def scene_nine(self):
+        '''
+        SCENE 9
+        What superpower shall I mix into your alien slushy?
+        UI:
+        Invisibility > Go to SCENE 10 (orange)
+        Teleportation > Go to SCENE 11 (purple)
+        Telekinesis > Go to SCENE 12 (yellow)
+        Clairvoyance > Go to SCENE 13 (green)
+        Omnilingualism > Go to SCENE 14 (blue)
+        Flight > Go to SCENE 15 (red)
+        '''
+        self.reset_buttons()
+        pygame_functions.stopMusic()
+        speech = pygame_functions.makeSound('assets/audio/speechHello.mp3')
+        pygame_functions.playSound(speech)
+        self.slerp_sprite.start_anim(self.slerp_sprite.animWaking, 0)
+        self.event_scheduler.schedule(1.5, self.slerp_sprite.start_anim, self.slerp_sprite.animAngry, 0) 
+        self.event_scheduler.schedule(2.7, self.slerp_sprite.start_anim, self.slerp_sprite.animTalking, 0) 
+        self.event_scheduler.schedule(20.5, self.show_drink_buttons) # Show drink buttons
+        self.event_scheduler.schedule(21.7, self.slerp_sprite.start_anim, self.slerp_sprite.animResting, 0) # Done talking, switch to resting animation
+        self.dispenser.schedule_bubble(1, 'cyan', 4)
+        self.dispenser.schedule_bubble(5, 'magenta', 5)
+        self.dispenser.schedule_bubble(10, 'yellow', 5)
+        self.dispenser.schedule_bubble(12, 'transparent', 5)
+
+    def scene_ten(self):
+        '''
+        SCENE 10 - Invisibility 
+        Slerp: One cosmic invisibility juice coming right up!
+        <starts priming the pumps>
+        Ingredients include: gatorade, Ascension Factor X, and the power of Invisibility. 
+        <starts pouring>
+        Oooh that feels so cold. I’ll never get used to that!
+        <starts Ascension Factor X pump>
+        Meh, ugh, aggghh…aaahhhhahahahskaaaaaa!!! uuuuhhh I’m about to ccccuummbine the Ascension Factor X!
+        <Drink is finished>
+        Phew… im sweating…  are you?
+        <Symbol appears on screen> 
+        As you chug down my sweet slush, don’t forget this symbol! You’ll need it later. 
+        Well, off you bugger. Go try out the simulator, or clean off your skank in the StarWash.
+        Before you go though, I must inform you that while you do now have the power of invisibility, unseen by all, it will only work when no one is looking at you. Congratulations!
+        Unfortunately for both of us, I must now sing the corporate jingle. Here goes:
+        <sings:> Ascend Autostop, Where the Only Place To Go Is Up
+        Phew. Happy Ascension, cumrad. I’m going back to sleep.
+        '''
+        pass
+
     def show_drink_buttons(self):
         buttons = []
         for i, drink in enumerate(self.drinks):

@@ -51,7 +51,7 @@ class Dispenser:
             self.event_scheduler.schedule(timer, on_complete, *args, **kwargs)
 
         return timer
-
+    
     # Prime all liquids either to the top of the collector or back from the collector into the reservoirs
     def prime(self, direction, start_timer=0, speed=1.0):
 
@@ -100,7 +100,7 @@ class Dispenser:
         self.event_scheduler.schedule(duration, self.set_speed, pump_name, 1.0)
 
     def schedule_bubble(self, start_timer, pump_name, duration):
-        self.event_scheduler.schedule(start_timer, pump_name, duration)
+        self.event_scheduler.schedule(start_timer, self.bubble, pump_name, duration)
 
     # Run the pump forward for 3 seconds then backwards
     def test(self, pump_name):

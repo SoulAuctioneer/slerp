@@ -2,7 +2,7 @@
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
 
 # Fullscreen or windowed
-IS_FULLSCREEN = True
+IS_FULLSCREEN = False
 
 # Background image
 BG_IMAGE = "assets/background-logo-1280x720.png"
