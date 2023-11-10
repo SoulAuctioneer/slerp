@@ -52,6 +52,11 @@ class SlerpSprite:
             'frames': self.make_anim(['straining7', 'bored7']),
             'delay': 500
         }
+        self.animSinging = {
+            'frames': self.make_anim(['singing5', 'singing6', 'singing7', 'singing5', 'singing6', 'singing8']),
+            'delay': 300
+        }
+
 
     def make_anim(self, names=[]):
         frames = []

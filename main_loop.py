@@ -92,8 +92,8 @@ class MainLoop:
         self.event_scheduler.schedule(8.5, self.slerp_sprite.start_anim, self.slerp_sprite.animAngry, 0) 
         self.event_scheduler.schedule(9.7, self.slerp_sprite.start_anim, self.slerp_sprite.animTalking, 0) 
         buttons = [
-            Button(self.screen, pygame.Rect(50, 225-60, 570, 150), 'NO', (50, 255, 50), self.scene_four),
-            Button(self.screen, pygame.Rect(50, 420-60, 570, 150), 'YES (not working)', (255, 50, 50), self.scene_three)
+            Button(self.screen, pygame.Rect(50, 420-60, 570, 150), 'YES', (50, 255, 50), self.scene_three),
+            Button(self.screen, pygame.Rect(50, 225-60, 570, 150), 'NO', (255, 50, 50), self.scene_four)
         ]
         self.event_scheduler.schedule(clip.get_length() - 3, self.set_buttons, buttons)
         self.schedule_idling(clip.get_length())        
@@ -228,7 +228,8 @@ class MainLoop:
         clip = self.audio.play('scene10')
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
         self.event_scheduler.schedule(10, self.slerp_sprite.start_anim, self.slerp_sprite.animStraining)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[0], self.scene_sixteen))
+        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[0])
+        self.event_scheduler.schedule(20, self.scene_sixteen)
 
     def scene_eleven(self):
         self.reset_scene()
@@ -256,9 +257,10 @@ class MainLoop:
         '''
         self.reset_scene()
         clip = self.audio.play('scene16')
-        self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(5, self.slerp_sprite.start_anim, self.slerp_sprite.animSinging)
-        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[0], self.scene_sixteen))
+        self.slerp_sprite.start_anim(self.slerp_sprite.animTired, 0)
+        self.event_scheduler.schedule(8, self.slerp_sprite.start_anim, self.slerp_sprite.animSinging)
+        self.event_scheduler.schedule(13, self.slerp_sprite.start_anim, self.slerp_sprite.animTired)
+        self.event_scheduler.schedule(clip.get_length(), self.scene_one)
 
     def schedule_idling(self, delay):
         self.event_scheduler.schedule(delay, self.start_idling)
@@ -266,7 +268,7 @@ class MainLoop:
     def start_idling(self):
         self.slerp_sprite.start_anim(self.slerp_sprite.animIdling)
         # TODO: Record multiple idle and randomly select
-        idle_clips = ['slerp_idle1', 'slerp_idle2']
+        idle_clips = ['slerp_idle1', 'slerp_idle2', 'slerp_idle3']
         clip = self.audio.play(random.choice(idle_clips), -1)
         self.idle_timeout = pygame.time.get_ticks() + (clip.get_length() * 1000)
 
