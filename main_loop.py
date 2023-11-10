@@ -250,11 +250,15 @@ class MainLoop:
         self.reset_scene()
         pass
 
-    def scene_sixteen():
+    def scene_sixteen(self):
         '''
         Unfortunately I now have to sing the jingle
         '''
-        pass
+        self.reset_scene()
+        clip = self.audio.play('scene16')
+        self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
+        self.event_scheduler.schedule(5, self.slerp_sprite.start_anim, self.slerp_sprite.animSinging)
+        self.event_scheduler.schedule(5, lambda: self.dispenser.dispense(self.drinks[0], self.scene_sixteen))
 
     def schedule_idling(self, delay):
         self.event_scheduler.schedule(delay, self.start_idling)
@@ -273,7 +277,7 @@ class MainLoop:
 
     def check_idling_timeout(self):
         if self.idle_timeout and pygame.time.get_ticks() > self.idle_timeout:  # If waiting for more than 20 seconds
-            self.scene_one()  # Call the scene_one() function
+            self.scene_one()
 
     def reset_scene(self):
         self.stop_idling()
