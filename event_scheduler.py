@@ -18,3 +18,7 @@ class EventScheduler:
                 print(f"EXECUTING EVENT. Current time: {current_time}, Function: {event['function'].__name__}, Args: {event['args']}, Kwargs: {event['kwargs']}")
                 event['function'](*event['args'], **event['kwargs'])
                 self.scheduled_events.remove(event)
+
+    # Cancel a scheduled function by its name
+    def cancel(self, function_name):
+        self.scheduled_events = [event for event in self.scheduled_events if event['function'].__name__ != function_name]

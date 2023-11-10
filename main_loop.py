@@ -268,6 +268,7 @@ class MainLoop:
 
     def stop_idling(self):
         # TODO: Clear any scheduled start_idling
+        self.event_scheduler.cancel('start_idling')
         self.idle_timeout = None
 
     def check_idling_timeout(self):
