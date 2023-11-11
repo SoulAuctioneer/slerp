@@ -33,8 +33,8 @@ PUMP_TRANSPARENT_IN = 15 # Green
 PUMP_TRANSPARENT_SPEED = 18 # Purple
 
 # Top Right - Looking from rear
-PUMP_CYAN_OUT = 27 # Yellow
-PUMP_CYAN_IN = 17 # Orange
+PUMP_CYAN_OUT = 17 # Yellow # NOTE FLIPPED
+PUMP_CYAN_IN = 27 # Orange # NOTE FLIPPED
 PUMP_CYAN_SPEED = 13 # Brown
 
 # Bottom Left - Looking from rear
@@ -43,8 +43,8 @@ PUMP_MAGENTA_IN = 24 # Orange
 PUMP_MAGENTA_SPEED = 12 # Brown
 
 # Top Left - Looking from rear
-PUMP_YELLOW_OUT = 9 # Blue
-PUMP_YELLOW_IN = 11 # Green
+PUMP_YELLOW_OUT = 11 # Blue # NOTE FLIPPED
+PUMP_YELLOW_IN = 9 # Green # NOTE FLIPPED
 PUMP_YELLOW_SPEED = 19 # Purple
 
 # Time to prime liquids from reservoir to top of collector. Will be different if there's a variance in tube length
