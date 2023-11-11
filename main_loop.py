@@ -48,9 +48,9 @@ class MainLoop:
 # Ingredients include gatorade, Ascenscion Factor X, and the power of
         # Initialize drinks as a dictionary with the key corresponding to drink.name in lowercase
         self.drinks = {
-            "invisibility": Drink("INVISIBILITY", (0, 200, 255), (10, 10, 10, 10), lambda: self.scene_ten('invisibility')), # cyan
-            "teleportation": Drink("TELEPORTATION", (255, 0, 255), (2, 10, 2, 2), lambda: self.scene_ten('teleportation')), # magenta
-            "telekinesis": Drink("TELEKINESIS", (255, 200, 0), (2, 2, 10, 2), lambda: self.scene_ten('telekinesis')), # yellow
+            "invisibility": Drink("INVISIBILITY", (0, 200, 255), (10, 6, 6, 10), lambda: self.scene_ten('invisibility')), # cyan
+            "teleportation": Drink("TELEPORTATION", (255, 0, 255), (3, 10, 3, 3), lambda: self.scene_ten('teleportation')), # magenta
+            "telekinesis": Drink("TELEKINESIS", (255, 200, 0), (2, 2, 10, 5), lambda: self.scene_ten('telekinesis')), # yellow
             "clairvoyance": Drink("CLAIRVOYANCE", (255, 64, 64), (2, 10, 9, 2), lambda: self.scene_ten('clairvoyance')), # red
             "omnilingualism": Drink("OMNILINGUALISM", (0, 255, 64), (8, 2, 10, 2), lambda: self.scene_ten('omnilingualism')), # green
             "flight": Drink("FLIGHT", (64, 64, 255), (10, 10, 2, 2), lambda: self.scene_ten('flight')) # blue
@@ -252,7 +252,7 @@ class MainLoop:
         timer_end_scene = timer
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
         self.event_scheduler.schedule(timer_start_straining, self.slerp_sprite.start_anim, self.slerp_sprite.animStraining)
-        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[drink_name])
+        self.event_scheduler.schedule(4, self.dispenser.dispense, self.drinks[drink_name])
         self.event_scheduler.schedule(timer_start_straining + 12.7, self.slerp_sprite.start_anim, self.slerp_sprite.animTired)
         self.event_scheduler.schedule(timer_start_straining + 20, pygame_functions.setBackgroundImage, BG_IMAGE_SYMBOL)
         self.event_scheduler.schedule(timer_start_straining + 30, pygame_functions.setBackgroundImage, BG_IMAGE) 
