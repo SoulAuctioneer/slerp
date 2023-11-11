@@ -2,10 +2,11 @@
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
 
 # Fullscreen or windowed
-IS_FULLSCREEN = True
+IS_FULLSCREEN = False
 
 # Background image
 BG_IMAGE = "assets/background-logo-1280x720.png"
+BG_IMAGE_SYMBOL = "assets/background-symbol.png"
 
 # Music tracks
 MUSIC = ["assets/audio/music1.mp3", "assets/audio/music2.mp3", "assets/audio/music3.mp3", "assets/audio/music3.mp3"]
@@ -20,7 +21,7 @@ DARK_BLUE = (25, 25, 128)
 DARK_GREY = (32, 32, 32)
 
 # Hidden debug button size
-BUTTON_DEBUG_SIZE = 50
+BUTTON_DEBUG_SIZE = 100
 
 # Font properties
 BUTTON_FONT_SIZE = 48

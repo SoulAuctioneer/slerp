@@ -23,7 +23,6 @@ class Audio:
         self.stop()
         if name in self.audio_files:
             self.playing_audio = self.audio_files[name]
-            self.queue = []
             self.playing_audio.play(loops)
         return self.playing_audio
 
@@ -31,9 +30,10 @@ class Audio:
         if self.playing_audio:
             self.playing_audio.stop()
 
-    def queue_audio(self, name):
+    def enqueue(self, name):
         if name in self.audio_files:
             self.queue.append(name)
+            return self.audio_files[name]
 
     def play_next_in_queue(self):
         if self.queue:

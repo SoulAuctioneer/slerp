@@ -45,16 +45,25 @@ class MainLoop:
         # Time we started to idle. Set to None when not idle.
         self.started_idling = None
 
-        # Initialize drinkies TODO: Can I get these into settings?
-        self.drinks = [
-            Drink("INVISIBILITY", (0, 200, 255), (10, 10, 10, 10), self.scene_ten), # cyan
-            Drink("TELEPORTATION", (255, 0, 255), (2, 10, 2, 2), self.scene_eleven), # magenta
-            Drink("TELEKINESIS", (255, 200, 0), (2, 2, 10, 2), self.scene_twelve), # yellow
-            Drink("CLAIRVOYANCE", (255, 64, 64), (2, 10, 9, 2), self.scene_thirteen), # red
-            Drink("OMNILINGUALISM", (0, 255, 64), (8, 2, 10, 2), self.scene_fourteen), # green
-            Drink("FLIGHT", (64, 64, 255), (10, 10, 2, 2), self.scene_fifteen) # blue
-        ]
+# Ingredients include gatorade, Ascenscion Factor X, and the power of
+        # Initialize drinks as a dictionary with the key corresponding to drink.name in lowercase
+        self.drinks = {
+            "invisibility": Drink("INVISIBILITY", (0, 200, 255), (10, 10, 10, 10), lambda: self.scene_ten('invisibility')), # cyan
+            "teleportation": Drink("TELEPORTATION", (255, 0, 255), (2, 10, 2, 2), lambda: self.scene_ten('teleportation')), # magenta
+            "telekinesis": Drink("TELEKINESIS", (255, 200, 0), (2, 2, 10, 2), lambda: self.scene_ten('telekinesis')), # yellow
+            "clairvoyance": Drink("CLAIRVOYANCE", (255, 64, 64), (2, 10, 9, 2), lambda: self.scene_ten('clairvoyance')), # red
+            "omnilingualism": Drink("OMNILINGUALISM", (0, 255, 64), (8, 2, 10, 2), lambda: self.scene_ten('omnilingualism')), # green
+            "flight": Drink("FLIGHT", (64, 64, 255), (10, 10, 2, 2), lambda: self.scene_ten('flight')) # blue
+        }
         
+    def show_drink_buttons(self):
+        buttons = []
+        y_pos = 0
+        for drink_name, drink in self.drinks.items():
+            buttons.append(Button(self.screen, pygame.Rect(50, 50 + y_pos * 110, 570, 80), drink.name, drink.rgb, drink.page_function))
+            y_pos += 1
+        self.set_buttons(buttons)
+
     def scene_one(self):
         '''
         Slerp: SNORING - “ahhh Slerp Slerp Slerp” 
@@ -67,7 +76,7 @@ class MainLoop:
         self.slerp_sprite.start_anim(self.slerp_sprite.animSleeping, 0)
         pygame_functions.makeMusic(random.choice(MUSIC))
         pygame_functions.playMusic()
-        self.audio.play('scene1-quiet', -1)
+        self.audio.play('scene1-loud', -1)
 
     def scene_two(self):
         '''
@@ -204,10 +213,10 @@ class MainLoop:
         self.schedule_idling(clip.get_length())
         self.show_drink_buttons()
 
-    def scene_ten(self):
+    def scene_ten(self, drink_name):
         '''
-        SCENE 10 - Invisibility 
-        Slerp: One cosmic invisibility juice coming right up!
+        SCENE 10 - drinkies 
+        Slerp: One cosmic juice coming right up!
         <starts priming the pumps>
         Ingredients include: gatorade, Ascension Factor X, and the power of Invisibility. 
         <starts pouring>
@@ -225,33 +234,26 @@ class MainLoop:
         Phew. Happy Ascension, cumrad. I’m going back to sleep.
         '''
         self.reset_scene()
-        clip = self.audio.play('scene10')
+        timer = 0
+        clip = self.audio.play('scene10-1')
+        timer += clip.get_length()
+        clip = self.audio.enqueue('scene10-2-%s' % drink_name)
+        timer += clip.get_length()
+        timer_start_straining = timer
+        clip = self.audio.enqueue('scene10-3')
+        timer += clip.get_length()
+        clip = self.audio.enqueue('scene10-4-%s' % drink_name)
+        timer += clip.get_length()
+        timer_end_scene = timer
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
-        self.event_scheduler.schedule(10, self.slerp_sprite.start_anim, self.slerp_sprite.animStraining)
-        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[0])
-        self.event_scheduler.schedule(20, self.scene_sixteen)
+        self.event_scheduler.schedule(timer_start_straining, self.slerp_sprite.start_anim, self.slerp_sprite.animStraining)
+        self.event_scheduler.schedule(5, self.dispenser.dispense, self.drinks[drink_name])
+        self.event_scheduler.schedule(timer_start_straining + 12.7, self.slerp_sprite.start_anim, self.slerp_sprite.animTired)
+        self.event_scheduler.schedule(timer_start_straining + 20, pygame_functions.setBackgroundImage, BG_IMAGE_SYMBOL)
+        self.event_scheduler.schedule(timer_start_straining + 30, pygame_functions.setBackgroundImage, BG_IMAGE) 
+        self.event_scheduler.schedule(timer_end_scene, self.scene_eleven)
 
     def scene_eleven(self):
-        self.reset_scene()
-        pass
-
-    def scene_twelve(self):
-        self.reset_scene()
-        pass
-
-    def scene_thirteen(self):
-        self.reset_scene()
-        pass
-
-    def scene_fourteen(self):
-        self.reset_scene()
-        pass
-
-    def scene_fifteen(self):
-        self.reset_scene()
-        pass
-
-    def scene_sixteen(self):
         '''
         Unfortunately I now have to sing the jingle
         '''
@@ -259,7 +261,7 @@ class MainLoop:
         clip = self.audio.play('scene16')
         self.slerp_sprite.start_anim(self.slerp_sprite.animTired, 0)
         self.event_scheduler.schedule(8, self.slerp_sprite.start_anim, self.slerp_sprite.animSinging)
-        self.event_scheduler.schedule(13, self.slerp_sprite.start_anim, self.slerp_sprite.animTired)
+        self.event_scheduler.schedule(13.8, self.slerp_sprite.start_anim, self.slerp_sprite.animTired)
         self.event_scheduler.schedule(clip.get_length(), self.scene_one)
 
     def schedule_idling(self, delay):
@@ -297,12 +299,6 @@ class MainLoop:
             Button(self.screen, pygame.Rect(50, 535, 570, 70), 'TEST PRIMING', (180, 128, 128), self.dispenser.test_prime),
             Button(self.screen, pygame.Rect(50, 620, 570, 70), 'EXIT', (255, 50, 50), self.stop_loop)
         ])
-
-    def show_drink_buttons(self):
-        buttons = []
-        for i, drink in enumerate(self.drinks):
-            buttons.append(Button(self.screen, pygame.Rect(50, 50 + i*110, 570, 80), drink.name, drink.rgb, drink.page_function))
-        self.set_buttons(buttons)
 
     def set_buttons(self, buttons):
         self.reset_buttons()
