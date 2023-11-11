@@ -242,6 +242,7 @@ class MainLoop:
         timer_start_straining = timer
         clip = self.audio.enqueue('scene10-3')
         timer += clip.get_length()
+        timer_start_superpower_disclaimer = timer
         clip = self.audio.enqueue('scene10-4-%s' % drink_name)
         timer += clip.get_length()
         timer_end_scene = timer
@@ -251,6 +252,7 @@ class MainLoop:
         self.event_scheduler.schedule(timer_start_straining + 12.7, self.slerp_sprite.start_anim, self.slerp_sprite.animTired)
         self.event_scheduler.schedule(timer_start_straining + 20, pygame_functions.setBackgroundImage, BG_IMAGE_SYMBOL)
         self.event_scheduler.schedule(timer_start_straining + 30, pygame_functions.setBackgroundImage, BG_IMAGE) 
+        self.event_scheduler.schedule(timer_start_superpower_disclaimer, self.slerp_sprite.start_anim, self.slerp_sprite.animTalking)
         self.event_scheduler.schedule(timer_end_scene, self.scene_eleven)
 
     def scene_eleven(self):
@@ -259,7 +261,7 @@ class MainLoop:
         '''
         self.reset_scene()
         clip = self.audio.play('scene16')
-        self.slerp_sprite.start_anim(self.slerp_sprite.animTired, 0)
+        self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
         self.event_scheduler.schedule(8, self.slerp_sprite.start_anim, self.slerp_sprite.animSinging)
         self.event_scheduler.schedule(13.8, self.slerp_sprite.start_anim, self.slerp_sprite.animTired)
         self.event_scheduler.schedule(clip.get_length(), self.scene_one)
@@ -289,6 +291,7 @@ class MainLoop:
 
     def page_admin(self):
         pygame_functions.stopMusic()
+        self.event_scheduler.cancel_all()
         self.set_buttons([
             Button(self.screen, pygame.Rect(50, 25, 570, 70), 'RESTART', (50, 255, 50), self.scene_one),
             Button(self.screen, pygame.Rect(50, 110, 570, 70), 'DRINKS SCREEN', (50, 50, 255), self.show_drink_buttons),

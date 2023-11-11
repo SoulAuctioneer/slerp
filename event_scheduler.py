@@ -22,3 +22,6 @@ class EventScheduler:
     # Cancel a scheduled function by its name
     def cancel(self, function_name):
         self.scheduled_events = [event for event in self.scheduled_events if event['function'].__name__ != function_name]
+
+    def cancel_all(self):
+        self.scheduled_events = []
