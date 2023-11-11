@@ -97,9 +97,9 @@ class MainLoop:
         pygame_functions.stopMusic()
         clip = self.audio.play('scene2')
         duration = self.slerp_sprite.start_anim(self.slerp_sprite.animTired, 0)
-        self.event_scheduler.schedule(7.0, self.slerp_sprite.start_anim, self.slerp_sprite.animWaking, 0) 
-        self.event_scheduler.schedule(8.5, self.slerp_sprite.start_anim, self.slerp_sprite.animAngry, 0) 
-        self.event_scheduler.schedule(9.7, self.slerp_sprite.start_anim, self.slerp_sprite.animTalking, 0) 
+        self.event_scheduler.schedule(6.0, self.slerp_sprite.start_anim, self.slerp_sprite.animWaking, 0) 
+        self.event_scheduler.schedule(7.5, self.slerp_sprite.start_anim, self.slerp_sprite.animAngry, 0) 
+        self.event_scheduler.schedule(8.7, self.slerp_sprite.start_anim, self.slerp_sprite.animTalking, 0) 
         buttons = [
             Button(self.screen, pygame.Rect(50, 420-60, 570, 150), 'YES', (50, 255, 50), self.scene_three),
             Button(self.screen, pygame.Rect(50, 225-60, 570, 150), 'NO', (255, 50, 50), self.scene_four)
