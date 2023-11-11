@@ -74,9 +74,13 @@ class MainLoop:
             Button(self.screen, pygame.Rect(100, 300, 520, 240), "SLUSH ME NOW!", (255, 0, 255), self.scene_two)
         ])
         self.slerp_sprite.start_anim(self.slerp_sprite.animSleeping, 0)
-        pygame_functions.makeMusic(random.choice(MUSIC))
-        pygame_functions.playMusic()
-        self.audio.play('scene1-loud', -1)
+        if PLAY_MUSIC:
+            pygame_functions.makeMusic(random.choice(MUSIC))
+            pygame_functions.playMusic()
+        if SNORE_LOUD:
+            self.audio.play('scene1-loud', -1)
+        else:
+            self.audio.play('scene1-quiet', -1)
 
     def scene_two(self):
         '''
