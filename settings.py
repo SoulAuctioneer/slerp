@@ -30,7 +30,7 @@ BUTTON_FONT_FACE = 'assets/PeaberryMono.ttf'
 # Bottom Right - Looking from rear
 PUMP_TRANSPARENT_OUT = 14 # Blue
 PUMP_TRANSPARENT_IN = 15 # Green
-PUMP_TRANSPARENT_SPEED = 2 # Purple # TODO: SHOULD BE 18, TEMPORARILY REMOVED
+PUMP_TRANSPARENT_SPEED = 18 # Purple
 
 # Top Right - Looking from rear
 PUMP_CYAN_OUT = 27 # Yellow
