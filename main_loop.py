@@ -48,12 +48,12 @@ class MainLoop:
 # Ingredients include gatorade, Ascenscion Factor X, and the power of
         # Initialize drinks as a dictionary with the key corresponding to drink.name in lowercase
         self.drinks = {
-            "invisibility": Drink("INVISIBILITY", (0, 200, 255), (10, 6, 6, 10), lambda: self.scene_ten('invisibility')), # cyan
-            "teleportation": Drink("TELEPORTATION", (255, 0, 255), (3, 10, 3, 3), lambda: self.scene_ten('teleportation')), # magenta
-            "telekinesis": Drink("TELEKINESIS", (255, 200, 0), (2, 2, 10, 5), lambda: self.scene_ten('telekinesis')), # yellow
-            "clairvoyance": Drink("CLAIRVOYANCE", (255, 64, 64), (2, 10, 9, 2), lambda: self.scene_ten('clairvoyance')), # red
-            "omnilingualism": Drink("OMNILINGUALISM", (0, 255, 64), (8, 2, 10, 2), lambda: self.scene_ten('omnilingualism')), # green
-            "flight": Drink("FLIGHT", (64, 64, 255), (10, 10, 2, 2), lambda: self.scene_ten('flight')) # blue
+            "invisibility": Drink("INVISIBILITY", (0, 200, 255), (13, 6, 6, 5), lambda: self.scene_ten('invisibility')), # cyan
+            "teleportation": Drink("TELEPORTATION", (255, 0, 255), (4, 13, 3, 7), lambda: self.scene_ten('teleportation')), # magenta
+            "telekinesis": Drink("TELEKINESIS", (255, 200, 0), (4, 3, 13, 7), lambda: self.scene_ten('telekinesis')), # yellow
+            "clairvoyance": Drink("CLAIRVOYANCE", (255, 64, 64), (3, 13, 9, 5), lambda: self.scene_ten('clairvoyance')), # red
+            "omnilingualism": Drink("OMNILINGUALISM", (0, 255, 64), (9, 3, 13, 6), lambda: self.scene_ten('omnilingualism')), # green
+            "flight": Drink("FLIGHT", (64, 64, 255), (10, 10, 2, 5), lambda: self.scene_ten('flight')) # blue
         }
         
     def show_drink_buttons(self):
