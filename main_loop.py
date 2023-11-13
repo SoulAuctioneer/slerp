@@ -124,7 +124,7 @@ class MainLoop:
         self.reset_scene()
         clip = self.audio.play('scene3')
         self.slerp_sprite.start_anim(self.slerp_sprite.animAngry)
-        self.event_scheduler.schedule(clip.get_length(), self.scene_six)         
+        self.event_scheduler.schedule(clip.get_length(), self.scene_eight)         
 
     def scene_four(self):
         '''
