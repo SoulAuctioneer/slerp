@@ -124,7 +124,7 @@ class MainLoop:
         self.reset_scene()
         clip = self.audio.play('scene3')
         self.slerp_sprite.start_anim(self.slerp_sprite.animAngry)
-        self.event_scheduler.schedule(clip.get_length(), self.scene_five)         
+        self.event_scheduler.schedule(clip.get_length(), self.scene_six)         
 
     def scene_four(self):
         '''
@@ -135,7 +135,7 @@ class MainLoop:
         self.reset_scene()
         clip = self.audio.play('scene4')
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking)
-        self.event_scheduler.schedule(clip.get_length(), self.scene_five)         
+        self.event_scheduler.schedule(clip.get_length(), self.scene_six)         
 
     def scene_five(self):
         '''
@@ -194,7 +194,7 @@ class MainLoop:
         delay = self.slerp_sprite.start_anim(self.slerp_sprite.animTalking)
         self.schedule_idling(clip.get_length())
         buttons = [
-            Button(self.screen, pygame.Rect(100, 300, 520, 240), "CUP DONE", (255, 0, 255), self.scene_nine)
+            Button(self.screen, pygame.Rect(100, 300, 520, 240), "OK", (255, 0, 255), self.scene_nine)
         ]
         self.event_scheduler.schedule(22, self.set_buttons, buttons)
 
