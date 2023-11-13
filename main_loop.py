@@ -238,6 +238,7 @@ class MainLoop:
         Phew. Happy Ascension, cumrad. I’m going back to sleep.
         '''
         self.reset_scene()
+        pygame_functions.setBackgroundImage(BG_IMAGE_SYMBOL)
         timer = 0
         clip = self.audio.play('scene10-1')
         timer += clip.get_length()
@@ -253,8 +254,7 @@ class MainLoop:
         self.slerp_sprite.start_anim(self.slerp_sprite.animTalking, 0)
         self.event_scheduler.schedule(timer_start_straining, self.slerp_sprite.start_anim, self.slerp_sprite.animStraining)
         self.event_scheduler.schedule(4, self.dispenser.dispense, self.drinks[drink_name])
-        self.event_scheduler.schedule(timer_start_straining + 12.7, self.slerp_sprite.start_anim, self.slerp_sprite.animTired)
-        self.event_scheduler.schedule(timer_start_straining + 20, pygame_functions.setBackgroundImage, BG_IMAGE_SYMBOL)
+        self.event_scheduler.schedule(timer_start_straining + 11, self.slerp_sprite.start_anim, self.slerp_sprite.animTired)
         self.event_scheduler.schedule(timer_start_straining + 30, pygame_functions.setBackgroundImage, BG_IMAGE) 
         self.event_scheduler.schedule(timer_start_superpower_disclaimer, self.slerp_sprite.start_anim, self.slerp_sprite.animTalking)
         self.event_scheduler.schedule(timer_end_scene, self.scene_eleven)
