@@ -4,3 +4,6 @@ gpiozero
 rpi_ws281x
 adafruit-circuitpython-neopixel
 adafruit-blinka
+elevenlabs
+aiofiles
+numpy

@@ -1,9 +1,9 @@
 from gpiozero import Motor, Device, PWMOutputDevice
 from gpiozero.pins.mock import MockFactory, MockPWMPin
-import event_scheduler
+from .event_scheduler import EventScheduler
 import platform
-from settings import *
-# from leds import Leds
+from .settings import *
+# from .leds import Leds
 
 class Dispenser:
 
@@ -16,7 +16,7 @@ class Dispenser:
             print('gpiozero is disabled')
             Device.pin_factory = MockFactory(pin_class=MockPWMPin)
 
-        self.event_scheduler = event_scheduler.EventScheduler()
+        self.event_scheduler = EventScheduler()
 
         # Initialize the pump pins
         self.pumps = {

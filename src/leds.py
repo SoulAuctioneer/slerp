@@ -1,6 +1,6 @@
 import asyncio
 import concurrent.futures
-import event_scheduler
+from .event_scheduler import EventScheduler
 import time
 import board
 import neopixel
@@ -33,7 +33,7 @@ class _leds:
 
         print('Initializing LEDs')
 
-        self.event_scheduler = event_scheduler.EventScheduler()
+        self.event_scheduler = EventScheduler()
 
     def run(self):
         global queue

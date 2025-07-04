@@ -26,6 +26,13 @@ class Audio:
             self.playing_audio.play(loops)
         return self.playing_audio
 
+    def play_file(self, path, loops=0):
+        self.stop()
+        sound = pygame.mixer.Sound(path)
+        self.playing_audio = sound
+        self.playing_audio.play(loops)
+        return self.playing_audio
+
     def stop(self):
         if self.playing_audio:
             self.playing_audio.stop()
