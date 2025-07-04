@@ -17,12 +17,13 @@ class SceneEight(Scene):
         self._event_manager.publish("PLAY_AUDIO", name="scene8")
         self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="talking", loops=0)
         self._event_scheduler.schedule(clip_length, self._event_manager.publish, "SCHEDULE_IDLING")
-        
-        self._event_scheduler.schedule(22, self.create_buttons)
+
+        button_timing = clip_length - 2
+        self._event_scheduler.schedule(button_timing, self.create_buttons)
 
     def create_buttons(self):
         buttons = [
-            Button(self.screen, pygame.Rect(100, 300, 520, 240), "OK", BUTTON_BG_COLOR, self.next_scene)
+            Button(self.screen, pygame.Rect(100, 300, 520, 240), "OK", (255, 0, 255), self.next_scene)
         ]
         self._event_manager.publish("SET_BUTTONS", buttons=buttons)
 

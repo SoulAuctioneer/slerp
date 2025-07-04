@@ -20,8 +20,8 @@ class SceneSix(Scene):
         self._event_scheduler.schedule(clip_length, self._event_manager.publish, "SCHEDULE_IDLING")
         
         buttons = [
-             Button(self.screen, pygame.Rect(50, 225-60, 570, 150), 'I CONSENT', BUTTON_BG_COLOR, self.scene_eight),
-             Button(self.screen, pygame.Rect(50, 420-60, 570, 150), 'I DO NOT CONSENT', BUTTON_BG_COLOR, self.scene_seven)
+             Button(self.screen, pygame.Rect(50, 225-60, 570, 150), 'I CONSENT', (50, 255, 50), self.scene_eight),
+             Button(self.screen, pygame.Rect(50, 420-60, 570, 150), 'I DO NOT CONSENT', (255, 50, 50), self.scene_seven)
         ]
         self._event_manager.publish("SET_BUTTONS", buttons=buttons)
 

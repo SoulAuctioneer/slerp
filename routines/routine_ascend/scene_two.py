@@ -36,8 +36,8 @@ class SceneTwo(Scene):
 
     def create_buttons(self):
         buttons = [
-            Button(self.screen, pygame.Rect(50, 420-60, 570, 150), 'YES', BUTTON_BG_COLOR, self.scene_three),
-            Button(self.screen, pygame.Rect(50, 225-60, 570, 150), 'NO', BUTTON_BG_COLOR, self.scene_four)
+            Button(self.screen, pygame.Rect(50, 420-60, 570, 150), 'YES', (50, 255, 50), self.scene_three),
+            Button(self.screen, pygame.Rect(50, 225-60, 570, 150), 'NO', (255, 50, 50), self.scene_four)
         ]
         self._event_manager.publish("SET_BUTTONS", buttons=buttons)
 

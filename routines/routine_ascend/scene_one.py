@@ -12,7 +12,7 @@ class SceneOne(Scene):
         self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="sleeping", loops=0)
         
         buttons = [
-            Button(self.screen, pygame.Rect(100, 300, 520, 240), "THERAPIZE ME!", BUTTON_BG_COLOR, self.next_scene)
+            Button(self.screen, pygame.Rect(100, 300, 520, 240), "SLUSH ME NOW!", (255, 0, 255), self.next_scene)
         ]
         self._event_manager.publish("SET_BUTTONS", buttons=buttons)
 

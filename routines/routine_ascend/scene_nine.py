@@ -25,13 +25,3 @@ class SceneNine(Scene):
             buttons.append(button)
             y_pos += 1
         self._event_manager.publish("SET_BUTTONS", buttons=buttons)
-
-    def handle_events(self, events):
-        for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                for button in self.buttons:
-                    button.trigger_if_clicked(event.pos)
-
-    def draw(self, screen):
-        for button in self.buttons:
-            button.draw(screen) 
