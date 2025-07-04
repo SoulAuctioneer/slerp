@@ -6,14 +6,20 @@ class SceneManager:
         self.screen = None
         self._event_manager = ServiceLocator.get("event_manager")
         self._event_manager.subscribe('CHANGE_SCENE', self.set_scene)
+        self._event_scheduler = ServiceLocator.get("event_scheduler")
 
     def set_scene(self, scene_class=None, **kwargs):
+        print(f"DEBUG: set_scene called with scene_class: {scene_class.__name__ if scene_class else 'None'}")
+        print("DEBUG: Calling reset_buttons")
         ServiceLocator.get("app").reset_buttons()
         if scene_class:
+            print(f"DEBUG: Creating new scene: {scene_class.__name__}")
             self.current_scene = scene_class(screen=self.screen, **kwargs)
             if self.current_scene:
+                print(f"DEBUG: Running scene: {scene_class.__name__}")
                 self.current_scene.run()
         else:
+            print("DEBUG: Setting current_scene to None")
             self.current_scene = None
 
     def update(self):

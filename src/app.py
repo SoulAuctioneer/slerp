@@ -39,9 +39,9 @@ class App:
         ServiceLocator.register("event_manager", self.event_manager)
 
         # Services and Managers
-        self.scene_manager = SceneManager()
         self.event_scheduler = EventScheduler()
         ServiceLocator.register("event_scheduler", self.event_scheduler)
+        self.scene_manager = SceneManager()
         self.audio_service = Audio() # Will be refactored to be a proper service
         self.slerp_sprite_service = SlerpSprite()
         self.dispenser_service = Dispenser()
@@ -60,10 +60,18 @@ class App:
         self.event_manager.publish("CHANGE_SCENE", scene_class=self.routine.get_start_scene())
 
     def set_buttons(self, buttons):
+        print(f"DEBUG: set_buttons called with {len(buttons)} buttons")
+        for i, button in enumerate(buttons):
+            print(f"DEBUG: Button {i}: {button.text if hasattr(button, 'text') else 'No text'}")
+        self.reset_buttons()  # Always reset first
         self.buttons = [self.admin_button] + buttons
+        print(f"DEBUG: Total buttons after set_buttons: {len(self.buttons)}")
 
     def reset_buttons(self):
+        print(f"DEBUG: reset_buttons called. Before: {len(self.buttons)} buttons")
         self.buttons = [self.admin_button]
+        pygame_functions.setBackgroundImage(BG_IMAGE)  # Clear any drawn buttons by resetting background
+        print(f"DEBUG: reset_buttons complete. After: {len(self.buttons)} buttons")
 
     def schedule_idling(self):
         self.event_scheduler.cancel_all() # Cancel any pending scene changes
@@ -88,6 +96,7 @@ class App:
 
     def run(self):
         self.is_running = True
+        frame_count = 0
         while self.is_running:
             events = pygame.event.get()
             for event in events:
@@ -110,6 +119,12 @@ class App:
             self.scene_manager.draw(self.screen)
             for button in self.buttons:
                 button.draw(self.screen)
+            
+            # Debug logging every 120 frames (5 seconds at 24fps)
+            frame_count += 1
+            if frame_count % 120 == 0:
+                print(f"DEBUG: Frame {frame_count}, drawing {len(self.buttons)} buttons")
+                
             pygame_functions.updateDisplay()
             pygame_functions.tick(24)
 
