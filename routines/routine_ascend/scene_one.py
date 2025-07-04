@@ -4,7 +4,6 @@ import pygame
 from ..base_scene import Scene
 from .scene_two import SceneTwo
 from src.button import Button
-from src.service_locator import ServiceLocator
 from src.settings import SNORE_LOUD, PLAY_MUSIC, MUSIC, BUTTON_BG_COLOR
 
 class SceneOne(Scene):
@@ -12,7 +11,7 @@ class SceneOne(Scene):
         self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="sleeping", loops=0)
         
         buttons = [
-            Button(self.screen, pygame.Rect(100, 300, 520, 240), "SLUSH ME NOW!", (255, 0, 255), self.next_scene)
+            Button(self.screen, pygame.Rect(100, 300, 520, 240), "SLUSH ME NOW!", BUTTON_BG_COLOR, self.next_scene)
         ]
         self._event_manager.publish("SET_BUTTONS", buttons=buttons)
 
