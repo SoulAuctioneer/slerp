@@ -8,6 +8,7 @@ class SceneManager:
         self._event_manager.subscribe('CHANGE_SCENE', self.set_scene)
 
     def set_scene(self, scene_class=None, **kwargs):
+        ServiceLocator.get("app").reset_buttons()
         if scene_class:
             self.current_scene = scene_class(screen=self.screen, **kwargs)
             if self.current_scene:

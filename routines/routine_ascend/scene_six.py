@@ -10,7 +10,6 @@ class SceneSix(Scene):
     def __init__(self, screen, **kwargs):
         super().__init__(screen)
         self._event_scheduler = ServiceLocator.get("event_scheduler")
-        self.buttons = []
 
     def run(self):
         audio_service = ServiceLocator.get("audio")
@@ -20,20 +19,11 @@ class SceneSix(Scene):
         self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="talking", loops=0)
         self._event_scheduler.schedule(clip_length, self._event_manager.publish, "SCHEDULE_IDLING")
         
-        self.buttons = [
+        buttons = [
              Button(self.screen, pygame.Rect(50, 225-60, 570, 150), 'I CONSENT', BUTTON_BG_COLOR, self.scene_eight),
              Button(self.screen, pygame.Rect(50, 420-60, 570, 150), 'I DO NOT CONSENT', BUTTON_BG_COLOR, self.scene_seven)
         ]
-
-    def handle_events(self, events):
-        for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                for button in self.buttons:
-                    button.trigger_if_clicked(event.pos)
-
-    def draw(self, screen):
-        for button in self.buttons:
-            button.draw(screen)
+        self._event_manager.publish("SET_BUTTONS", buttons=buttons)
 
     def scene_seven(self):
         self._event_manager.publish("CHANGE_SCENE", scene_class=SceneSeven)

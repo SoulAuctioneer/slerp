@@ -7,7 +7,6 @@ class SceneNine(Scene):
     def __init__(self, screen, **kwargs):
         super().__init__(screen)
         self._event_scheduler = ServiceLocator.get("event_scheduler")
-        self.buttons = []
 
     def run(self):
         audio_service = ServiceLocator.get("audio")
@@ -19,11 +18,13 @@ class SceneNine(Scene):
         
         app = ServiceLocator.get("app")
         drinks = app.routine.get_drinks()
+        buttons = []
         y_pos = 0
         for drink in drinks.values():
             button = Button(self.screen, pygame.Rect(50, 50 + y_pos * 110, 570, 80), drink.name, drink.rgb, drink.page_function)
-            self.buttons.append(button)
+            buttons.append(button)
             y_pos += 1
+        self._event_manager.publish("SET_BUTTONS", buttons=buttons)
 
     def handle_events(self, events):
         for event in events:

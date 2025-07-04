@@ -9,7 +9,6 @@ class SceneEight(Scene):
     def __init__(self, screen, **kwargs):
         super().__init__(screen)
         self._event_scheduler = ServiceLocator.get("event_scheduler")
-        self.buttons = []
 
     def run(self):
         audio_service = ServiceLocator.get("audio")
@@ -22,19 +21,10 @@ class SceneEight(Scene):
         self._event_scheduler.schedule(22, self.create_buttons)
 
     def create_buttons(self):
-        self.buttons = [
+        buttons = [
             Button(self.screen, pygame.Rect(100, 300, 520, 240), "OK", BUTTON_BG_COLOR, self.next_scene)
         ]
+        self._event_manager.publish("SET_BUTTONS", buttons=buttons)
 
     def next_scene(self):
-        self._event_manager.publish("CHANGE_SCENE", scene_class=SceneNine)
-
-    def handle_events(self, events):
-        for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                for button in self.buttons:
-                    button.trigger_if_clicked(event.pos)
-
-    def draw(self, screen):
-        for button in self.buttons:
-            button.draw(screen) 
+        self._event_manager.publish("CHANGE_SCENE", scene_class=SceneNine) 

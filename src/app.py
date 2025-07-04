@@ -25,12 +25,14 @@ class App:
 
         # Global UI
         self.admin_button = Button(self.screen, pygame.Rect(SCREEN_WIDTH - BUTTON_DEBUG_SIZE, SCREEN_HEIGHT - BUTTON_DEBUG_SIZE, BUTTON_DEBUG_SIZE, BUTTON_DEBUG_SIZE), None, None, self.show_admin_panel)
+        self.buttons = [self.admin_button]
 
         # Core components
         self.is_running = False
         self.idle_timeout = None
         self.event_manager = EventManager()
         self.event_manager.subscribe("SCHEDULE_IDLING", self.schedule_idling)
+        self.event_manager.subscribe("SET_BUTTONS", self.set_buttons)
         
         # Register core components
         ServiceLocator.register("app", self)
@@ -56,6 +58,12 @@ class App:
         self.routine = routine_module.get_routine(self)
         self.routine.load()
         self.event_manager.publish("CHANGE_SCENE", scene_class=self.routine.get_start_scene())
+
+    def set_buttons(self, buttons):
+        self.buttons = [self.admin_button] + buttons
+
+    def reset_buttons(self):
+        self.buttons = [self.admin_button]
 
     def schedule_idling(self):
         self.event_scheduler.cancel_all() # Cancel any pending scene changes
@@ -86,7 +94,8 @@ class App:
                 if event.type == pygame.QUIT:
                     self.is_running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.admin_button.trigger_if_clicked(event.pos)
+                    for button in self.buttons:
+                        button.trigger_if_clicked(event.pos)
 
             self.scene_manager.handle_events(events)
             self.scene_manager.update()
@@ -99,7 +108,8 @@ class App:
 
             # Drawing
             self.scene_manager.draw(self.screen)
-            self.admin_button.draw(self.screen)
+            for button in self.buttons:
+                button.draw(self.screen)
             pygame_functions.updateDisplay()
             pygame_functions.tick(24)
 

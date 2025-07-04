@@ -59,18 +59,24 @@ The application will launch in fullscreen mode by default (this can be changed i
 
 The codebase is organized into several modules and directories:
 
-*   `main.py`: The main entry point of the application. It sets up the environment and starts the main loop.
+*   `main.py`: The main entry point of the application. It initializes the Service Locator and starts the main application loop.
 *   `src/`: This directory contains all the main source code for the application.
-    *   `main_loop.py`: The core of the application. It manages the game state, event loop, and acts as a context for the different scenes.
-    *   `scenes/`: This directory holds the logic for each individual scene in the narrative.
+    *   `app.py`: The core of the application. It manages the game state, event loop, and orchestrates the different routines and scenes.
     *   `settings.py`: Contains all the global configuration constants, such as screen dimensions, GPIO pin numbers, and asset paths.
+    *   `service_locator.py`: A simple implementation of the Service Locator pattern that provides global access to shared services like `audio`, `event_manager`, etc.
+    *   `scene_manager.py`: Manages the loading, unloading, and transitioning between different scenes.
+    *   `event_manager.py`: A simple pub/sub event manager to decouple different parts of the application.
+    *   `event_scheduler.py`: A simple scheduler to trigger functions after a specified delay.
     *   `dispenser.py`: Handles all communication with the GPIO pins to control the liquid pumps.
     *   `slerp_sprite.py`: Manages the loading and animation of the Slerp character sprites.
     *   `audio.py`: Manages loading and playback of all audio files.
     *   `speech_synthesiser.py`: Uses the ElevenLabs API to generate speech audio clips from text.
     *   `button.py`: A UI component for creating interactive buttons.
     *   `drink.py`: A simple data class to define the properties of each drink.
-    *   `event_scheduler.py`: A simple scheduler to trigger functions after a specified delay.
+*   `routines/`: This directory contains the different narrative paths or "routines" that the user can experience. Each routine is a collection of scenes.
+    *   `base_routine.py`: A base class for all routines.
+    *   `base_scene.py`: A base class for all scenes.
+    *   `routine_ascend/`: An example routine directory, containing the scenes for that specific narrative.
 *   `lib/`: Contains third-party library files.
 *   `tests/`: Contains scripts for testing hardware components.
 *   `assets/`: Contains all the media for the project, including images, fonts, and audio files.

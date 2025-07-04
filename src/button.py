@@ -18,27 +18,45 @@ class Button:
         if self.is_invisible:
             return
 
-        global FONT
-        if not FONT:
-            FONT = pygame.font.Font(BUTTON_FONT_FACE, BUTTON_FONT_SIZE)
+        # Create a low-resolution surface for a pixelated effect
+        scale = 4
+        low_res_width = self.rect.width // scale
+        low_res_height = self.rect.height // scale
+        low_res_surface = pygame.Surface((low_res_width, low_res_height), pygame.SRCALPHA)
 
-        # Create a surface for the button and fill it with background color
-        self.button_surface = pygame.Surface((self.rect.width, self.rect.height))
-        self.button_surface.fill(self.background)
+        # Drawing parameters for the low-res surface
+        border_radius = 3  # 12 / 4
+        bevel = 1          # 4 / 4
+        width, height = low_res_width, low_res_height
 
-        # Create a 3D bevel effect
-        width = 7
-        offset = (width-1)/2
-        pygame.draw.line(self.button_surface, WHITE, (width, offset), (self.rect.width-width, offset), width)  # Top edge
-        pygame.draw.line(self.button_surface, WHITE, (offset, width), (offset, self.rect.height-width), width)  # Left edge
-        pygame.draw.line(self.button_surface, DARK_GREY, (width, self.rect.height-offset), (self.rect.width-width, self.rect.height-offset), width)  # Bottom edge
-        pygame.draw.line(self.button_surface, DARK_GREY, (self.rect.width-offset, width), (self.rect.width-offset, self.rect.height-width), width)  # Right edge
+        # 1. Shadow
+        shadow_rect = pygame.Rect(bevel, bevel, width - bevel, height - bevel)
+        pygame.draw.rect(low_res_surface, DARK_GREY, shadow_rect, border_radius=border_radius)
 
-        # Create the text with a drop shadow
-        self.button_text = FONT.render(self.label, True, WHITE)
-        self.text_rect = self.button_text.get_rect(center=self.rect.center)
-        self.text_rect.centery = self.text_rect.centery+3
-        self.text_shadow = FONT.render(self.label, True, DARK_GREY)
+        # 2. Highlight
+        highlight_rect = pygame.Rect(0, 0, width - bevel, height - bevel)
+        pygame.draw.rect(low_res_surface, WHITE, highlight_rect, border_radius=border_radius)
+
+        # 3. Button Face
+        face_rect = pygame.Rect(bevel, bevel, width - (2 * bevel), height - (2 * bevel))
+        pygame.draw.rect(low_res_surface, self.background, face_rect, border_radius=border_radius)
+
+        # Scale up the surface to create the final pixelated button
+        self.button_surface = pygame.transform.scale(low_res_surface, (self.rect.width, self.rect.height))
+
+        # Create the text at full resolution
+        if self.label:
+            global FONT
+            if not FONT:
+                FONT = pygame.font.Font(BUTTON_FONT_FACE, BUTTON_FONT_SIZE)
+            
+            # Render text with a drop shadow
+            self.text_shadow = FONT.render(self.label, True, DARK_GREY)
+            self.shadow_rect = self.text_shadow.get_rect(center=self.rect.center)
+            self.shadow_rect.move_ip(2, 2)
+
+            self.button_text = FONT.render(self.label, True, WHITE)
+            self.text_rect = self.button_text.get_rect(center=self.rect.center)
 
     def trigger_if_clicked(self, pos):
         if self.rect.collidepoint(pos):
@@ -49,9 +67,10 @@ class Button:
         if self.is_invisible:
             return
 
-        # Draw the button surface on the screen
+        # Draw the pre-rendered button surface on the screen
         screen.blit(self.button_surface, (self.rect.left, self.rect.top))
 
-        # Draw the text with a drop shadow
-        screen.blit(self.text_shadow, (self.text_rect.x+3, self.text_rect.y+3))  # Shadow
-        screen.blit(self.button_text, self.text_rect)  # Text
+        # Draw the full-resolution text
+        if self.label:
+            screen.blit(self.text_shadow, self.shadow_rect)
+            screen.blit(self.button_text, self.text_rect)

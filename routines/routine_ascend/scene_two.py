@@ -10,7 +10,6 @@ class SceneTwo(Scene):
     def __init__(self, screen, **kwargs):
         super().__init__(screen)
         self._event_scheduler = ServiceLocator.get("event_scheduler")
-        self.buttons = []
 
     def run(self):
         self._event_manager.publish("STOP_MUSIC")
@@ -36,20 +35,11 @@ class SceneTwo(Scene):
         self._event_manager.publish("SCHEDULE_BUBBLE", start_timer=12, pump_name='transparent', duration=5)
 
     def create_buttons(self):
-        self.buttons = [
+        buttons = [
             Button(self.screen, pygame.Rect(50, 420-60, 570, 150), 'YES', BUTTON_BG_COLOR, self.scene_three),
             Button(self.screen, pygame.Rect(50, 225-60, 570, 150), 'NO', BUTTON_BG_COLOR, self.scene_four)
         ]
-
-    def handle_events(self, events):
-        for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                for button in self.buttons:
-                    button.trigger_if_clicked(event.pos)
-
-    def draw(self, screen):
-        for button in self.buttons:
-            button.draw(screen)
+        self._event_manager.publish("SET_BUTTONS", buttons=buttons)
 
     def scene_three(self):
         self._event_manager.publish("CHANGE_SCENE", scene_class=SceneThree)
