@@ -1,20 +1,36 @@
-from .base import Scene
+import pygame
+from ..base_scene import Scene
+from src.service_locator import ServiceLocator
+from src.button import Button
 
 class SceneNine(Scene):
+    def __init__(self, screen, **kwargs):
+        super().__init__(screen)
+        self._event_scheduler = ServiceLocator.get("event_scheduler")
+        self.buttons = []
+
     def run(self):
-        '''
-        SCENE 9
-        What superpower shall I mix into your alien slushy?
-        UI:
-        Invisibility > Go to SCENE 10 (orange)
-        Teleportation > Go to SCENE 11 (purple)
-        Telekinesis > Go to SCENE 12 (yellow)
-        Clairvoyance > Go to SCENE 13 (green)
-        Omnilingualism > Go to SCENE 14 (blue)
-        Flight > Go to SCENE 15 (red)
-        '''
-        self.context.reset_scene()
-        clip = self.context.audio.play('scene9')
-        delay = self.context.slerp_sprite.start_anim(self.context.slerp_sprite.animTalking)
-        self.context.schedule_idling(clip.get_length())
-        self.context.show_drink_buttons() 
+        audio_service = ServiceLocator.get("audio")
+        clip_length = audio_service.audio_files['scene9'].get_length()
+
+        self._event_manager.publish("PLAY_AUDIO", name="scene9")
+        self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="talking", loops=0)
+        self._event_scheduler.schedule(clip_length, self._event_manager.publish, "SCHEDULE_IDLING")
+        
+        app = ServiceLocator.get("app")
+        drinks = app.routine.get_drinks()
+        y_pos = 0
+        for drink in drinks.values():
+            button = Button(self.screen, pygame.Rect(50, 50 + y_pos * 110, 570, 80), drink.name, drink.rgb, drink.page_function)
+            self.buttons.append(button)
+            y_pos += 1
+
+    def handle_events(self, events):
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                for button in self.buttons:
+                    button.trigger_if_clicked(event.pos)
+
+    def draw(self, screen):
+        for button in self.buttons:
+            button.draw(screen) 

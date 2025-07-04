@@ -17,7 +17,10 @@ class EventScheduler:
             if current_time >= event['trigger_time']:
                 print(f"EXECUTING EVENT. Current time: {current_time}, Function: {event['function'].__name__}, Args: {event['args']}, Kwargs: {event['kwargs']}")
                 event['function'](*event['args'], **event['kwargs'])
-                self.scheduled_events.remove(event)
+                try:
+                    self.scheduled_events.remove(event)
+                except ValueError:
+                    pass # event may have been removed by another execution
 
     # Cancel a scheduled function by its name
     def cancel(self, function_name):

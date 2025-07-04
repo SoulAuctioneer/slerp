@@ -1,18 +1,23 @@
-from .base import Scene
+from ..base_scene import Scene
 from .scene_six import SceneSix
+from src.service_locator import ServiceLocator
 
 class SceneFive(Scene):
+    def __init__(self, screen, **kwargs):
+        super().__init__(screen)
+        self._event_scheduler = ServiceLocator.get("event_scheduler")
+
     def run(self):
-        '''
-        SCENE 5
-        Slerp: But it's not just any icy confection. This stuff is special: <whispers sotto voce> I add Ascension Factor X! It's this incredible alien cumcoction, gifted to us by our alien benefactors, and you definitely want it! <exasperated> Although I am legally required to receive your consent to add the Factor X to your slushie. 
-        > Go to SCENE 6
-        '''
-        self.context.reset_scene()
-        clip = self.context.audio.play('scene5')
-        self.context.slerp_sprite.start_anim(self.context.slerp_sprite.animTalking)
-        self.context.event_scheduler.schedule(clip.get_length(), lambda: self.context.set_scene(SceneSix(self.context)))
-        self.context.dispenser.schedule_bubble(1, 'cyan', 4)
-        self.context.dispenser.schedule_bubble(5, 'magenta', 5)
-        self.context.dispenser.schedule_bubble(10, 'yellow', 5)
-        self.context.dispenser.schedule_bubble(12, 'transparent', 5) 
+        audio_service = ServiceLocator.get("audio")
+        clip_length = audio_service.audio_files['scene5'].get_length()
+
+        self._event_manager.publish("PLAY_AUDIO", name="scene5")
+        self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="talking", loops=0)
+
+        self._event_scheduler.schedule(clip_length, self._event_manager.publish, "CHANGE_SCENE", scene_class=SceneSix)
+        
+        # Schedule bubbles
+        self._event_manager.publish("SCHEDULE_BUBBLE", start_timer=1, pump_name='cyan', duration=4)
+        self._event_manager.publish("SCHEDULE_BUBBLE", start_timer=5, pump_name='magenta', duration=5)
+        self._event_manager.publish("SCHEDULE_BUBBLE", start_timer=10, pump_name='yellow', duration=5)
+        self._event_manager.publish("SCHEDULE_BUBBLE", start_timer=12, pump_name='transparent', duration=5) 

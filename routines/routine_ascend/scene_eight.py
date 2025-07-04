@@ -1,23 +1,40 @@
 import pygame
-from .base import Scene
-from ..button import Button
+from ..base_scene import Scene
+from src.button import Button
 from .scene_nine import SceneNine
+from src.service_locator import ServiceLocator
+from src.settings import BUTTON_BG_COLOR
 
 class SceneEight(Scene):
+    def __init__(self, screen, **kwargs):
+        super().__init__(screen)
+        self._event_scheduler = ServiceLocator.get("event_scheduler")
+        self.buttons = []
+
     def run(self):
-        '''
-        SCENE 8
-        Slerp: Thank you for your consent! Isn’t the illusion of free will fabulous?!
-        Ascension Factor X is the sacrament of our alien benefactors, the Elders of Nebula (pronounced “nrrblrr”). While preparing your soul for Ascension, it also has the happy side effect of instantly granting you an incredible superpower of your choice!
-        Place a cup below the dispenser. Be careful, I’m very delicate.
-        UI:
-        Done > Go to SCENE 9
-        '''
-        self.context.reset_scene()
-        clip = self.context.audio.play('scene8')
-        delay = self.context.slerp_sprite.start_anim(self.context.slerp_sprite.animTalking)
-        self.context.schedule_idling(clip.get_length())
-        buttons = [
-            Button(self.context.screen, pygame.Rect(100, 300, 520, 240), "OK", (255, 0, 255), lambda: self.context.set_scene(SceneNine(self.context)))
+        audio_service = ServiceLocator.get("audio")
+        clip_length = audio_service.audio_files['scene8'].get_length()
+
+        self._event_manager.publish("PLAY_AUDIO", name="scene8")
+        self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="talking", loops=0)
+        self._event_scheduler.schedule(clip_length, self._event_manager.publish, "SCHEDULE_IDLING")
+        
+        self._event_scheduler.schedule(22, self.create_buttons)
+
+    def create_buttons(self):
+        self.buttons = [
+            Button(self.screen, pygame.Rect(100, 300, 520, 240), "OK", BUTTON_BG_COLOR, self.next_scene)
         ]
-        self.context.event_scheduler.schedule(22, self.context.set_buttons, buttons) 
+
+    def next_scene(self):
+        self._event_manager.publish("CHANGE_SCENE", scene_class=SceneNine)
+
+    def handle_events(self, events):
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                for button in self.buttons:
+                    button.trigger_if_clicked(event.pos)
+
+    def draw(self, screen):
+        for button in self.buttons:
+            button.draw(screen) 

@@ -1,14 +1,17 @@
-from .base import Scene
+from ..base_scene import Scene
 from .scene_eight import SceneEight
+from src.service_locator import ServiceLocator
 
 class SceneFour(Scene):
+    def __init__(self, screen, **kwargs):
+        super().__init__(screen)
+        self._event_scheduler = ServiceLocator.get("event_scheduler")
+
     def run(self):
-        '''
-        SCENE 4
-        Slerp: Ahh yes your compliant nature makes you a perfect candidate for Ascension! In that case, I shall entirely disregard your preference, and for your own good I SHALL serve you a slushy.
-        > Go to SCENE 5
-        '''
-        self.context.reset_scene()
-        clip = self.context.audio.play('scene4')
-        self.context.slerp_sprite.start_anim(self.context.slerp_sprite.animTalking)
-        self.context.event_scheduler.schedule(clip.get_length(), lambda: self.context.set_scene(SceneEight(self.context))) 
+        audio_service = ServiceLocator.get("audio")
+        clip_length = audio_service.audio_files['scene4'].get_length()
+
+        self._event_manager.publish("PLAY_AUDIO", name="scene4")
+        self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="talking", loops=0)
+        
+        self._event_scheduler.schedule(clip_length, self._event_manager.publish, "CHANGE_SCENE", scene_class=SceneEight) 

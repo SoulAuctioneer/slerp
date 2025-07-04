@@ -1,5 +1,8 @@
 import os
 
+# Active routine
+ACTIVE_ROUTINE = "routine_ascend"
+
 # Screen dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
 
@@ -23,6 +26,7 @@ WHITE = (255, 255, 255)
 NEON_BLUE = (50, 50, 255)
 DARK_BLUE = (25, 25, 128)
 DARK_GREY = (32, 32, 32)
+BUTTON_BG_COLOR = DARK_GREY
 
 # Hidden debug button size
 BUTTON_DEBUG_SIZE = 100

@@ -7,7 +7,6 @@ class Button:
 
     def __init__(self, screen, rect, label, background, on_click, *args):
 
-        self.screen = screen
         self.rect = rect
         self.label = label
         self.background = background
@@ -45,14 +44,14 @@ class Button:
         if self.rect.collidepoint(pos):
             self.on_click(*self.args)
 
-    def draw(self):
+    def draw(self, screen):
 
         if self.is_invisible:
             return
 
         # Draw the button surface on the screen
-        self.screen.blit(self.button_surface, (self.rect.left, self.rect.top))
+        screen.blit(self.button_surface, (self.rect.left, self.rect.top))
 
         # Draw the text with a drop shadow
-        self.screen.blit(self.text_shadow, (self.text_rect.x+3, self.text_rect.y+3))  # Shadow
-        self.screen.blit(self.button_text, self.text_rect)  # Text
+        screen.blit(self.text_shadow, (self.text_rect.x+3, self.text_rect.y+3))  # Shadow
+        screen.blit(self.button_text, self.text_rect)  # Text

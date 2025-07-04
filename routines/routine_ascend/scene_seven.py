@@ -1,14 +1,17 @@
-from .base import Scene
+from ..base_scene import Scene
 from .scene_six import SceneSix
+from src.service_locator import ServiceLocator
 
 class SceneSeven(Scene):
+    def __init__(self, screen, **kwargs):
+        super().__init__(screen)
+        self._event_scheduler = ServiceLocator.get("event_scheduler")
+
     def run(self):
-        '''
-        SCENE 7
-        Slerp: Hmm interesting;  I congratulate you on maintaining the illusion of choice. However, due to - err - <cough> a “bug”, I can only produce slushies that include Ascension Factor X. Please try again.
-        > Go to SCENE 6
-        '''
-        self.context.reset_scene()
-        clip = self.context.audio.play('scene7')
-        self.context.slerp_sprite.start_anim(self.context.slerp_sprite.animTired)
-        self.context.event_scheduler.schedule(clip.get_length(), lambda: self.context.set_scene(SceneSix(self.context))) 
+        audio_service = ServiceLocator.get("audio")
+        clip_length = audio_service.audio_files['scene7'].get_length()
+
+        self._event_manager.publish("PLAY_AUDIO", name="scene7")
+        self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="tired", loops=0)
+
+        self._event_scheduler.schedule(clip_length, self._event_manager.publish, "CHANGE_SCENE", scene_class=SceneSix) 
