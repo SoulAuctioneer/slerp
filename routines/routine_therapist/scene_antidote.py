@@ -4,7 +4,7 @@ import math
 from ..base_scene import Scene
 from src.service_locator import ServiceLocator
 from .scene_outro import SceneOutro
-from src.settings import BG_IMAGE, BG_IMAGE_SYMBOL, PLAY_MUSIC, MUSIC
+from src.settings import MUSIC
 
 class SceneAntidote(Scene):
     def __init__(self, screen, **kwargs):
