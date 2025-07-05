@@ -8,7 +8,8 @@ Slerp the SlushMaster is an interactive art installation running on a Raspberry 
 *   **Physical Integration:** Controls up to four liquid pumps using `gpiozero` to create custom-mixed drinks.
 *   **Pygame-based UI:** A graphical user interface with animated sprites, custom fonts, and interactive buttons.
 *   **Event-Driven Architecture:** Uses a custom event scheduler for precise timing of animations, audio cues, and hardware actions.
-*   **Configurable:** Key parameters like GPIO pin assignments, screen settings, and pump timings are easily configurable in a central settings file.
+*   **Intelligent Subtitles:** Automatic scrolling subtitles synchronized with speech synthesis, with configurable styling and optional per-speech control.
+*   **Configurable:** Key parameters like GPIO pin assignments, screen settings, pump timings, and subtitle appearance are easily configurable in a central settings file.
 *   **Admin Panel:** A hidden debug panel provides administrative functions for testing and restarting the experience.
 
 ## Hardware Setup
@@ -71,6 +72,8 @@ The codebase is organized into several modules and directories:
     *   `slerp_sprite.py`: Manages the loading and animation of the Slerp character sprites.
     *   `audio.py`: Manages loading and playback of all audio files.
     *   `speech_synthesiser.py`: Uses the ElevenLabs API to generate speech audio clips from text.
+    *   `tts_service.py`: Integrates speech synthesis with the event system and provides exact audio duration.
+    *   `subtitle_service.py`: Manages automatic scrolling subtitles synchronized with speech synthesis.
     *   `button.py`: A UI component for creating interactive buttons.
     *   `drink.py`: A simple data class to define the properties of each drink.
 *   `routines/`: This directory contains the different narrative paths or "routines" that the user can experience. Each routine is a collection of scenes.
@@ -81,6 +84,41 @@ The codebase is organized into several modules and directories:
 *   `tests/`: Contains scripts for testing hardware components.
 *   `assets/`: Contains all the media for the project, including images, fonts, and audio files.
 
+## Subtitle System
+
+The application features an intelligent subtitle system that automatically displays scrolling text synchronized with speech synthesis. The system is designed to be completely decoupled from individual scenes, requiring no changes to existing code.
+
+### How It Works
+
+*   **Automatic Activation:** Subtitles automatically appear when any scene publishes a `SYNTHESIZE_SPEECH` event
+*   **Precise Timing:** Uses exact audio duration from the TTS service (no estimation)
+*   **Smart Scrolling:** Long text scrolls horizontally from right to left; short text centers on screen
+*   **Automatic Cleanup:** Subtitles disappear when speech ends or scrolling completes
+*   **Scene Independence:** Subtitles clear automatically when scenes change
+
+### Usage in Scenes
+
+By default, all speech synthesis includes subtitles:
+
+```python
+# This will show subtitles automatically
+self._event_manager.publish("SYNTHESIZE_SPEECH", text="Hello world!", callback=self.on_speech_complete)
+```
+
+To disable subtitles for specific speech (e.g., internal thoughts, background audio):
+
+```python
+# This will play TTS but hide subtitles
+self._event_manager.publish("SYNTHESIZE_SPEECH", text="Secret message", show_subtitles=False, callback=self.on_speech_complete)
+```
+
+### Technical Details
+
+*   **Event-Driven:** Integrates seamlessly with the existing event system
+*   **Frame-Based Timing:** Uses reliable frame-based timing instead of schedulers
+*   **Background Clearing:** Properly clears old text by redrawing the background image
+*   **Configurable Styling:** All visual aspects controlled via `settings.py`
+
 ## Configuration
 
 Most of the application's behavior can be customized in `settings.py`:
@@ -89,6 +127,17 @@ Most of the application's behavior can be customized in `settings.py`:
 *   `SCREEN_WIDTH`, `SCREEN_HEIGHT`: The dimensions of the display.
 *   `PUMP_*` constants: The GPIO pin numbers and timing characteristics for each pump. These **must** be configured correctly for your hardware.
 *   `PLAY_MUSIC`, `SNORE_LOUD`: Toggles for background music and specific sound effects.
+
+### Subtitle Configuration
+
+*   `SUBTITLES_ENABLED`: Set to `False` to disable subtitles entirely.
+*   `SUBTITLE_FONT_SIZE`: Font size for subtitle text (default: 36).
+*   `SUBTITLE_COLOR`: RGB color tuple for subtitle text (default: white).
+*   `SUBTITLE_BACKGROUND_COLOR`: RGBA color tuple for subtitle background (default: semi-transparent black).
+*   `SUBTITLE_PADDING`: Padding around subtitle text in pixels (default: 20).
+*   `SUBTITLE_Y_OFFSET`: Distance from bottom of screen in pixels (default: 150).
+*   `SUBTITLE_SCROLL_SPEED`: Scrolling speed in pixels per frame (default: 2).
+*   `SUBTITLE_SCROLL_START_DELAY`: Frames to wait before starting scroll (default: 30).
 
 ## Admin Panel
 
