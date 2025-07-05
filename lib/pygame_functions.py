@@ -6,7 +6,7 @@
 
 import pygame, sys, os
 
-pygame.mixer.pre_init(44100, -16, 2, 1024)
+pygame.mixer.pre_init(44100, -16, 2, 512)
 pygame.init()
 pygame.mixer.init()
 spriteGroup = pygame.sprite.OrderedUpdates()
