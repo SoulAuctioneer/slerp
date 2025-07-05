@@ -9,21 +9,21 @@ from src.settings import MUSIC
 class SceneAntidote(Scene):
     def __init__(self, screen, **kwargs):
         super().__init__(screen, **kwargs)
-        self.diagnosis_key = kwargs.get('diagnosis_key')
         self._event_scheduler = ServiceLocator.get("event_scheduler")
         self.brain_juice_sprite = None
         self.brain_juice_animation_active = False
-        self.brain_juice_base_y = 30  # Base Y position for bobbing (moved down to avoid overlap)
-        self.brain_juice_x = 30  # X position on left side of screen (moved right to account for sprite width)
+        self.brain_juice_base_y = 30  # Base Y position for bobbing
+        self.brain_juice_x = 30  # X position on left side of screen
         self.animation_timer = 0
-        self.sprite_scale = 0.6  # Scale down the 1024x1024 image to about 200x200 pixels
+        self.sprite_scale = 0.6  # Scale down the 1024x1024 image
 
     def run(self):        
         dispenser = ServiceLocator.get("dispenser")
         app = ServiceLocator.get("app")
         
-        # Get the appropriate drink based on diagnosis
-        drink = self._get_antidote_drink(self.diagnosis_key)
+        # Get the selected diagnosis and determine appropriate drink
+        selected_diagnosis = app.routine.get_state("selected_diagnosis")
+        drink = self._get_antidote_drink(selected_diagnosis)
         
         # Start talking animation
         self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="talking", loops=0)
@@ -105,21 +105,13 @@ class SceneAntidote(Scene):
                 # If transformSprite doesn't exist, skip scaling
                 pass
 
-    def _get_antidote_drink(self, diagnosis_key):
-        """Map diagnosis to appropriate antidote drink"""
+    def _get_antidote_drink(self, selected_diagnosis):
+        """Get the appropriate drink based on the diagnosis"""
         app = ServiceLocator.get("app")
         drinks = app.routine.get_drinks()
         
-        # Map diagnoses to drinks
-        diagnosis_drink_map = {
-            "mom_hates_me": "confidence",
-            "hate_myself": "happiness", 
-            "penis_envy": "confidence",
-            "no_soul": "zen",
-            "butterfly_phobia": "clarity",
-            "reality_tv_addiction": "clarity"
-        }
+        # Get the first drink from the diagnosis (or default to confidence)
+        drink_names = selected_diagnosis.get("drinks", ["confidence"])
+        drink_name = drink_names[0] if drink_names else "confidence"
         
-        # Get the appropriate drink or default to confidence
-        drink_key = diagnosis_drink_map.get(diagnosis_key, "confidence")
-        return drinks.get(drink_key, drinks["confidence"]) 
+        return drinks.get(drink_name, drinks["confidence"]) 

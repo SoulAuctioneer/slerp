@@ -11,6 +11,9 @@ class SceneManager:
     def set_scene(self, scene_class=None, **kwargs):
         print(f"set_scene called with scene_class: {scene_class.__name__ if scene_class else 'None'}")
 
+        # Cancel all scheduled events to prevent stale events from previous scenes
+        self._event_scheduler.cancel_all()
+
         ServiceLocator.get("app").reset_buttons()
         self._event_manager.publish("STOP_MUSIC")
         self._event_manager.publish("STOP_AUDIO")
@@ -18,8 +21,6 @@ class SceneManager:
         # Clear subtitles when changing scenes
         subtitle_service = ServiceLocator.get("subtitles")
         subtitle_service.hide_subtitles()
-        # Cancel all scheduled events to prevent stale events from previous scenes
-        self._event_scheduler.cancel_all()
 
         if scene_class:
             self.current_scene = scene_class(screen=self.screen, **kwargs)

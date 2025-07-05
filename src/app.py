@@ -74,7 +74,7 @@ class App:
         pygame_functions.setBackgroundImage(BG_IMAGE)  # Clear any drawn buttons by resetting background
 
     def schedule_idling(self):
-        self.event_scheduler.cancel_all() # Cancel any pending scene changes
+        # self.event_scheduler.cancel_all() # Cancel any pending scene changes
         self.start_idling()
 
     def start_idling(self):
