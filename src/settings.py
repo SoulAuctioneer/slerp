@@ -82,7 +82,7 @@ IDLE_TIMEOUT = 20
 # --- ElevenLabs TTS Settings ---
 # API key is loaded from .env file in project root
 ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
-ELEVENLABS_VOICE_ID = "gipH2sj2YZY4V4JjuONC"  # Example: Rachel
+ELEVENLABS_VOICE_ID = "gipH2sj2YZY4V4JjuONC" # "3jbSUx3cT1r6mnw1ePpf"
 ELEVENLABS_MODEL_ID = "eleven_multilingual_v2"
 TTS_CACHE_DIR = "assets/tts_cache"
 
@@ -95,3 +95,8 @@ SUBTITLE_PADDING = 5
 SUBTITLE_Y_OFFSET = 35  # Distance from bottom of screen
 SUBTITLE_SCROLL_SPEED = 13  # pixels per frame
 SUBTITLE_SCROLL_START_DELAY = 0  # frames to wait before starting scroll (1.25 seconds at 24fps)
+
+# --- Retro Typewriter Settings ---
+SUBTITLE_MAX_CHARS_PER_CHUNK = 68  # Maximum characters per subtitle chunk
+SUBTITLE_TYPEWRITER_SPEED = 30  # Characters per second for typewriter effect
+SUBTITLE_CHUNK_PAUSE_DURATION = 0.3  # Seconds to pause between chunks
