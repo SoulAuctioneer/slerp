@@ -9,7 +9,7 @@ class SceneManager:
         self._event_scheduler = ServiceLocator.get("event_scheduler")
 
     def set_scene(self, scene_class=None, **kwargs):
-        print(f"DEBUG: set_scene called with scene_class: {scene_class.__name__ if scene_class else 'None'}")
+        print(f"set_scene called with scene_class: {scene_class.__name__ if scene_class else 'None'}")
 
         ServiceLocator.get("app").reset_buttons()
         self._event_manager.publish("STOP_MUSIC")
@@ -22,13 +22,10 @@ class SceneManager:
         self._event_scheduler.cancel_all()
 
         if scene_class:
-            print(f"DEBUG: Creating new scene: {scene_class.__name__}")
             self.current_scene = scene_class(screen=self.screen, **kwargs)
             if self.current_scene:
-                print(f"DEBUG: Running scene: {scene_class.__name__}")
                 self.current_scene.run()
         else:
-            print("DEBUG: Setting current_scene to None")
             self.current_scene = None
 
     def update(self):

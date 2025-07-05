@@ -66,18 +66,12 @@ class App:
         self.event_manager.publish("CHANGE_SCENE", scene_class=self.routine.get_start_scene())
 
     def set_buttons(self, buttons):
-        print(f"DEBUG: set_buttons called with {len(buttons)} buttons")
-        for i, button in enumerate(buttons):
-            print(f"DEBUG: Button {i}: {button.text if hasattr(button, 'text') else 'No text'}")
         self.reset_buttons()  # Always reset first
         self.buttons = [self.admin_button] + buttons
-        print(f"DEBUG: Total buttons after set_buttons: {len(self.buttons)}")
 
     def reset_buttons(self):
-        print(f"DEBUG: reset_buttons called. Before: {len(self.buttons)} buttons")
         self.buttons = [self.admin_button]
         pygame_functions.setBackgroundImage(BG_IMAGE)  # Clear any drawn buttons by resetting background
-        print(f"DEBUG: reset_buttons complete. After: {len(self.buttons)} buttons")
 
     def schedule_idling(self):
         self.event_scheduler.cancel_all() # Cancel any pending scene changes
@@ -128,11 +122,6 @@ class App:
                 button.draw(self.screen)
             self.subtitle_service.draw(self.screen)
             
-            # Debug logging every 120 frames (5 seconds at 24fps)
-            frame_count += 1
-            if frame_count % 120 == 0:
-                print(f"DEBUG: Frame {frame_count}, drawing {len(self.buttons)} buttons")
-                
             pygame_functions.updateDisplay()
             pygame_functions.tick(24)
 
