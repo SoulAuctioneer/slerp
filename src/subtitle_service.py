@@ -8,7 +8,7 @@ from .settings import (
     SUBTITLE_BACKGROUND_COLOR, SUBTITLE_PADDING,
     SUBTITLE_Y_OFFSET, SUBTITLE_MAX_CHARS_PER_CHUNK,
     SUBTITLE_TYPEWRITER_SPEED, SUBTITLE_CHUNK_PAUSE_DURATION,
-    BG_IMAGE
+    SUBTITLE_NATURAL_PAUSE_THRESHOLD, BG_IMAGE
 )
 
 class SubtitleService:
@@ -55,6 +55,7 @@ class SubtitleService:
         self.max_chars_per_chunk = SUBTITLE_MAX_CHARS_PER_CHUNK
         self.typewriter_speed = SUBTITLE_TYPEWRITER_SPEED
         self.chunk_pause_duration = SUBTITLE_CHUNK_PAUSE_DURATION
+        self.natural_pause_threshold = SUBTITLE_NATURAL_PAUSE_THRESHOLD
         
         # Position subtitles at bottom of screen
         self.subtitle_y = SCREEN_HEIGHT - SUBTITLE_Y_OFFSET
@@ -114,7 +115,7 @@ class SubtitleService:
         self.is_in_chunk_pause = False
     
     def _split_into_chunks(self, text):
-        """Split text into readable chunks, preferring word boundaries"""
+        """Split text into readable chunks, preferring word boundaries and natural pauses"""
         if len(text) <= self.max_chars_per_chunk:
             return [text]
         
@@ -122,17 +123,42 @@ class SubtitleService:
         words = text.split()
         current_chunk = ""
         
+        # Natural pause characters (punctuation marks)
+        natural_pause_chars = {'.', ',', ';', ':', '?', '!'}
+        
         for word in words:
             # Check if adding this word would exceed the limit
             test_chunk = current_chunk + (" " if current_chunk else "") + word
             
             if len(test_chunk) <= self.max_chars_per_chunk:
                 current_chunk = test_chunk
+                
+                # Check for natural pause points within threshold distance from max length
+                if len(current_chunk) > self.max_chars_per_chunk - self.natural_pause_threshold:
+                    # Look for natural pause characters in current chunk
+                    natural_pause_pos = self._find_natural_pause_point(current_chunk)
+                    if natural_pause_pos != -1:
+                        # Split at the natural pause point
+                        chunk_to_add = current_chunk[:natural_pause_pos + 1]  # Include the punctuation
+                        remaining_text = current_chunk[natural_pause_pos + 1:].strip()  # Remove leading space
+                        
+                        chunks.append(chunk_to_add)
+                        current_chunk = remaining_text
             else:
-                # Current chunk is full, start a new one
+                # Current chunk is full, check for natural pause before finalizing
                 if current_chunk:
-                    chunks.append(current_chunk)
-                    current_chunk = word
+                    natural_pause_pos = self._find_natural_pause_point(current_chunk)
+                    if natural_pause_pos != -1:
+                        # Split at the natural pause point
+                        chunk_to_add = current_chunk[:natural_pause_pos + 1]  # Include the punctuation
+                        remaining_text = current_chunk[natural_pause_pos + 1:].strip()  # Remove leading space
+                        
+                        chunks.append(chunk_to_add)
+                        current_chunk = remaining_text + (" " if remaining_text else "") + word
+                    else:
+                        # No natural pause found, use the full chunk
+                        chunks.append(current_chunk)
+                        current_chunk = word
                 else:
                     # Single word is too long, we need to break it
                     chunks.append(word[:self.max_chars_per_chunk])
@@ -148,6 +174,19 @@ class SubtitleService:
             chunks.append(current_chunk)
         
         return chunks
+    
+    def _find_natural_pause_point(self, text):
+        """Find the last natural pause point within the threshold distance from the end"""
+        natural_pause_chars = {'.', ',', ';', ':', '?', '!'}
+        
+        # Search backwards from the end, but only within the threshold distance
+        start_pos = max(0, len(text) - self.natural_pause_threshold)
+        
+        for i in range(len(text) - 1, start_pos - 1, -1):
+            if text[i] in natural_pause_chars:
+                return i
+        
+        return -1  # No natural pause found within threshold
     
     def _calculate_chunk_timing(self):
         """Calculate how long each chunk should be displayed"""

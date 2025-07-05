@@ -100,3 +100,4 @@ SUBTITLE_SCROLL_START_DELAY = 0  # frames to wait before starting scroll (1.25 s
 SUBTITLE_MAX_CHARS_PER_CHUNK = 68  # Maximum characters per subtitle chunk
 SUBTITLE_TYPEWRITER_SPEED = 30  # Characters per second for typewriter effect
 SUBTITLE_CHUNK_PAUSE_DURATION = 0.3  # Seconds to pause between chunks
+SUBTITLE_NATURAL_PAUSE_THRESHOLD = 10  # Characters from end of chunk to look for natural pause points
