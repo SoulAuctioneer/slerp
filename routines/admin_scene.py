@@ -6,7 +6,6 @@ from src.service_locator import ServiceLocator
 class AdminScene(Scene):
     def __init__(self, screen, **kwargs):
         super().__init__(screen)
-        self._event_manager.publish("STOP_MUSIC")
         self._event_scheduler = ServiceLocator.get("event_scheduler")
         self._event_scheduler.cancel_all()
         

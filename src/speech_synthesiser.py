@@ -78,7 +78,7 @@ class SpeechSynthesizer:
         logger.info(f"Generating audio stream for text: '{text[:30]}...'")
         
         try:
-            audio_stream = await self._async_client.text_to_speech.stream(
+            audio_stream = self._async_client.text_to_speech.stream(
                 text=text,
                 voice_id=voice_id,
                 model_id=model_id,

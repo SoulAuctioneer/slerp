@@ -8,6 +8,7 @@ from .audio import Audio
 from .event_scheduler import EventScheduler
 from .slerp_sprite import SlerpSprite
 from .dispenser import Dispenser
+from .tts_service import TTSService
 from .button import Button
 from routines.admin_scene import AdminScene
 import random
@@ -45,9 +46,11 @@ class App:
         self.audio_service = Audio() # Will be refactored to be a proper service
         self.slerp_sprite_service = SlerpSprite()
         self.dispenser_service = Dispenser()
+        self.tts_service = TTSService()
         ServiceLocator.register("audio", self.audio_service)
         ServiceLocator.register("slerp_sprite", self.slerp_sprite_service)
         ServiceLocator.register("dispenser", self.dispenser_service)
+        ServiceLocator.register("tts", self.tts_service)
         # Register other services...
 
         # Load routine

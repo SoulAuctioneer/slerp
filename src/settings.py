@@ -1,7 +1,11 @@
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Active routine
-ACTIVE_ROUTINE = "routine_ascend"
+ACTIVE_ROUTINE = "routine_therapist"
 
 # Screen dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
@@ -14,9 +18,9 @@ BG_IMAGE = "assets/background-logo-1280x720.png"
 BG_IMAGE_SYMBOL = "assets/background-symbol.png"
 
 # Music tracks
-MUSIC = ["assets/audio/music1.mp3", "assets/audio/music2.mp3", "assets/audio/music3.mp3", "assets/audio/music3.mp3"]
-PLAY_MUSIC = False
-SNORE_LOUD = False
+MUSIC = ["music1", "music2", "music3", "music4"]
+PLAY_MUSIC = True
+SNORE_LOUD = True
 
 # Caption if windowed
 WINDOW_CAPTION = 'Slerp the Slushmaster'
@@ -73,8 +77,7 @@ DISPENSER_SUCK_WAIT_DURATION = 3
 IDLE_TIMEOUT = 20
 
 # --- ElevenLabs TTS Settings ---
-# You need to set your ElevenLabs API key as an environment variable named ELEVENLABS_API_KEY
-# For example: export ELEVENLABS_API_KEY='your_key_here'
+# API key is loaded from .env file in project root
 ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
 ELEVENLABS_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"  # Example: Rachel
 ELEVENLABS_MODEL_ID = "eleven_multilingual_v2"

@@ -12,7 +12,6 @@ class SceneTwo(Scene):
         self._event_scheduler = ServiceLocator.get("event_scheduler")
 
     def run(self):
-        self._event_manager.publish("STOP_MUSIC")
         self._event_manager.publish("PLAY_AUDIO", name='scene2')
         
         audio_service = ServiceLocator.get("audio")
