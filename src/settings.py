@@ -19,7 +19,7 @@ BG_IMAGE_SYMBOL = "assets/background-symbol.png"
 
 # Music tracks
 MUSIC = ["music1", "music2", "music3", "music4"]
-PLAY_MUSIC = True
+PLAY_MUSIC = False
 SNORE_LOUD = True
 
 # Caption if windowed
@@ -79,6 +79,6 @@ IDLE_TIMEOUT = 20
 # --- ElevenLabs TTS Settings ---
 # API key is loaded from .env file in project root
 ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
-ELEVENLABS_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"  # Example: Rachel
+ELEVENLABS_VOICE_ID = "gipH2sj2YZY4V4JjuONC"  # Example: Rachel
 ELEVENLABS_MODEL_ID = "eleven_multilingual_v2"
 TTS_CACHE_DIR = "assets/tts_cache"

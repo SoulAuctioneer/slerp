@@ -35,7 +35,7 @@ class TTSService:
         
         self.current_callback = callback
         
-        # Run the async synthesis in a separate thread
+        # Run the async synthesis in a separate thread using asyncio.run()
         thread = threading.Thread(
             target=self._run_synthesis_thread,
             args=(text, voice_id, model_id)
@@ -43,14 +43,10 @@ class TTSService:
         thread.start()
 
     def _run_synthesis_thread(self, text, voice_id, model_id):
-        """Run the async synthesis in a separate thread"""
+        """Run the async synthesis in a separate thread using asyncio.run()"""
         try:
-            # Create a new event loop for this thread
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            
-            # Run the synthesis
-            audio_path = loop.run_until_complete(
+            # Use asyncio.run() which handles event loop lifecycle automatically
+            audio_path = asyncio.run(
                 self.synthesizer.synthesize_speech(text, voice_id, model_id)
             )
             
@@ -66,8 +62,6 @@ class TTSService:
             print(f"TTS: Error in synthesis thread: {e}")
             if self.current_callback:
                 self.current_callback()
-        finally:
-            loop.close()
 
     def _play_audio_file(self, audio_path):
         """Play the audio file using pygame"""

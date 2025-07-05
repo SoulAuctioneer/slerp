@@ -1,10 +1,7 @@
 import pygame
 from ..base_scene import Scene
 from src.button import Button
-from .scene_mom_hates_me import SceneMomHatesMe
-from .scene_hate_myself import SceneHateMyself
-from .scene_penis_envy import ScenePenisEnvy
-from .scene_no_soul import SceneNoSoul
+from .scene_diagnosis import SceneDiagnosis
 from src.service_locator import ServiceLocator
 
 class SceneIntro(Scene):
@@ -15,16 +12,16 @@ class SceneIntro(Scene):
 
     def run(self):
         # The speech text as specified
-        speech_text = "GAH! How's a hyperintelligent supercomputer supposed to get any bloody sleep around here?? Well, let's get on with it. Hello, esteemed customer! I'm Slerp the Therablaster, here to blast your mental worries away. As a licensed therapist, I'll do a deep diagnosis and mix a custom antidote that will instantly cure you. My first question: What the fuck is wrong with you, anyway?"
+        speech_text = "AAH!! How's a hyperintelligent supercomputer supposed to get any bloody sleep around here?? ... Well, let's get on with it ... Ahem. Hello, esteemed customer! I'm Slerp the Therablaster, here to blast your mental worries away. As a licensed therapist, I'll do a deep diagnosis and mix a custom antidote that will instantly cure you. My first question: What the fuck is wrong with you, anyway?"
         
         # Start speech synthesis
         self._event_manager.publish("SYNTHESIZE_SPEECH", text=speech_text, callback=self.on_speech_complete)
         
         # Animation sequence
         self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="tired", loops=0)
-        self._event_scheduler.schedule(3.0, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="waking", loops=0) 
-        self._event_scheduler.schedule(4.5, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="angry", loops=0)
-        self._event_scheduler.schedule(6.0, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="talking", loops=0)
+        self._event_scheduler.schedule(5.9, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="waking", loops=0) 
+        self._event_scheduler.schedule(7.5, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="angry", loops=0)
+        self._event_scheduler.schedule(8.7, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="talking", loops=0)
         
         # Schedule bubbles
         self._event_manager.publish("SCHEDULE_BUBBLE", start_timer=1, pump_name='cyan', duration=4)
@@ -40,21 +37,38 @@ class SceneIntro(Scene):
 
     def create_buttons(self):
         buttons = [
-            Button(self.screen, pygame.Rect(50, 50, 570, 80), 'MOM HATES ME', (255, 100, 100), self.scene_mom_hates_me),
-            Button(self.screen, pygame.Rect(50, 160, 570, 80), 'I HATE MYSELF', (100, 100, 255), self.scene_hate_myself),
-            Button(self.screen, pygame.Rect(50, 270, 570, 80), 'PENIS ENVY', (255, 255, 100), self.scene_penis_envy),
-            Button(self.screen, pygame.Rect(50, 380, 570, 80), 'I HAVE NO SOUL', (100, 255, 100), self.scene_no_soul)
+            Button(self.screen, pygame.Rect(50, 50, 650, 100), 'MOM HATES ME', (255, 100, 100), self.scene_mom_hates_me),
+            Button(self.screen, pygame.Rect(50, 160, 650, 100), 'I HATE MYSELF', (100, 100, 255), self.scene_hate_myself),
+            Button(self.screen, pygame.Rect(50, 270, 650, 100), 'PENIS ENVY', (255, 255, 100), self.scene_penis_envy),
+            Button(self.screen, pygame.Rect(50, 380, 650, 100), 'I HAVE NO SOUL', (100, 255, 100), self.scene_no_soul),
+            Button(self.screen, pygame.Rect(50, 490, 650, 100), 'FEAR OF BUTTERFLIES', (0, 200, 255), self.scene_butterfly_phobia),
+            Button(self.screen, pygame.Rect(50, 600, 650, 100), 'REALITY TV ADDICT', (255, 0, 255), self.scene_reality_tv_addiction)
         ]
         self._event_manager.publish("SET_BUTTONS", buttons=buttons)
 
     def scene_mom_hates_me(self):
-        self._event_manager.publish("CHANGE_SCENE", scene_class=SceneMomHatesMe)
+        self._go_to_diagnosis("mom_hates_me")
         
     def scene_hate_myself(self):
-        self._event_manager.publish("CHANGE_SCENE", scene_class=SceneHateMyself)
+        self._go_to_diagnosis("hate_myself")
         
     def scene_penis_envy(self):
-        self._event_manager.publish("CHANGE_SCENE", scene_class=ScenePenisEnvy)
+        self._go_to_diagnosis("penis_envy")
         
     def scene_no_soul(self):
-        self._event_manager.publish("CHANGE_SCENE", scene_class=SceneNoSoul) 
+        self._go_to_diagnosis("no_soul")
+        
+    def scene_butterfly_phobia(self):
+        self._go_to_diagnosis("butterfly_phobia")
+        
+    def scene_reality_tv_addiction(self):
+        self._go_to_diagnosis("reality_tv_addiction")
+    
+    def _go_to_diagnosis(self, diagnosis_key):
+        """Helper method to transition to diagnosis scene with the given key"""
+        # Set the diagnosis key in the routine state
+        app = ServiceLocator.get("app")
+        app.routine.set_state("current_diagnosis", diagnosis_key)
+        
+        # Change to the diagnosis scene
+        self._event_manager.publish("CHANGE_SCENE", scene_class=SceneDiagnosis) 
