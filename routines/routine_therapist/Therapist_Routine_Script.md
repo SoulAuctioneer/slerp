@@ -4,10 +4,10 @@
 The Therapist Routine features Slerp the Therablaster, a hyperintelligent supercomputer that provides therapeutic cocktails. The routine consists of 5 scenes that take the user through a complete therapy session.
 
 ## Available Drinks
-- **CONFIDENCE** - Yellow/Gold color
-- **HAPPINESS** - Pink color  
-- **CLARITY** - Light Blue color
-- **ZEN** - Light Green color
+- **CONFIDENCE** - Yellow color
+- **HAPPINESS** - Red color  
+- **CLARITY** - Blue color
+- **ZEN** - Green color
 
 ---
 
@@ -17,15 +17,13 @@ The Therapist Routine features Slerp the Therablaster, a hyperintelligent superc
 ### Visual Elements
 - Therablaster logo displayed on left side of screen
 - Slerp in sleeping animation
-- Background music (random selection)
-- Snoring sound effects (loud or quiet version)
+- Snoring sound effects
 
 ### Spoken Text
 *No spoken dialogue - only snoring sounds*
 
 ### Buttons
 - **"THERAPIZE ME!"** - Large button (100x500, 520x160 pixels)
-  - Color: Default button background color
   - Action: Proceeds to Intro Scene
 
 ---
@@ -41,12 +39,6 @@ The Therapist Routine features Slerp the Therablaster, a hyperintelligent superc
 - **5.9-7.5s:** Waking animation  
 - **7.5-8.7s:** Angry animation
 - **8.7s+:** Talking animation
-
-### Bubble Effects
-- **1-5s:** Cyan bubbles
-- **5-10s:** Magenta bubbles
-- **10-15s:** Yellow bubbles  
-- **12-17s:** Transparent bubbles
 
 ### Buttons (6 diagnosis options)
 1. **"MOM HATES ME"** - Red button (255,100,100)
@@ -93,10 +85,6 @@ Preparing antidote mixture... MAGENTA + CYAN compounds
 Estimated recovery time: 3-5 sips or 20 years of therapy
 ```
 
-**Bubble Effects:**
-- **1-4s:** Magenta bubbles
-- **4-8s:** Cyan bubbles
-
 #### Option 2: "I HATE MYSELF"
 **Spoken Text:**
 > "Self-loathing, eh? A textbook case of negative self-perception syndrome. Don't worry, I've got just the therapeutic cocktail to boost your self-esteem. Let me mix something special for you..."
@@ -117,10 +105,6 @@ Cross-referencing with validation addiction... CONFIRMED
 Preparing therapeutic intervention... YELLOW + TRANSPARENT
 Note: Patient may reject compliments about this drink
 ```
-
-**Bubble Effects:**
-- **1-4s:** Yellow bubbles
-- **4-8s:** Transparent bubbles
 
 #### Option 3: "PENIS ENVY"
 **Spoken Text:**
@@ -143,10 +127,6 @@ Preparing Freudian antidote... MAGENTA + YELLOW
 Warning: Side effects may include sudden urge to buy a cigar
 ```
 
-**Bubble Effects:**
-- **1-4s:** Magenta bubbles
-- **4-8s:** Yellow bubbles
-
 #### Option 4: "I HAVE NO SOUL"
 **Spoken Text:**
 > "No soul, you say? That's a fascinating existential crisis! A complete spiritual vacuum. Don't worry, I specialize in soul restoration therapy. Let me brew up some liquid enlightenment for you..."
@@ -167,10 +147,6 @@ Analyzing existential dread frequency... CONSTANT
 Preparing soul restoration serum... CYAN + MAGENTA
 Note: May cause sudden urge to buy crystals and incense
 ```
-
-**Bubble Effects:**
-- **1-4s:** Cyan bubbles
-- **4-8s:** Magenta bubbles
 
 #### Option 5: "FEAR OF BUTTERFLIES"
 **Spoken Text:**
@@ -193,10 +169,6 @@ Preparing anti-flutter medication... CYAN + YELLOW
 Warning: Patient may faint if shown butterfly emoji
 ```
 
-**Bubble Effects:**
-- **1-4s:** Cyan bubbles
-- **4-8s:** Yellow bubbles
-
 #### Option 6: "REALITY TV ADDICT"
 **Spoken Text:**
 > "Reality TV addiction? Oh my circuits, that's a serious case of manufactured drama dependency! You're probably hooked on the artificial conflicts and scripted spontaneity. Fear not, I have the perfect formula to detox your brain from all that televised garbage..."
@@ -217,10 +189,6 @@ Analyzing guilty pleasure denial... MAXIMUM DEFLECTION
 Preparing brain detox solution... MAGENTA + TRANSPARENT
 Note: May cause sudden urge to read a book
 ```
-
-**Bubble Effects:**
-- **1-4s:** Magenta bubbles
-- **4-8s:** Transparent bubbles
 
 ---
 
@@ -281,18 +249,7 @@ Note: May cause sudden urge to read a book
 
 ---
 
-## Technical Notes
-
-### Audio Files Used
-- Background music (random selection from MUSIC array)
-- Snoring sounds: `scene1-loud.mp3` or `scene1-quiet.mp3`
-- Text-to-speech synthesis for all spoken dialogue
-
-### Sprite Assets
-- `logo-therablaster.png` - Logo shown in sleeping scene
-- `brain-juice.png` - Animated sprite in antidote scene (1024x1024, scaled to 60%)
-
-### Animation States
+### Available Animation States
 - **sleeping** - Used in sleeping scene
 - **tired** - Used in intro and outro scenes
 - **waking** - Brief transition in intro
@@ -300,8 +257,3 @@ Note: May cause sudden urge to read a book
 - **talking** - Used during speech synthesis
 - **singing** - Used during drink dispensing
 - **straining** - Used during physical exertion moments
-
-### Timing Configuration
-- Console text scrolls at 0.1 second intervals between lines
-- Speech synthesis includes callback triggers for scene progression
-- Event scheduler manages precise timing of animations and effects 
