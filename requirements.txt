@@ -1,6 +1,6 @@
 pygame
 opencv-python
-#gpiozero
+gpiozero
 #rpi_ws281x
 adafruit-circuitpython-neopixel
 adafruit-blinka

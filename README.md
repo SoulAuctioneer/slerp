@@ -56,6 +56,12 @@ python3 main.py
 
 The application will launch in fullscreen mode by default (this can be changed in `settings.py`).
 
+## Remote Access
+
+```bash
+ssh ash@slerp.local
+```
+
 ## Project Structure
 
 The codebase is organized into several modules and directories:

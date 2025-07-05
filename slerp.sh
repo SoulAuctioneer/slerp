@@ -1,5 +1,4 @@
 #!/bin/bash
 
 cd ~/slerp
-. .venv/bin/activate
-sudo python ./main.py
+sudo .venv/bin/python ./main.py
