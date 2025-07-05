@@ -47,7 +47,7 @@ class SceneAntidote(Scene):
         self._event_scheduler.schedule(8, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="singing", loops=0)
         
         # Say next line a few seconds later
-        self._event_scheduler.schedule(10, self._event_manager.publish, "SYNTHESIZE_SPEECH", text="ugh, aggghh…aaahhhhahahahaaaaaa!!!", show_subtitles=False)
+        self._event_scheduler.schedule(10, self._event_manager.publish, "SYNTHESIZE_SPEECH", text="ugh, aggghh...aaahhhhahahahaaaaaa!!!", show_subtitles=False)
         self._event_scheduler.schedule(10, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="straining", loops=0)
         self._event_scheduler.schedule(12.5, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="singing", loops=0)
         
