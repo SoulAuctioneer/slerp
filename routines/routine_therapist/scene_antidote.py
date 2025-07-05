@@ -29,30 +29,32 @@ class SceneAntidote(Scene):
         self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="talking", loops=0)
         
         # Say opening line
-        self._event_manager.publish("SYNTHESIZE_SPEECH", text="Alright, squeezing one out!")
+        self._event_manager.publish("SYNTHESIZE_SPEECH", text="Alright, squeezing one out!", show_subtitles=False)
         
         # Start dispensing the drink after 2 seconds
         self._event_scheduler.schedule(2, dispenser.dispense, drink=drink)
         
         # Switch to singing animation when dispensing starts and play music
         self._event_scheduler.schedule(2, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="singing", loops=0)
-        self._event_scheduler.schedule(2, self._event_manager.publish, "PLAY_MUSIC", name=random.choice(MUSIC))
+        self._event_scheduler.schedule(2, self._event_manager.publish, "PLAY_MUSIC", name=random.choice(MUSIC), volume=0.5)
         
         # Show brain-juice sprite when drink starts pouring
         self._event_scheduler.schedule(2, self._show_brain_juice_sprite)
         
         # Say cold line while drink is pouring
-        self._event_scheduler.schedule(5, self._event_manager.publish, "SYNTHESIZE_SPEECH", text="Oooh that feels so cold. I'll never get used to that!")
+        self._event_scheduler.schedule(5, self._event_manager.publish, "SYNTHESIZE_SPEECH", text="Oooh that feels so cold. I'll never get used to that!", show_subtitles=False)
         self._event_scheduler.schedule(5, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="straining", loops=0)
         self._event_scheduler.schedule(8, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="singing", loops=0)
         
-        # Say reaction line a few seconds later
-        self._event_scheduler.schedule(10, self._event_manager.publish, "SYNTHESIZE_SPEECH", text="ugh, aggghh…aaahhhhahahahaaaaaa!!!")
+        # Say next line a few seconds later
+        self._event_scheduler.schedule(10, self._event_manager.publish, "SYNTHESIZE_SPEECH", text="ugh, aggghh…aaahhhhahahahaaaaaa!!!", show_subtitles=False)
         self._event_scheduler.schedule(10, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="straining", loops=0)
         self._event_scheduler.schedule(12.5, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="singing", loops=0)
         
         # Hide brain-juice sprite when drink is done
-        self._event_scheduler.schedule(15, self._hide_brain_juice_sprite)
+        self._event_scheduler.schedule(17, self._hide_brain_juice_sprite)
+
+        # A lil more straining
         self._event_scheduler.schedule(16, self._event_manager.publish, "SET_SLERP_ANIMATION", animation_name="straining", loops=0)
         
         # End scene and go to outro

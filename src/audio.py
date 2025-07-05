@@ -33,8 +33,10 @@ class Audio:
             self.playing_audio.play(loops)
         return self.playing_audio
 
-    def play_music(self, name, loops=-1):
+    def play_music(self, name, loops=-1, volume=1.0):
         pyg.makeMusic(os.path.join(AUDIO_DIR, f"{name}.mp3"))
+        # Set volume (0.0 to 1.0)
+        pygame.mixer.music.set_volume(volume)
         pyg.playMusic(loops)
 
     def stop_music(self):

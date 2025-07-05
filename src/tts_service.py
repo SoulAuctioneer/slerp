@@ -9,6 +9,7 @@ class TTSService:
     def __init__(self):
         self._event_manager = ServiceLocator.get("event_manager")
         self._event_manager.subscribe("SYNTHESIZE_SPEECH", self.synthesize_speech)
+        self._event_manager.subscribe("STOP_SPEECH", self.stop_speech)
         
         # Initialize speech synthesizer if API key is available
         if ELEVENLABS_API_KEY:
@@ -71,10 +72,13 @@ class TTSService:
             self.current_sound.play()
             print(f"TTS: Playing synthesized speech from {audio_path}")
             
+            # Get exact speech duration and publish event
+            sound_length = self.current_sound.get_length()
+            self._event_manager.publish("SPEECH_STARTED", duration=sound_length)
+            
             # Schedule callback when sound finishes
             if self.current_callback:
                 # Use pygame's event system to schedule the callback
-                sound_length = self.current_sound.get_length()
                 event_scheduler = ServiceLocator.get("event_scheduler")
                 event_scheduler.schedule(sound_length, self.current_callback)
                 

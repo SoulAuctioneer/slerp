@@ -7,6 +7,9 @@ load_dotenv()
 # Active routine
 ACTIVE_ROUTINE = "routine_therapist"
 
+# Debug settings
+DEBUG_INSTANT_BUTTONS = False
+
 # Screen dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
 
@@ -82,3 +85,13 @@ ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
 ELEVENLABS_VOICE_ID = "gipH2sj2YZY4V4JjuONC"  # Example: Rachel
 ELEVENLABS_MODEL_ID = "eleven_multilingual_v2"
 TTS_CACHE_DIR = "assets/tts_cache"
+
+# --- Subtitle Settings ---
+SUBTITLES_ENABLED = True
+SUBTITLE_FONT_SIZE = 30
+SUBTITLE_COLOR = (255, 255, 255)  # White
+SUBTITLE_BACKGROUND_COLOR = (0, 0, 0, 64)  # Semi-transparent black
+SUBTITLE_PADDING = 5
+SUBTITLE_Y_OFFSET = 35  # Distance from bottom of screen
+SUBTITLE_SCROLL_SPEED = 13  # pixels per frame
+SUBTITLE_SCROLL_START_DELAY = 0  # frames to wait before starting scroll (1.25 seconds at 24fps)

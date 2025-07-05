@@ -7,7 +7,7 @@ class SlerpSprite:
         self._event_manager = ServiceLocator.get("event_manager")
         self._event_manager.subscribe("SET_SLERP_ANIMATION", self.set_animation_event)
         
-        self.xPos, self.yPos = 600, 0
+        self.xPos, self.yPos = 600, -40
         self.activeFrameIndex = 0
         self.numLoops = 1
         self.numLoopsRemaining = 1

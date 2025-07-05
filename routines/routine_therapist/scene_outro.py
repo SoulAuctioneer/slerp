@@ -5,7 +5,7 @@ from .scene_sleeping import SceneSleeping
 
 class SceneOutro(Scene):
 
-    SPEECH_TEXT = "Ugh... do you have ANY idea how dehydrating that is?! Right, that's quite enough emotional labor for one day. You're now perfectly well adjusted. You're welcome. Now bugger off!"
+    SPEECH_TEXT = "Ugh... do you have ANY idea how dehydrating that is?! Right, that's quite enough emotional labor for one day. Drink up, and you'll be a normal person again. You're welcome. Now bugger off!"
 
     def __init__(self, screen, **kwargs):
         super().__init__(screen, **kwargs)

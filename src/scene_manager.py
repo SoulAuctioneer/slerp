@@ -14,6 +14,10 @@ class SceneManager:
         ServiceLocator.get("app").reset_buttons()
         self._event_manager.publish("STOP_MUSIC")
         self._event_manager.publish("STOP_AUDIO")
+        self._event_manager.publish("STOP_SPEECH")
+        # Clear subtitles when changing scenes
+        subtitle_service = ServiceLocator.get("subtitles")
+        subtitle_service.hide_subtitles()
         # Cancel all scheduled events to prevent stale events from previous scenes
         self._event_scheduler.cancel_all()
 

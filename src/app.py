@@ -9,6 +9,7 @@ from .event_scheduler import EventScheduler
 from .slerp_sprite import SlerpSprite
 from .dispenser import Dispenser
 from .tts_service import TTSService
+from .subtitle_service import SubtitleService
 from .button import Button
 from routines.admin_scene import AdminScene
 import random
@@ -47,10 +48,12 @@ class App:
         self.slerp_sprite_service = SlerpSprite()
         self.dispenser_service = Dispenser()
         self.tts_service = TTSService()
+        self.subtitle_service = SubtitleService()
         ServiceLocator.register("audio", self.audio_service)
         ServiceLocator.register("slerp_sprite", self.slerp_sprite_service)
         ServiceLocator.register("dispenser", self.dispenser_service)
         ServiceLocator.register("tts", self.tts_service)
+        ServiceLocator.register("subtitles", self.subtitle_service)
         # Register other services...
 
         # Load routine
@@ -116,12 +119,14 @@ class App:
             self.event_scheduler.execute_due()
             self.audio_service.refresh()
             self.slerp_sprite_service.refresh()
+            self.subtitle_service.update()
             self.check_idling_timeout()
 
             # Drawing
             self.scene_manager.draw(self.screen)
             for button in self.buttons:
                 button.draw(self.screen)
+            self.subtitle_service.draw(self.screen)
             
             # Debug logging every 120 frames (5 seconds at 24fps)
             frame_count += 1
