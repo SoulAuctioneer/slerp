@@ -1,6 +1,7 @@
 import pygame
 import time
 import random
+import textwrap
 from ..base_scene import Scene
 from src.button import Button
 from src.settings import BUTTON_BG_COLOR, BUTTON_FONT_FACE, BUTTON_FONT_SIZE
@@ -41,6 +42,10 @@ class SceneDiagnosis(Scene):
                 "Analyzing reality attachment... CONNECTION UNSTABLE",
                 "Detecting AI replacement anxiety... EXTREME",
                 "Cross-referencing self-awareness database... FILE NOT FOUND",
+                "Measuring coffee-to-blood ratio... LETHAL",
+                "Checking for signs of imposter syndrome... POSITIVE, BUT PROBABLY JUSTIFIED",
+                "Analyzing GitHub commit messages for passive-aggression... OFF THE CHARTS",
+                "Scanning for unread notifications... OVER 9000",
                 "Final assessment: PATIENT BEYOND SAVING",
                 "Recommended cocktail: CONFIDENCE + CLARITY"
             ],
@@ -50,6 +55,10 @@ class SceneDiagnosis(Scene):
                 "Evaluating reality fidelity... MINIMAL",
                 "Checking coping strategy effectiveness... DUBIOUS",
                 "Scanning for self-deception... RECORD HIGH",
+                "Running dependency check on sanity... MISSING `common-sense.dll`",
+                "Detecting existential dread levels... PEAKING",
+                "Analyzing playlist for signs of emotional distress... EMO RAP DETECTED",
+                "Scanning for evidence of 'main character syndrome'... CONFIRMED",
                 "Conclusion: IMMEDIATE INTERVENTION REQUIRED",
                 "Prescribed remedy: ZEN + HAPPINESS"
             ],
@@ -59,6 +68,10 @@ class SceneDiagnosis(Scene):
                 "Analyzing emotional defense mechanisms... MALADAPTIVE",
                 "Detecting susceptibility to cult behavior... POSITIVE",
                 "Evaluating psychological resilience... NONEXISTENT",
+                "Checking for overuse of the word 'disrupt'... OFF THE CHARTS",
+                "Verifying if patient 'touches grass'... NEGATIVE",
+                "Scanning social media for performative hustle... UNHEALTHY LEVELS",
+                "Measuring belief in meritocracy... NAIVELY OPTIMISTIC",
                 "Diagnosis: SEVERE CASE OF TECH-BRO PSYCHOSIS",
                 "Suggested therapy: CLARITY + ZEN"
             ]
@@ -102,16 +115,19 @@ class SceneDiagnosis(Scene):
         wrapped_lines = []
         
         for i, line in enumerate(lines):
-            if len(line) <= self.console_char_limit:
-                wrapped_lines.append(line)
-            else:
-                # Break long lines into chunks
-                current_pos = 0
-                while current_pos < len(line):
-                    chunk = line[current_pos:current_pos + self.console_char_limit]
-                    wrapped_lines.append(chunk)
-                    current_pos += self.console_char_limit
+            # Use textwrap to handle wrapping at whitespace, without breaking long words
+            wrapped_line_segments = textwrap.wrap(
+                line, 
+                self.console_char_limit,
+                break_long_words=False
+            )
             
+            # textwrap.wrap returns an empty list for an empty string, so handle that
+            if not wrapped_line_segments:
+                wrapped_lines.append("")
+            else:
+                wrapped_lines.extend(wrapped_line_segments)
+
             # Add an extra blank line after each original line (except the last one)
             if i < len(lines) - 1:
                 wrapped_lines.append("")

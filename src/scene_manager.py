@@ -12,6 +12,7 @@ class SceneManager:
         print(f"set_scene called with scene_class: {scene_class.__name__ if scene_class else 'None'}")
 
         # Cancel all scheduled events to prevent stale events from previous scenes
+        ServiceLocator.get("app").cancel_idling()
         self._event_scheduler.cancel_all()
 
         ServiceLocator.get("app").reset_buttons()

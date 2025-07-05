@@ -35,6 +35,8 @@ class App:
         self.event_manager = EventManager()
         self.event_manager.subscribe("SCHEDULE_IDLING", self.schedule_idling)
         self.event_manager.subscribe("SET_BUTTONS", self.set_buttons)
+        self.event_manager.subscribe("SYNTHESIZE_SPEECH", lambda **kwargs: self.cancel_idling())
+        self.event_manager.subscribe("SET_SLERP_ANIMATION", self.on_animation_set)
         
         # Register core components
         ServiceLocator.register("app", self)
@@ -73,6 +75,15 @@ class App:
         self.buttons = [self.admin_button]
         pygame_functions.setBackgroundImage(BG_IMAGE)  # Clear any drawn buttons by resetting background
 
+    def cancel_idling(self):
+        if self.idle_timeout:
+            print("Cancelling idle timeout")
+            self.idle_timeout = None
+
+    def on_animation_set(self, animation_name, **kwargs):
+        if animation_name != "idling":
+            self.cancel_idling()
+
     def schedule_idling(self):
         # self.event_scheduler.cancel_all() # Cancel any pending scene changes
         self.start_idling()
@@ -103,6 +114,7 @@ class App:
                 if event.type == pygame.QUIT:
                     self.is_running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.cancel_idling()
                     for button in self.buttons:
                         button.trigger_if_clicked(event.pos)
 

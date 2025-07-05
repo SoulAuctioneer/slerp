@@ -36,10 +36,6 @@ class SceneIntro(Scene):
     def on_speech_complete(self):
         """Called when speech synthesis and playback is complete"""
         self._speech_complete = True
-        self.create_buttons()
-        self._event_manager.publish("SCHEDULE_IDLING")
-
-    def create_buttons(self):
         # Start the existential calibration with question 1
         from .scene_question1 import SceneQuestion1
         self._event_manager.publish("CHANGE_SCENE", scene_class=SceneQuestion1) 
