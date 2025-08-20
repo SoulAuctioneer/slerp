@@ -11,10 +11,14 @@ class SceneSleeping(Scene):
     def __init__(self, screen, **kwargs):
         super().__init__(screen, **kwargs)
         self.logo_sprite = None
+        self.credit_text = None
 
     def run(self):
         # Show the therablaster logo on the left half of the screen
         self._show_logo_sprite()
+
+        # Show credit text in bottom-left corner
+        self._show_credit_text()
         
         self._event_manager.publish("SET_SLERP_ANIMATION", animation_name="sleeping", loops=0)
         
@@ -49,9 +53,28 @@ class SceneSleeping(Scene):
         pygame_functions.moveSprite(self.logo_sprite, logo_x, logo_y)
         pygame_functions.showSprite(self.logo_sprite)
 
+    def _show_credit_text(self):
+        """Create and show the credit text in the bottom-left corner"""
+        credit_text = "A foolish machine by Ash Eldritch. insta: @soulauctioneer"
+        
+        # Create the text label with small font size
+        self.credit_text = pygame_functions.makeLabel(
+            text=credit_text,
+            fontSize=16,  # Small text size
+            xpos=40,      # Left margin
+            ypos=680,     # Bottom position (screen height 720 - margin)
+            fontColour='white',
+            font='Arial',
+            background="clear"
+        )
+        
+        pygame_functions.showLabel(self.credit_text)
+
     def next_scene(self):
-        # Hide the logo sprite when transitioning to the next scene
+        # Hide the logo sprite and credit text when transitioning to the next scene
         if self.logo_sprite:
             pygame_functions.hideSprite(self.logo_sprite)
+        if self.credit_text:
+            pygame_functions.hideLabel(self.credit_text)
             
         self._event_manager.publish("CHANGE_SCENE", scene_class=SceneIntro) 
