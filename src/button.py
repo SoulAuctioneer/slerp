@@ -12,6 +12,11 @@ class Button:
         self.background = background
         self.on_click = on_click
         self.args = args
+        
+        # Touch responsiveness improvements
+        self.touch_padding = 10  # Extra pixels around button for touch detection
+        self.is_pressed = False  # Track if button is currently being pressed
+        self.last_trigger_time = 0  # For debouncing
 
         # Buttons without label and background color are invisible
         self.is_invisible = not self.label and not self.background
@@ -43,6 +48,13 @@ class Button:
 
         # Scale up the surface to create the final pixelated button
         self.button_surface = pygame.transform.scale(low_res_surface, (self.rect.width, self.rect.height))
+        
+        # Create pressed version with darker colors
+        pressed_surface = low_res_surface.copy()
+        # Darken the button face for pressed state
+        pressed_color = tuple(max(0, c - 50) for c in self.background)
+        pygame.draw.rect(pressed_surface, pressed_color, face_rect, border_radius=border_radius)
+        self.button_surface_pressed = pygame.transform.scale(pressed_surface, (self.rect.width, self.rect.height))
 
         # Create the text at full resolution
         if self.label:
@@ -58,17 +70,58 @@ class Button:
             self.button_text = FONT.render(self.label, True, WHITE)
             self.text_rect = self.button_text.get_rect(center=self.rect.center)
 
-    def trigger_if_clicked(self, pos):
-        if self.rect.collidepoint(pos):
+    def get_touch_rect(self):
+        """Get expanded rectangle for better touch detection"""
+        return pygame.Rect(
+            self.rect.x - self.touch_padding,
+            self.rect.y - self.touch_padding,
+            self.rect.width + (self.touch_padding * 2),
+            self.rect.height + (self.touch_padding * 2)
+        )
+    
+    def handle_mouse_down(self, pos):
+        """Handle mouse/touch down event"""
+        if self.get_touch_rect().collidepoint(pos):
+            self.is_pressed = True
+            return True
+        return False
+    
+    def handle_mouse_up(self, pos):
+        """Handle mouse/touch up event - triggers the button if still over it"""
+        current_time = pygame.time.get_ticks()
+        
+        # Debouncing: prevent multiple triggers within 200ms
+        if current_time - self.last_trigger_time < 200:
+            self.is_pressed = False
+            return False
+            
+        if self.is_pressed and self.get_touch_rect().collidepoint(pos):
+            self.is_pressed = False
+            self.last_trigger_time = current_time
             self.on_click(*self.args)
+            return True
+        
+        self.is_pressed = False
+        return False
+    
+    def trigger_if_clicked(self, pos):
+        """Legacy method for backward compatibility"""
+        if self.rect.collidepoint(pos):
+            current_time = pygame.time.get_ticks()
+            if current_time - self.last_trigger_time >= 200:  # Debouncing
+                self.last_trigger_time = current_time
+                self.on_click(*self.args)
 
     def draw(self, screen):
 
         if self.is_invisible:
             return
 
-        # Draw the pre-rendered button surface on the screen
-        screen.blit(self.button_surface, (self.rect.left, self.rect.top))
+        # Draw the appropriate button surface (pressed or normal)
+        if self.is_pressed:
+            screen.blit(self.button_surface_pressed, (self.rect.left, self.rect.top))
+        else:
+            screen.blit(self.button_surface, (self.rect.left, self.rect.top))
 
         # Draw the full-resolution text
         if self.label:
