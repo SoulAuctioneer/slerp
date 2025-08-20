@@ -60,10 +60,10 @@ class SceneSleeping(Scene):
         # Create the text label with small font size
         self.credit_text = pygame_functions.makeLabel(
             text=credit_text,
-            fontSize=16,  # Small text size
-            xpos=40,      # Left margin
+            fontSize=20,  # Small text size
+            xpos=105,      # Left margin
             ypos=680,     # Bottom position (screen height 720 - margin)
-            fontColour='white',
+            fontColour='magenta',
             font='Arial',
             background="clear"
         )
