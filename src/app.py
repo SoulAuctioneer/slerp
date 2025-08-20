@@ -116,10 +116,7 @@ class App:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.cancel_idling()
                     for button in self.buttons:
-                        button.handle_mouse_down(event.pos)
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    for button in self.buttons:
-                        button.handle_mouse_up(event.pos)
+                        button.trigger_if_clicked(event.pos)
 
             self.scene_manager.handle_events(events)
             self.scene_manager.update()
