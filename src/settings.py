@@ -23,7 +23,7 @@ BG_IMAGE_SYMBOL = "assets/background-symbol.png"
 # Music tracks
 MUSIC = ["music1", "music2", "music3", "music4"]
 PLAY_MUSIC = False
-SNORE_LOUD = True
+SNORE_LOUD = False
 
 # Caption if windowed
 WINDOW_CAPTION = 'Slerp the Slushmaster'

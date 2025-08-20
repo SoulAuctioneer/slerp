@@ -1,11 +1,12 @@
 # Slerp the SlushMaster
 
-Slerp the SlushMaster is an interactive art installation running on a Raspberry Pi. It features a narrative-driven user interface built with Pygame that guides the user through a humorous story with a slushie-dispensing supercomputer named Slerp. The application controls a physical slushie machine via GPIO pins to dispense different colored liquids based on user choices.
+Slerp the SlushMaster is an interactive art installation running on a Raspberry Pi. It features a narrative-driven touch interface built with Pygame that guides the user through a humorous story with a slushie-dispensing supercomputer named Slerp. The application controls a physical slushie machine via GPIO pins to dispense different colored liquids based on user choices.
 
 ## Features
 
 *   **Interactive Narrative:** A multi-scene story with branching choices, presented through on-screen text, character animations, and voice-over audio.
-*   **Physical Integration:** Controls up to four liquid pumps using `gpiozero` to create custom-mixed drinks.
+*   **Routines:** Routines are collections of scenes, allowing Slerp to adopt multiple personalities and narratives. A routine can be specified at runtime via settings.py. 
+*   **Physical Integration:** Controls four liquid pumps using `gpiozero` to create custom-mixed drinks.
 *   **Pygame-based UI:** A graphical user interface with animated sprites, custom fonts, and interactive buttons.
 *   **Event-Driven Architecture:** Uses a custom event scheduler for precise timing of animations, audio cues, and hardware actions.
 *   **Intelligent Subtitles:** Automatic scrolling subtitles synchronized with speech synthesis, with configurable styling and optional per-speech control.
@@ -85,7 +86,8 @@ The codebase is organized into several modules and directories:
 *   `routines/`: This directory contains the different narrative paths or "routines" that the user can experience. Each routine is a collection of scenes.
     *   `base_routine.py`: A base class for all routines.
     *   `base_scene.py`: A base class for all scenes.
-    *   `routine_ascend/`: An example routine directory, containing the scenes for that specific narrative.
+    *   `routine_ascend/`: A routine where Slerp plays the role of a slushie vending machine in a futuristic gas station. 
+    *   `routine_therapist/`: A routine where Slerp plays the role of an incompetent and absurd therapist.
 *   `lib/`: Contains third-party library files.
 *   `tests/`: Contains scripts for testing hardware components.
 *   `assets/`: Contains all the media for the project, including images, fonts, and audio files.
@@ -153,5 +155,5 @@ The admin panel provides the following options:
 *   **RESTART:** Returns to the very first scene.
 *   **DRINKS SCREEN:** Jumps directly to the drink selection scene.
 *   **TEST [COLOR]:** Runs a specific pump for a short duration.
-*   **TEST PRIMING:** Runs the full priming and un-priming sequence for all pumps.
+*   **TEST PRIMING:** Runs the full priming and un-priming sequence for all pumps. Priming pumps liquid from the containers to the start of the dispenser.
 *   **EXIT:** Shuts down the application.
